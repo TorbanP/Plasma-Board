@@ -58,7 +58,7 @@ F 3 "~" V 9550 1325 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Plazma:DC-DC_BuckAdg PS2
+L Plazma_Circuit-rescue:DC-DC_BuckAdg-Plazma PS2
 U 1 1 5FDBFD38
 P 2200 5850
 F 0 "PS2" H 2200 6217 50  0000 C CNN
@@ -91,7 +91,7 @@ F 3 "http://www.onsemi.com/pub_link/Collateral/MC1413-D.PDF" H 7450 3900 50  000
 	1    0    0    -1  
 $EndComp
 $Comp
-L Plazma:ESP32DevkitV1 U2
+L Plazma_Circuit-rescue:ESP32DevkitV1-Plazma U2
 U 1 1 5FDD0ECB
 P 4200 3450
 F 0 "U2" V 3100 3500 50  0000 L CNN
@@ -102,7 +102,7 @@ F 3 "" H 4200 3450 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Plazma:ESP32DevkitV1 U3
+L Plazma_Circuit-rescue:ESP32DevkitV1-Plazma U3
 U 1 1 5FDD0D96
 P 5600 3450
 F 0 "U3" V 4500 3500 50  0000 L CNN
@@ -135,7 +135,7 @@ F 3 "~" H 1400 5750 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Plazma:DC-DC_BuckAdg PS1
+L Plazma_Circuit-rescue:DC-DC_BuckAdg-Plazma PS1
 U 1 1 5FDD74AE
 P 2200 4650
 F 0 "PS1" H 2200 5017 50  0000 C CNN
@@ -691,7 +691,7 @@ L Relay:FINDER-40.11 K1
 U 1 1 5FEEA4EA
 P 8200 5700
 F 0 "K1" V 7633 5700 50  0000 C CNN
-F 1 "TOARCH TRIGGER" V 7724 5700 50  0000 C CNN
+F 1 "TORCH TRIGGER" V 7724 5700 50  0000 C CNN
 F 2 "Relay_THT:Relay_DPDT_Omron_G5V-2" H 9340 5660 50  0001 C CNN
 F 3 "https://www.finder-relais.net/de/finder-relais-serie-40.pdf" H 8200 5700 50  0001 C CNN
 	1    8200 5700
