@@ -1,4 +1,0 @@
-(sym_lib_table
-  (lib (name Plazma)(type Legacy)(uri "D:/OneDrive/Documents/Arduino/Kicad Librarys/Plazma.lib")(options "")(descr ""))
-  (lib (name Plazma_Circuit-rescue)(type Legacy)(uri ${KIPRJMOD}/Plazma_Circuit-rescue.lib)(options "")(descr ""))
-)
