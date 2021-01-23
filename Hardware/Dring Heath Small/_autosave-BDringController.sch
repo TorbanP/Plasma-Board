@@ -49,12 +49,12 @@ $EndComp
 $Comp
 L 74xx:74AHCT595 U7
 U 1 1 5FE6B667
-P 11650 2550
-F 0 "U7" H 11650 2350 50  0000 C CNN
-F 1 "74AHCT595" H 11600 2200 50  0000 C CNN
-F 2 "Package_SO:SO-16_5.3x10.2mm_P1.27mm" H 11650 2550 50  0001 C CNN
-F 3 "https://assets.nexperia.com/documents/data-sheet/74AHC_AHCT595.pdf" H 11650 2550 50  0001 C CNN
-	1    11650 2550
+P 11650 2650
+F 0 "U7" H 11650 2450 50  0000 C CNN
+F 1 "74AHCT595" H 11600 2300 50  0000 C CNN
+F 2 "Package_SO:SO-16_5.3x10.2mm_P1.27mm" H 11650 2650 50  0001 C CNN
+F 3 "https://assets.nexperia.com/documents/data-sheet/74AHC_AHCT595.pdf" H 11650 2650 50  0001 C CNN
+	1    11650 2650
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -336,8 +336,6 @@ F 3 "" H 11900 4350 50  0001 C CNN
 	1    11900 4350
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	11250 2750 11250 3250
 Wire Wire Line
 	11250 3350 11650 3350
 Wire Wire Line
@@ -3562,7 +3560,6 @@ F 3 "~" V 6200 3425 50  0001 C CNN
 	1    6200 3400
 	-1   0    0    1   
 $EndComp
-Connection ~ 11250 2750
 $Comp
 L Device:C_Small C25
 U 1 1 6025EA04
@@ -3581,7 +3578,23 @@ Wire Wire Line
 	5900 1300 5900 1400
 Wire Wire Line
 	5900 1400 6050 1400
+Connection ~ 6050 1400
+Connection ~ 11650 3350
+Wire Wire Line
+	11250 2850 11250 3350
+$Comp
+L power:GND #PWR0106
+U 1 1 605E21DB
+P 6250 7100
+F 0 "#PWR0106" H 6250 6850 50  0001 C CNN
+F 1 "GND" H 6255 6927 50  0000 C CNN
+F 2 "" H 6250 7100 50  0001 C CNN
+F 3 "" H 6250 7100 50  0001 C CNN
+	1    6250 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 7100 6250 7100
 Wire Bus Line
 	9500 1650 9500 5450
-Connection ~ 6050 1400
 $EndSCHEMATC
