@@ -298,82 +298,9 @@ NoConn ~ 5750 3300
 NoConn ~ 3200 2900
 NoConn ~ 3200 3000
 NoConn ~ 3900 3600
-$Comp
-L Transistor_Array:ULN2002 U1
-U 1 1 5FF8EFB7
-P 4100 4950
-F 0 "U1" H 4250 5600 50  0000 C CNN
-F 1 "ULN2002" H 4250 5500 50  0000 C CNN
-F 2 "Package_SO:SO-16_3.9x9.9mm_P1.27mm" H 4150 4400 50  0001 L CNN
-F 3 "http://www.ti.com/lit/ds/symlink/uln2003a.pdf" H 4200 4750 50  0001 C CNN
-	1    4100 4950
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C_Small C3
-U 1 1 5FF90392
-P 5050 5450
-AR Path="/5FF90392" Ref="C3"  Part="1" 
-AR Path="/61469ABE/5FF90392" Ref="C?"  Part="1" 
-F 0 "C3" H 4958 5404 50  0000 R CNN
-F 1 "1uf" H 4958 5495 50  0000 R CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 5050 5450 50  0001 C CNN
-F 3 "~" H 5050 5450 50  0001 C CNN
-	1    5050 5450
-	-1   0    0    1   
-$EndComp
-$Comp
-L Device:R_US R8
-U 1 1 5FF9039C
-P 4900 5200
-AR Path="/5FF9039C" Ref="R8"  Part="1" 
-AR Path="/61469ABE/5FF9039C" Ref="R?"  Part="1" 
-F 0 "R8" V 4700 5300 50  0000 C CNN
-F 1 "10k" V 4800 5250 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 4940 5190 50  0001 C CNN
-F 3 "~" H 4900 5200 50  0001 C CNN
-	1    4900 5200
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R_US R9
-U 1 1 5FF903A6
-P 4750 5350
-AR Path="/5FF903A6" Ref="R9"  Part="1" 
-AR Path="/61469ABE/5FF903A6" Ref="R?"  Part="1" 
-F 0 "R9" H 4600 5400 50  0000 L CNN
-F 1 "1k" H 4600 5300 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 4790 5340 50  0001 C CNN
-F 3 "~" H 4750 5350 50  0001 C CNN
-	1    4750 5350
-	-1   0    0    1   
-$EndComp
-$Comp
-L Device:R_US R10
-U 1 1 5FF903B0
-P 4750 5050
-AR Path="/5FF903B0" Ref="R10"  Part="1" 
-AR Path="/61469ABE/5FF903B0" Ref="R?"  Part="1" 
-F 0 "R10" V 4950 5150 50  0000 R CNN
-F 1 "3.3k" V 4850 5150 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 4790 5040 50  0001 C CNN
-F 3 "~" H 4750 5050 50  0001 C CNN
-	1    4750 5050
-	-1   0    0    -1  
-$EndComp
-Wire Wire Line
-	5050 5350 5050 5200
-Wire Wire Line
-	4100 5550 4750 5550
-Wire Wire Line
-	4750 5550 4750 5500
-Wire Wire Line
-	4750 5550 5050 5550
-Connection ~ 4750 5550
 NoConn ~ 4500 5350
 NoConn ~ 4500 5250
 NoConn ~ 4500 5150
-NoConn ~ 4500 5050
 Wire Wire Line
 	5750 3500 5250 3500
 Wire Wire Line
@@ -406,7 +333,6 @@ Wire Wire Line
 	3450 4150 3450 4750
 Wire Wire Line
 	3450 4750 3700 4750
-Connection ~ 4750 5200
 Wire Wire Line
 	4500 4550 4950 4550
 Wire Wire Line
@@ -436,43 +362,14 @@ Wire Wire Line
 Wire Wire Line
 	3600 4850 3700 4850
 Wire Wire Line
-	5050 5200 5050 4150
-Connection ~ 5050 5200
-Wire Wire Line
-	5150 4150 5050 4150
-Connection ~ 5050 4150
-Wire Wire Line
-	4450 4150 4450 4300
-Wire Wire Line
-	4450 4300 4850 4300
-Wire Wire Line
-	4850 4300 4850 4900
-Wire Wire Line
-	4850 4900 4750 4900
-Wire Wire Line
-	3700 5050 3700 5150
-Wire Wire Line
-	3700 5150 3700 5250
-Connection ~ 3700 5150
-Wire Wire Line
-	3700 5250 3700 5350
-Connection ~ 3700 5250
-Wire Wire Line
-	3700 5350 3700 5550
-Wire Wire Line
 	3700 5550 4100 5550
-Connection ~ 3700 5350
-Connection ~ 4100 5550
 Wire Wire Line
 	4500 4950 4550 4950
 Wire Wire Line
 	4550 4950 4550 4150
-NoConn ~ 4850 4150
 NoConn ~ 4350 4150
-NoConn ~ 4250 4150
 NoConn ~ 3950 4150
 NoConn ~ 3850 4150
-NoConn ~ 3750 4150
 NoConn ~ 3650 4150
 NoConn ~ 3550 4150
 $Comp
@@ -833,4 +730,212 @@ F 3 "~" V 8550 4375 50  0001 C CNN
 	1    8550 4350
 	-1   0    0    1   
 $EndComp
+$Comp
+L Connector:Conn_01x12_Male J?
+U 1 1 600F49D0
+P 5200 6600
+AR Path="/61469ABE/600F49D0" Ref="J?"  Part="1" 
+AR Path="/600F49D0" Ref="J10"  Part="1" 
+F 0 "J10" H 5150 7050 50  0000 R CNN
+F 1 "Module conn" V 5100 6700 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical" H 5200 6600 50  0001 C CNN
+F 3 "~" H 5200 6600 50  0001 C CNN
+	1    5200 6600
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x10_Male J9
+U 1 1 600FA13A
+P 4000 6600
+F 0 "J9" H 4108 7181 50  0000 C CNN
+F 1 "1.27 pin" H 4108 7090 50  0000 C CNN
+F 2 "Connector_PinHeader_1.27mm:PinHeader_2x05_P1.27mm_Vertical" H 4000 6600 50  0001 C CNN
+F 3 "~" H 4000 6600 50  0001 C CNN
+	1    4000 6600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x10_Male J8
+U 1 1 600FD9D8
+P 3450 6600
+F 0 "J8" H 3558 7181 50  0000 C CNN
+F 1 "2.54 pin" H 3558 7090 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" H 3450 6600 50  0001 C CNN
+F 3 "~" H 3450 6600 50  0001 C CNN
+	1    3450 6600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 6300 4750 6300
+Wire Wire Line
+	4750 6300 4750 6800
+Wire Wire Line
+	4750 6800 5000 6800
+Wire Wire Line
+	4200 6500 4700 6500
+Wire Wire Line
+	4700 6500 4700 6900
+Wire Wire Line
+	4700 6900 5000 6900
+Wire Wire Line
+	4200 6700 4650 6700
+Wire Wire Line
+	4650 6700 4650 7000
+Wire Wire Line
+	4650 7000 5000 7000
+Wire Wire Line
+	4200 6900 4600 6900
+Wire Wire Line
+	4600 6900 4600 7100
+Wire Wire Line
+	4600 7100 5000 7100
+Wire Wire Line
+	4850 6300 5000 6300
+Wire Wire Line
+	4200 7000 4400 7000
+Wire Wire Line
+	4400 7000 4400 6600
+Wire Wire Line
+	4200 6600 4400 6600
+Wire Wire Line
+	4200 6200 4850 6200
+Wire Wire Line
+	4850 6200 4850 6300
+Wire Wire Line
+	4200 6400 4400 6400
+Wire Wire Line
+	4400 6400 4400 6600
+Connection ~ 4400 6600
+Wire Wire Line
+	4400 6400 4400 6100
+Wire Wire Line
+	4400 6100 5000 6100
+Connection ~ 4400 6400
+Wire Wire Line
+	3650 6200 3650 6250
+Wire Wire Line
+	3650 6250 4200 6250
+Wire Wire Line
+	4200 6250 4200 6200
+Connection ~ 4200 6200
+Wire Wire Line
+	3650 6300 3650 6350
+Wire Wire Line
+	3650 6350 4200 6350
+Wire Wire Line
+	4200 6350 4200 6300
+Connection ~ 4200 6300
+Wire Wire Line
+	3650 6400 3650 6450
+Wire Wire Line
+	3650 6450 4200 6450
+Wire Wire Line
+	4200 6450 4200 6400
+Connection ~ 4200 6400
+Wire Wire Line
+	3650 6500 3650 6550
+Wire Wire Line
+	3650 6550 4200 6550
+Wire Wire Line
+	4200 6550 4200 6500
+Connection ~ 4200 6500
+Wire Wire Line
+	3650 6600 3650 6650
+Wire Wire Line
+	3650 6650 4200 6650
+Wire Wire Line
+	4200 6650 4200 6600
+Connection ~ 4200 6600
+Wire Wire Line
+	3650 6700 3650 6750
+Wire Wire Line
+	3650 6900 3650 6950
+Wire Wire Line
+	3650 6950 4200 6950
+Wire Wire Line
+	4200 6950 4200 6900
+Connection ~ 4200 6900
+Wire Wire Line
+	3650 7000 3650 7050
+Wire Wire Line
+	3650 7050 4200 7050
+Wire Wire Line
+	4200 7050 4200 7000
+Connection ~ 4200 7000
+Wire Notes Line
+	3300 5900 5500 5900
+Wire Notes Line
+	5500 5900 5500 7450
+Wire Notes Line
+	5500 7450 3300 7450
+Wire Notes Line
+	3300 7450 3300 5900
+Text Notes 3400 7400 0    118  ~ 24
+Jtag
+NoConn ~ 5000 6200
+NoConn ~ 5000 6400
+NoConn ~ 5000 6500
+NoConn ~ 5000 6600
+NoConn ~ 5000 6700
+NoConn ~ 5000 7200
+Wire Wire Line
+	3650 6750 4200 6750
+Wire Wire Line
+	4200 6750 4200 6700
+Connection ~ 4200 6700
+NoConn ~ 3650 6800
+NoConn ~ 3650 7100
+NoConn ~ 4200 7100
+NoConn ~ 4200 6800
+NoConn ~ 5150 4150
+NoConn ~ 5050 4150
+Wire Wire Line
+	3750 4150 3750 4250
+Wire Wire Line
+	3750 4250 3500 4250
+Wire Wire Line
+	3500 4250 3500 5050
+Wire Wire Line
+	3500 5050 3700 5050
+Wire Wire Line
+	3700 5350 3700 5550
+Connection ~ 3700 5350
+Wire Wire Line
+	3700 5250 3700 5350
+Wire Wire Line
+	3700 5150 3700 5250
+Connection ~ 3700 5250
+$Comp
+L Transistor_Array:ULN2002 U1
+U 1 1 5FF8EFB7
+P 4100 4950
+F 0 "U1" H 4250 5600 50  0000 C CNN
+F 1 "ULN2002" H 4250 5500 50  0000 C CNN
+F 2 "Package_SO:SO-16_3.9x9.9mm_P1.27mm" H 4150 4400 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/uln2003a.pdf" H 4200 4750 50  0001 C CNN
+	1    4100 4950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4500 5050 4850 5050
+Wire Wire Line
+	4850 5050 4850 4300
+Wire Wire Line
+	4850 4300 4450 4300
+Wire Wire Line
+	4450 4300 4450 4150
+Wire Wire Line
+	4250 4150 4250 4200
+Wire Wire Line
+	4250 4200 4850 4200
+Wire Wire Line
+	4850 4200 4850 4150
+Wire Wire Line
+	4850 4200 5000 4200
+Wire Wire Line
+	5000 4200 5000 5550
+Wire Wire Line
+	5000 5550 4100 5550
+Connection ~ 4850 4200
+Connection ~ 4100 5550
 $EndSCHEMATC

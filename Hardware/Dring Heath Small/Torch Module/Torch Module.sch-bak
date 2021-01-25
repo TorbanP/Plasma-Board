@@ -60,7 +60,6 @@ Torch IO 17 THC
 Wire Wire Line
 	5750 2200 5750 2400
 Connection ~ 4850 2200
-Connection ~ 4200 3600
 Wire Wire Line
 	3250 2800 3200 2800
 Wire Wire Line
@@ -132,16 +131,6 @@ $EndComp
 Wire Wire Line
 	4200 2950 4200 3000
 Wire Wire Line
-	3400 3300 3200 3300
-Wire Wire Line
-	3400 3000 3400 3300
-Wire Wire Line
-	3800 3000 3400 3000
-Wire Wire Line
-	3200 3600 3200 3400
-Wire Wire Line
-	3700 3600 3200 3600
-Wire Wire Line
 	4800 3600 4550 3600
 Wire Wire Line
 	4800 3400 4800 3600
@@ -198,19 +187,6 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 5450 2300 50  
 F 3 "~" H 5450 2300 50  0001 C CNN
 	1    5450 2300
 	-1   0    0    -1  
-$EndComp
-$Comp
-L Relay:G6E K?
-U 1 1 61A6727F
-P 4000 3300
-AR Path="/61469ABE/61A6727F" Ref="K?"  Part="1" 
-AR Path="/61A6727F" Ref="K1"  Part="1" 
-F 0 "K1" H 4430 3346 50  0000 L CNN
-F 1 "G6E" H 4430 3255 50  0000 L CNN
-F 2 "Relay_THT:Relay_SPDT_Omron_G6E" H 5130 3270 50  0001 C CNN
-F 3 "https://www.omron.com/ecb/products/pdf/en-g6e.pdf" H 4000 3300 50  0001 C CNN
-	1    4000 3300
-	-1   0    0    1   
 $EndComp
 $Comp
 L Device:R_US R5
@@ -510,17 +486,6 @@ F 3 "~" H 7500 4350 50  0001 C CNN
 	1    7500 4350
 	-1   0    0    -1  
 $EndComp
-$Comp
-L My_library:8P8C_Shielded J6
-U 1 1 6000CC06
-P 8550 4350
-F 0 "J6" H 8220 4354 50  0000 R CNN
-F 1 "MOTOR" H 8220 4445 50  0000 R CNN
-F 2 "Connector_RJ:RJ45_Amphenol_RJHSE5380" V 8550 4375 50  0001 C CNN
-F 3 "~" V 8550 4375 50  0001 C CNN
-	1    8550 4350
-	-1   0    0    1   
-$EndComp
 Wire Wire Line
 	7700 3950 8000 3950
 Wire Wire Line
@@ -785,17 +750,6 @@ Text Notes 6050 3200 0    39   ~ 0
 GRBL IO26 Handover
 Text Notes 6000 2700 0    39   ~ 0
 IO 21recieve handover
-$Comp
-L My_library:8P8C_Shielded J1
-U 1 1 600A1FE7
-P 2800 3100
-F 0 "J1" H 2600 3650 50  0000 R CNN
-F 1 "Torch" H 2650 3750 50  0000 R CNN
-F 2 "Modules:RJ45_Torb_Vertical" V 2800 3125 50  0001 C CNN
-F 3 "~" V 2800 3125 50  0001 C CNN
-	1    2800 3100
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	3550 2200 2800 2200
 Wire Wire Line
@@ -831,4 +785,217 @@ Wire Wire Line
 Connection ~ 7950 3150
 Wire Wire Line
 	7950 3150 7950 3200
+Connection ~ 4200 3600
+$Comp
+L Relay:G6E K?
+U 1 1 61A6727F
+P 4000 3300
+AR Path="/61469ABE/61A6727F" Ref="K?"  Part="1" 
+AR Path="/61A6727F" Ref="K1"  Part="1" 
+F 0 "K1" H 4430 3346 50  0000 L CNN
+F 1 "G6E" H 4430 3255 50  0000 L CNN
+F 2 "Relay_THT:Relay_SPDT_Omron_G6E" H 5130 3270 50  0001 C CNN
+F 3 "https://www.omron.com/ecb/products/pdf/en-g6e.pdf" H 4000 3300 50  0001 C CNN
+	1    4000 3300
+	-1   0    0    1   
+$EndComp
+$Comp
+L My_library:8P8C_Shielded J1
+U 1 1 600A1FE7
+P 2800 3100
+F 0 "J1" H 2600 3650 50  0000 R CNN
+F 1 "Torch" H 2650 3750 50  0000 R CNN
+F 2 "Modules:RJ45_Torb_Vertical" V 2800 3125 50  0001 C CNN
+F 3 "~" V 2800 3125 50  0001 C CNN
+	1    2800 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3200 3400 3400 3400
+Wire Wire Line
+	3400 3400 3400 3000
+Wire Wire Line
+	3400 3000 3800 3000
+Wire Wire Line
+	3200 3300 3300 3300
+Wire Wire Line
+	3300 3300 3300 3600
+Wire Wire Line
+	3300 3600 3700 3600
+$Comp
+L My_library:8P8C_Shielded J6
+U 1 1 600E6543
+P 8550 4350
+F 0 "J6" H 8150 4450 50  0000 R CNN
+F 1 "Motor" H 8200 4350 50  0000 R CNN
+F 2 "Connector_RJ:RJ45_Amphenol_RJHSE5380" V 8550 4375 50  0001 C CNN
+F 3 "~" V 8550 4375 50  0001 C CNN
+	1    8550 4350
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:Conn_01x12_Male J?
+U 1 1 600F49D0
+P 5200 6600
+AR Path="/61469ABE/600F49D0" Ref="J?"  Part="1" 
+AR Path="/600F49D0" Ref="J10"  Part="1" 
+F 0 "J10" H 5150 7050 50  0000 R CNN
+F 1 "Module conn" V 5100 6700 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical" H 5200 6600 50  0001 C CNN
+F 3 "~" H 5200 6600 50  0001 C CNN
+	1    5200 6600
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x10_Male J9
+U 1 1 600FA13A
+P 4000 6600
+F 0 "J9" H 4108 7181 50  0000 C CNN
+F 1 "1.27 pin" H 4108 7090 50  0000 C CNN
+F 2 "Connector_PinHeader_1.27mm:PinHeader_2x05_P1.27mm_Vertical" H 4000 6600 50  0001 C CNN
+F 3 "~" H 4000 6600 50  0001 C CNN
+	1    4000 6600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x10_Male J8
+U 1 1 600FD9D8
+P 3450 6600
+F 0 "J8" H 3558 7181 50  0000 C CNN
+F 1 "2.54 pin" H 3558 7090 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" H 3450 6600 50  0001 C CNN
+F 3 "~" H 3450 6600 50  0001 C CNN
+	1    3450 6600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 6300 4750 6300
+Wire Wire Line
+	4750 6300 4750 6800
+Wire Wire Line
+	4750 6800 5000 6800
+Wire Wire Line
+	4200 6500 4700 6500
+Wire Wire Line
+	4700 6500 4700 6900
+Wire Wire Line
+	4700 6900 5000 6900
+Wire Wire Line
+	4200 6700 4650 6700
+Wire Wire Line
+	4650 6700 4650 7000
+Wire Wire Line
+	4650 7000 5000 7000
+Wire Wire Line
+	4200 6900 4600 6900
+Wire Wire Line
+	4600 6900 4600 7100
+Wire Wire Line
+	4600 7100 5000 7100
+Wire Wire Line
+	4850 6300 5000 6300
+Wire Wire Line
+	4200 7000 4400 7000
+Wire Wire Line
+	4400 7000 4400 6600
+Wire Wire Line
+	4200 6600 4400 6600
+Wire Wire Line
+	4200 6200 4850 6200
+Wire Wire Line
+	4850 6200 4850 6300
+Wire Wire Line
+	4200 6400 4400 6400
+Wire Wire Line
+	4400 6400 4400 6600
+Connection ~ 4400 6600
+Wire Wire Line
+	4400 6400 4400 6100
+Wire Wire Line
+	4400 6100 5000 6100
+Connection ~ 4400 6400
+Wire Wire Line
+	3650 6200 3650 6250
+Wire Wire Line
+	3650 6250 4200 6250
+Wire Wire Line
+	4200 6250 4200 6200
+Connection ~ 4200 6200
+Wire Wire Line
+	3650 6300 3650 6350
+Wire Wire Line
+	3650 6350 4200 6350
+Wire Wire Line
+	4200 6350 4200 6300
+Connection ~ 4200 6300
+Wire Wire Line
+	3650 6400 3650 6450
+Wire Wire Line
+	3650 6450 4200 6450
+Wire Wire Line
+	4200 6450 4200 6400
+Connection ~ 4200 6400
+Wire Wire Line
+	3650 6500 3650 6550
+Wire Wire Line
+	3650 6550 4200 6550
+Wire Wire Line
+	4200 6550 4200 6500
+Connection ~ 4200 6500
+Wire Wire Line
+	3650 6600 3650 6650
+Wire Wire Line
+	3650 6650 4200 6650
+Wire Wire Line
+	4200 6650 4200 6600
+Connection ~ 4200 6600
+Wire Wire Line
+	3650 6700 3650 6750
+Wire Wire Line
+	3650 6750 4200 6750
+Wire Wire Line
+	4200 6750 4200 6700
+Connection ~ 4200 6700
+Wire Wire Line
+	3650 6800 3650 6850
+Wire Wire Line
+	3650 6850 4200 6850
+Wire Wire Line
+	4200 6850 4200 6800
+Wire Wire Line
+	3650 6900 3650 6950
+Wire Wire Line
+	3650 6950 4200 6950
+Wire Wire Line
+	4200 6950 4200 6900
+Connection ~ 4200 6900
+Wire Wire Line
+	3650 7000 3650 7050
+Wire Wire Line
+	3650 7050 4200 7050
+Wire Wire Line
+	4200 7050 4200 7000
+Connection ~ 4200 7000
+Wire Wire Line
+	3650 7100 3650 7150
+Wire Wire Line
+	3650 7150 4200 7150
+Wire Wire Line
+	4200 7150 4200 7100
+Wire Notes Line
+	3300 5900 5500 5900
+Wire Notes Line
+	5500 5900 5500 7450
+Wire Notes Line
+	5500 7450 3300 7450
+Wire Notes Line
+	3300 7450 3300 5900
+Text Notes 3400 7400 0    118  ~ 24
+Jtag
+NoConn ~ 5000 6200
+NoConn ~ 5000 6400
+NoConn ~ 5000 6500
+NoConn ~ 5000 6600
+NoConn ~ 5000 6700
+NoConn ~ 5000 7200
 $EndSCHEMATC
