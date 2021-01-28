@@ -99,7 +99,7 @@ EasyNex THCNex(Serial1); // Create an object of EasyNex class with the name < TC
 #define Feed_Hold 33
 #define Feed_Start 39
 #define Torch_Ready 25
-#define PLASMA_INPUT_PIN 36   //THC GPIO 17 Analog voltage
+#define PLASMA_INPUT_PIN 36   //THC GPIO 36 Analog voltage
 #define ENABLE_PIN 19     // Enable GPIO Clearpath Z
 #define Handover 21        //Start Handover of Z axis control from GRBL 
 #define STEP_PIN 23      // Direction GPIO 23

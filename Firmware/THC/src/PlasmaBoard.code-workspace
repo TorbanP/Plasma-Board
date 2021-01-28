@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\Grbl_Esp32"
+		},
+		{
+			"path": ".."
+		},
+		{
+			"path": "..\\..\\Nextion Display"
+		}
+	],
+	"settings": {}
+}
