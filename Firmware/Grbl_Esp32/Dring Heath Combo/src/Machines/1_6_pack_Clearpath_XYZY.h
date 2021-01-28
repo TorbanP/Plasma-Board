@@ -74,8 +74,8 @@
 // Module in Socket #1
 // Dring Heath Controller\Kicad\Dring Heath Small\Torch Module\Torch Module.sch
 
-#define Z_LIMIT_PIN             GPIO_NUM_35   // hard Z limit
-#define PROBE_PIN               GPIO_NUM_34  //soft Z limit
+#define A_LIMIT_PIN             GPIO_NUM_34   // hard Z limit
+#define PROBE_PIN               GPIO_NUM_35  //soft Z limit
 //#define DEFAULT_INVERT_PROBE_PIN        0
 
 // Module in socket #3
@@ -87,7 +87,11 @@
 //#define DEFAULT_LASER_MODE      1
 #define CONTROL_FEED_HOLD_PIN       GPIO_NUM_36 //from THC IO pin 33 jumper Climit and Blimit to THC
 #define CONTROL_CYCLE_START_PIN     GPIO_NUM_39  // see control switches in wiki
-//#define CONTROL_RESET_PIN           GPIO_NUM_36
+// #define CONTROL_RESET_PIN       GPIO_NUM_34  // labeled Reset, needs external pullup
+// Any one of MACRO_BUTTON_0_PIN, MACRO_BUTTON_1_PIN, and MACRO_BUTTON_2_PIN
+// enables the user_defined_macro(number) function which
+// implements custom behavior at the press of a button
+// #define MACRO_BUTTON_0_PIN
 
 /*
     Socket I/O reference

@@ -95,13 +95,13 @@ EasyNex THCNex(Serial1); // Create an object of EasyNex class with the name < TC
 // Set as parameter the Serial1 for Mega2560 you are going to use
 // Default baudrate 9600
 
-#define Plasma_Trigger 11
-#define Feed_Hold 36
+#define Plasma_Trigger 32   //Trigger Plasma and switch Z control
+#define Feed_Hold 33
 #define Feed_Start 39
-#define Torch_Ready 22
-#define PLASMA_INPUT_PIN 35    //THC GPIO 35 Analog voltage
+#define Torch_Ready 25
+#define PLASMA_INPUT_PIN 36   //THC GPIO 17 Analog voltage
 #define ENABLE_PIN 19     // Enable GPIO Clearpath Z
-#define Handover 21        //Handover from Z axis control from GRBL 
+#define Handover 21        //Start Handover of Z axis control from GRBL 
 #define STEP_PIN 23      // Direction GPIO 23
 #define DIR_PIN 18       // Step GPIO 18
 #define LED_BUILTIN 2
@@ -257,7 +257,7 @@ long readLongFromEEPROM(int address)
 
 void process() //Calulates position and move steps
 {
-  digitalWrite(ENABLE_PIN, HIGH); // Added Drive Enable turned off at end of function
+  
   oldDelay = micros();
   while (Input > (threshold + CalibrationOffset)) //Only move if cutting by checking for voltage above a threshold level
   {
@@ -311,7 +311,7 @@ void process() //Calulates position and move steps
   while (stepper.distanceToGo() != 0) {
     stepper.run();
   }
-  digitalWrite(ENABLE_PIN, LOW);
+  
 }
 
 void trigger0() //Set last page used on startup loaded event
@@ -848,13 +848,13 @@ void setup()
 // the loop function runs over and over again forever
 void loop()
 {
-  if (digitalRead(Handover) == true)
+  if (digitalRead(Handover) == true) //Machine code turns on Spindle or laser
   {
-  digitalWrite(Feed_Hold, LOW);  //Hold Feed
+  digitalWrite(Feed_Hold, LOW);  //Hold Feed until torch ready
   delay(20);
   digitalWrite(Feed_Hold, HIGH); //20ms pulse
-  digitalWrite(Plasma_Trigger, HIGH);
-  digitalWrite(ENABLE_PIN, HIGH);
+  digitalWrite(Plasma_Trigger, HIGH); //fire plasma
+  digitalWrite(ENABLE_PIN, HIGH); // Added Drive Enable turned off at end of function
      if (digitalRead(Torch_Ready) == LOW)  // wait for torch ready signal Ready = Low
   {
    digitalWrite(Feed_Start, LOW);
@@ -871,8 +871,8 @@ void loop()
   }
     else
     {
-    digitalWrite(ENABLE_PIN, LOW);
     digitalWrite(Plasma_Trigger, LOW);
+    digitalWrite(ENABLE_PIN, LOW);
     }
   
     THCNex.NextionListen(); //else focus on listening to Nextion Inputs
