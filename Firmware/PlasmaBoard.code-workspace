@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "Grbl_Esp32"
+		},
+		{
+			"path": "THC"
+		},
+		{
+			"path": "Nextion Display"
+		}
+	],
+	"settings": {}
+}

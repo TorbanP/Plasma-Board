@@ -1,4 +1,4 @@
-update=1/25/2021 1:46:26 PM
+update=1/28/2021 1:56:21 PM
 version=1
 last_client=eeschema
 [general]
@@ -257,5 +257,5 @@ SubpartIdSeparator=0
 SubpartFirstId=65
 NetFmtName=Pcbnew
 SpiceAjustPassiveValues=0
-LabSize=39
+LabSize=118
 ERC_TestSimilarLabels=1

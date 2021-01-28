@@ -716,6 +716,12 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(ENABLE_PIN, OUTPUT);
   pinMode(Handover, INPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(100);
+  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(Feed_Hold, HIGH);
+  digitalWrite(Feed_Start, HIGH);
+  digitalWrite(Plasma_Trigger, LOW);
   // Begin the object with a baud rate of 9600
   THCNex.begin();  // If no parameter was given in the begin(), the default baud rate of 9600 will be used
   while (!Serial) {
@@ -835,12 +841,7 @@ void setup()
   stepper.setMaxSpeed(150000); //thru experimentation I found these values to work... Change for your setup.
   stepper.setAcceleration(20000);
   //Enable MKS Driver Board
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(100);
-  digitalWrite(LED_BUILTIN, LOW);
-  digitalWrite(Feed_Hold, HIGH);
-  digitalWrite(Feed_Start, HIGH);
-  digitalWrite(Plasma_Trigger, LOW);
+ 
 
 }
 

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "Firmware\\Grbl_Esp32"
+		},
+		{
+			"path": "Firmware\\THC"
+		},
+		{
+			"path": "Firmware\\Nextion Display"
+		}
+	],
+	"settings": {}
+}
