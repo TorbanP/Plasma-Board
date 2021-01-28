@@ -2751,13 +2751,9 @@ TCHIO22
 Text GLabel 8050 8850 1    39   BiDi ~ 8
 TCHIO21
 Text GLabel 8150 8850 1    39   BiDi ~ 8
-TCHIO17
-Text GLabel 4800 1500 2    39   BiDi ~ 8
-TCHIO22
+TCH_V_IO36
 Text GLabel 4800 1800 2    39   BiDi ~ 8
 TCHIO21
-Text GLabel 4800 2300 2    39   BiDi ~ 8
-TCHIO17
 $Comp
 L power:GND #PWR09
 U 1 1 642F7395
@@ -2898,7 +2894,6 @@ Wire Wire Line
 	3500 3800 4100 3800
 Wire Wire Line
 	4100 3800 4100 4000
-NoConn ~ 4000 1500
 Text GLabel 4000 1900 0    39   Input ~ 0
 TorchTrigger
 Text GLabel 8250 8850 1    39   Output ~ 0
@@ -3602,6 +3597,11 @@ Wire Wire Line
 	7650 7500 8050 7500
 NoConn ~ 3500 5350
 NoConn ~ 3500 5450
+Text GLabel 4000 1500 0    39   BiDi ~ 8
+TCH_V_IO36
+Text GLabel 4800 1500 2    39   BiDi ~ 8
+TCHIO22
+NoConn ~ 4800 2300
 Wire Bus Line
 	9500 1650 9500 5450
 $EndSCHEMATC
