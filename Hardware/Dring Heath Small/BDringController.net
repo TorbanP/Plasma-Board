@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "C:\\Git\\Plasma-Board\\Hardware\\Dring Heath Small\\BDringController.sch")
-    (date "1/28/2021 10:32:12 AM")
+    (date "2/1/2021 11:23:54 AM")
     (tool "Eeschema (5.1.8)-1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -316,7 +316,7 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 61ABA90B))
     (comp (ref U4)
-      (value TC1262-33)
+      (value BL8071CLATR33)
       (footprint Package_TO_SOT_SMD:SOT-223)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/21373C.pdf)
       (libsource (lib Regulator_Linear) (part TC1262-33) (description "500mA Low Dropout CMOS Voltage Regulator, Fixed Output 3.3V, TO-220/SOT-223/TO-263"))
