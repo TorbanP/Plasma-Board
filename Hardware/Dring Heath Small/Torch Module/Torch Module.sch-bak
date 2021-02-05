@@ -826,15 +826,11 @@ $EndComp
 Wire Wire Line
 	3500 5150 3500 5250
 Wire Wire Line
-	3500 5250 4950 5250
+	3500 5250 5150 5250
 Wire Wire Line
 	4600 5350 4600 5450
 Wire Wire Line
-	4600 5450 4950 5450
-Wire Wire Line
 	4550 5300 4550 5050
-Wire Wire Line
-	4550 5050 4800 5050
 Wire Wire Line
 	3800 5150 3800 5400
 Wire Wire Line
@@ -842,15 +838,11 @@ Wire Wire Line
 Wire Wire Line
 	4550 5400 4550 5850
 Wire Wire Line
-	4550 5850 4950 5850
-Wire Wire Line
 	4000 5150 4000 5450
 Wire Wire Line
 	4000 5450 4500 5450
 Wire Wire Line
 	4500 5450 4500 5950
-Wire Wire Line
-	4500 5950 4950 5950
 Wire Wire Line
 	4200 5150 4200 5500
 Wire Wire Line
@@ -858,11 +850,7 @@ Wire Wire Line
 Wire Wire Line
 	4450 5500 4450 6050
 Wire Wire Line
-	4450 6050 4950 6050
-Wire Wire Line
 	4400 6250 4400 6150
-Wire Wire Line
-	4400 6150 4800 6150
 Wire Wire Line
 	4750 5200 3450 5200
 Wire Wire Line
@@ -891,22 +879,20 @@ Wire Notes Line
 $Comp
 L Connector:Conn_01x12_Male J?
 U 1 1 600F49D0
-P 5150 5550
+P 5350 5550
 AR Path="/61469ABE/600F49D0" Ref="J?"  Part="1" 
 AR Path="/600F49D0" Ref="J10"  Part="1" 
-F 0 "J10" H 5100 6000 50  0000 R CNN
-F 1 "Module conn" V 5050 5650 50  0000 R CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical" H 5150 5550 50  0001 C CNN
-F 3 "~" H 5150 5550 50  0001 C CNN
-	1    5150 5550
+F 0 "J10" H 5300 6000 50  0000 R CNN
+F 1 "Module conn" V 5250 5650 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical" H 5350 5550 50  0001 C CNN
+F 3 "~" H 5350 5550 50  0001 C CNN
+	1    5350 5550
 	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	4750 5200 4750 5150
 Wire Wire Line
-	4750 5150 4950 5150
-Wire Wire Line
-	4950 5350 4650 5350
+	4750 5150 5150 5150
 Wire Wire Line
 	4650 5350 4650 5550
 Wire Wire Line
@@ -916,21 +902,13 @@ Wire Wire Line
 Wire Wire Line
 	3700 5350 3700 5850
 Wire Wire Line
-	4950 5550 4700 5550
-Wire Wire Line
 	4700 5550 4700 5600
 Wire Wire Line
 	4700 5600 3800 5600
 Wire Wire Line
 	3800 5600 3800 5850
 Wire Wire Line
-	4950 5650 3900 5650
-Wire Wire Line
 	3900 5650 3900 5850
-Wire Wire Line
-	4950 5750 4000 5750
-Wire Wire Line
-	4000 5750 4000 5850
 Wire Wire Line
 	4100 5400 4100 5850
 Connection ~ 4100 5400
@@ -938,14 +916,6 @@ Wire Wire Line
 	4100 5400 4550 5400
 NoConn ~ 4400 5150
 NoConn ~ 4100 5150
-Wire Wire Line
-	4800 6150 4800 5050
-Connection ~ 4800 6150
-Wire Wire Line
-	4800 6150 4950 6150
-Connection ~ 4800 5050
-Wire Wire Line
-	4800 5050 4950 5050
 Wire Notes Line
 	2100 800  6400 800 
 Wire Wire Line
@@ -954,7 +924,7 @@ Wire Wire Line
 	4300 5150 4300 5300
 Connection ~ 4300 5300
 Wire Wire Line
-	4300 5300 4550 5300
+	4300 5300 4400 5300
 Wire Wire Line
 	3900 5150 3900 5300
 Connection ~ 3900 5300
@@ -965,12 +935,9 @@ Wire Wire Line
 Wire Wire Line
 	3700 5300 3900 5300
 Wire Wire Line
-	4000 5750 4000 5500
-Wire Wire Line
 	4000 5500 3600 5500
 Wire Wire Line
 	3600 5150 3600 5500
-Connection ~ 4000 5750
 Text Notes 4650 6600 0    118  ~ 24
    &\nExtra IO
 $Comp
@@ -1234,4 +1201,139 @@ Wire Notes Line
 	6650 4050 6650 6150
 Text Notes 8250 4200 0    118  ~ 0
 Mosfet Driver
+$Comp
+L Device:R_US R22
+U 1 1 601AD939
+P 5000 5350
+AR Path="/601AD939" Ref="R22"  Part="1" 
+AR Path="/61469ABE/601AD939" Ref="R?"  Part="1" 
+F 0 "R22" V 4950 5450 50  0000 C CNN
+F 1 "200" V 4950 5150 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 5040 5340 50  0001 C CNN
+F 3 "~" H 5000 5350 50  0001 C CNN
+	1    5000 5350
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4400 6150 5150 6150
+Wire Wire Line
+	4550 5050 5150 5050
+Wire Wire Line
+	4400 5850 4400 5300
+Connection ~ 4400 5850
+Connection ~ 4400 5300
+Wire Wire Line
+	4400 5300 4550 5300
+Wire Wire Line
+	4000 5500 4000 5750
+$Comp
+L Device:R_US R23
+U 1 1 601E3A12
+P 5000 5450
+AR Path="/601E3A12" Ref="R23"  Part="1" 
+AR Path="/61469ABE/601E3A12" Ref="R?"  Part="1" 
+F 0 "R23" V 4950 5550 50  0000 C CNN
+F 1 "200" V 4950 5250 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 5040 5440 50  0001 C CNN
+F 3 "~" H 5000 5450 50  0001 C CNN
+	1    5000 5450
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_US R24
+U 1 1 601E46FB
+P 5000 5550
+AR Path="/601E46FB" Ref="R24"  Part="1" 
+AR Path="/61469ABE/601E46FB" Ref="R?"  Part="1" 
+F 0 "R24" V 4950 5650 50  0000 C CNN
+F 1 "200" V 4950 5350 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 5040 5540 50  0001 C CNN
+F 3 "~" H 5000 5550 50  0001 C CNN
+	1    5000 5550
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_US R25
+U 1 1 601E5E3A
+P 5000 5650
+AR Path="/601E5E3A" Ref="R25"  Part="1" 
+AR Path="/61469ABE/601E5E3A" Ref="R?"  Part="1" 
+F 0 "R25" V 4950 5750 50  0000 C CNN
+F 1 "200" V 4950 5450 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 5040 5640 50  0001 C CNN
+F 3 "~" H 5000 5650 50  0001 C CNN
+	1    5000 5650
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_US R26
+U 1 1 601E6C26
+P 5000 5750
+AR Path="/601E6C26" Ref="R26"  Part="1" 
+AR Path="/61469ABE/601E6C26" Ref="R?"  Part="1" 
+F 0 "R26" V 4950 5850 50  0000 C CNN
+F 1 "200" V 4950 5550 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 5040 5740 50  0001 C CNN
+F 3 "~" H 5000 5750 50  0001 C CNN
+	1    5000 5750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_US R27
+U 1 1 601E79D9
+P 5000 5850
+AR Path="/601E79D9" Ref="R27"  Part="1" 
+AR Path="/61469ABE/601E79D9" Ref="R?"  Part="1" 
+F 0 "R27" V 4950 5950 50  0000 C CNN
+F 1 "200" V 4950 5650 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 5040 5840 50  0001 C CNN
+F 3 "~" H 5000 5850 50  0001 C CNN
+	1    5000 5850
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_US R28
+U 1 1 601E891C
+P 5000 5950
+AR Path="/601E891C" Ref="R28"  Part="1" 
+AR Path="/61469ABE/601E891C" Ref="R?"  Part="1" 
+F 0 "R28" V 4950 6050 50  0000 C CNN
+F 1 "200" V 4950 5750 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 5040 5940 50  0001 C CNN
+F 3 "~" H 5000 5950 50  0001 C CNN
+	1    5000 5950
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_US R29
+U 1 1 601EAB04
+P 5000 6050
+AR Path="/601EAB04" Ref="R29"  Part="1" 
+AR Path="/61469ABE/601EAB04" Ref="R?"  Part="1" 
+F 0 "R29" V 4950 6150 50  0000 C CNN
+F 1 "200" V 4950 5850 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 5040 6040 50  0001 C CNN
+F 3 "~" H 5000 6050 50  0001 C CNN
+	1    5000 6050
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4450 6050 4850 6050
+Wire Wire Line
+	4500 5950 4850 5950
+Wire Wire Line
+	4550 5850 4850 5850
+Wire Wire Line
+	4700 5550 4850 5550
+Wire Wire Line
+	4600 5450 4850 5450
+Wire Wire Line
+	4650 5350 4850 5350
+Wire Wire Line
+	3900 5650 4850 5650
+Wire Wire Line
+	4850 5750 4000 5750
+Connection ~ 4000 5750
+Wire Wire Line
+	4000 5750 4000 5850
 $EndSCHEMATC
