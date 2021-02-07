@@ -1,4 +1,4 @@
-19040539629494728
+19048601602133549
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -56378,6 +56378,13 @@ DC-DC_BuckADG
 4
 4
 Modules
+DOUBLE_SIDED_TAB
+
+
+0
+0
+0
+Modules
 ESP32DevKitV1
 
 
@@ -56399,6 +56406,20 @@ ESP3236PIN
 36
 36
 Modules
+FEEDING_DIR
+
+
+0
+0
+0
+Modules
+FIDUCIAL_1mmX2mm
+
+
+0
+1
+1
+Modules
 PinHeader_1x9-16_2.54
 Through hole straight pin header, 1x08, 2.54mm pitch, single row
 Through hole pin header THT 1x08 2.54mm single row
@@ -56419,6 +56440,20 @@ RJ45 Vertical Shield LED Green Yellow
 0
 10
 10
+Modules
+ROUNED_TAB_SMALL
+
+
+0
+0
+0
+Modules
+SINGLE_SIDED_TAB
+
+
+0
+0
+0
 MountingEquipment
 DINRailAdapter_3xM3_PhoenixContact_1201578
 https://www.phoenixcontact.com/online/portal/us?uri=pxc-oc-itemdetail:pid=1201578&library=usen&tab=1

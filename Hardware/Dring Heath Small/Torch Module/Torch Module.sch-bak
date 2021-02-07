@@ -64,9 +64,7 @@ Wire Wire Line
 Wire Wire Line
 	3650 1000 3650 1500
 Wire Wire Line
-	2650 1850 2650 1350
-Wire Wire Line
-	2400 1850 2650 1850
+	2400 1850 2550 1850
 Wire Wire Line
 	2400 2150 2400 1850
 Wire Wire Line
@@ -75,12 +73,6 @@ Wire Wire Line
 	2450 2050 2300 2050
 Wire Wire Line
 	2450 1900 2450 2050
-Wire Wire Line
-	2850 1900 2450 1900
-Wire Wire Line
-	2850 1800 2850 1900
-Wire Wire Line
-	2850 1800 2900 1800
 Connection ~ 3650 1900
 Wire Wire Line
 	3650 1900 3300 1900
@@ -131,8 +123,8 @@ U 1 1 61A6728B
 P 2400 1500
 AR Path="/61A6728B" Ref="R1"  Part="1" 
 AR Path="/61469ABE/61A6728B" Ref="R?"  Part="1" 
-F 0 "R1" V 2195 1500 50  0000 C CNN
-F 1 "3.3K" V 2286 1500 50  0000 C CNN
+F 0 "R1" V 2500 1300 50  0000 C CNN
+F 1 "3.3K" V 2500 1450 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2440 1490 50  0001 C CNN
 F 3 "~" H 2400 1500 50  0001 C CNN
 	1    2400 1500
@@ -216,7 +208,7 @@ U 1 1 61A67257
 P 3100 1500
 AR Path="/61A67257" Ref="R4"  Part="1" 
 AR Path="/61469ABE/61A67257" Ref="R?"  Part="1" 
-F 0 "R4" V 2895 1500 50  0000 C CNN
+F 0 "R4" V 3200 1500 50  0000 C CNN
 F 1 "10k" V 2986 1500 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 3140 1490 50  0001 C CNN
 F 3 "~" H 3100 1500 50  0001 C CNN
@@ -229,8 +221,8 @@ U 1 1 61A6724B
 P 2900 1650
 AR Path="/61A6724B" Ref="R3"  Part="1" 
 AR Path="/61469ABE/61A6724B" Ref="R?"  Part="1" 
-F 0 "R3" H 3100 1750 50  0000 R CNN
-F 1 "3.3K" H 3100 1600 50  0000 R CNN
+F 0 "R3" H 2850 1700 50  0000 R CNN
+F 1 "3.3K" H 2900 1800 50  0000 R CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2940 1640 50  0001 C CNN
 F 3 "~" H 2900 1650 50  0001 C CNN
 	1    2900 1650
@@ -587,8 +579,6 @@ GRBL IO26 Handover
 Text Notes 5100 1650 0    39   ~ 0
 IO 21recieve handover
 Wire Wire Line
-	2650 1000 1900 1000
-Wire Wire Line
 	1900 1000 1900 1450
 Wire Wire Line
 	1900 2550 1900 2650
@@ -746,9 +736,6 @@ F 3 "~" H 4700 1750 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 NoConn ~ 4850 1850
-Wire Wire Line
-	2650 1000 2900 1000
-Connection ~ 2650 1000
 Connection ~ 3250 1000
 Wire Wire Line
 	2900 1200 2900 1000
@@ -793,8 +780,8 @@ $Comp
 L Device:R_POT_TRIM_US RV1
 U 1 1 60201FC2
 P 2900 1350
-F 0 "RV1" H 2833 1396 50  0000 R CNN
-F 1 "2K" H 2833 1305 50  0000 R CNN
+F 0 "RV1" H 2850 1500 50  0000 R CNN
+F 1 "2K" H 2850 1400 50  0000 R CNN
 F 2 "Potentiometer_THT:Potentiometer_Bourns_3339S_Horizontal" H 2900 1350 50  0001 C CNN
 F 3 "~" H 2900 1350 50  0001 C CNN
 	1    2900 1350
@@ -1408,19 +1395,6 @@ F 3 "~" H 5150 5400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:Conn_01x02_Male J13
-U 1 1 60313235
-P 2450 1250
-F 0 "J13" H 2558 1431 50  0000 C CNN
-F 1 "Conn_01x02_Male" H 2558 1340 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 2450 1250 50  0001 C CNN
-F 3 "~" H 2450 1250 50  0001 C CNN
-	1    2450 1250
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2650 1250 2650 1000
-$Comp
 L Connector:Conn_01x02_Male J14
 U 1 1 60313D52
 P 3750 1500
@@ -1813,4 +1787,40 @@ Wire Notes Line
 	1500 6600 6800 6600
 Wire Notes Line
 	1500 4850 1500 6600
+NoConn ~ 9750 4350
+NoConn ~ 9650 4350
+NoConn ~ 9550 4350
+NoConn ~ 8950 4350
+NoConn ~ 8150 4350
+NoConn ~ 8250 4350
+NoConn ~ 8450 4350
+NoConn ~ 8550 4350
+$Comp
+L Connector_Generic:Conn_02x02_Odd_Even J13
+U 1 1 60218639
+P 2650 1650
+F 0 "J13" V 2700 1700 50  0000 L CNN
+F 1 "~" V 3250 700 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x02_P2.54mm_Vertical" H 2650 1650 50  0001 C CNN
+F 3 "~" H 2650 1650 50  0001 C CNN
+	1    2650 1650
+	0    1    -1   0   
+$EndComp
+Wire Wire Line
+	2800 1800 2800 1350
+Wire Wire Line
+	2800 1350 2650 1350
+Wire Wire Line
+	2800 1800 2900 1800
+Wire Wire Line
+	2550 1350 2550 1000
+Connection ~ 2550 1000
+Wire Wire Line
+	2550 1000 1900 1000
+Wire Wire Line
+	2450 1900 2650 1900
+Wire Wire Line
+	2650 1900 2650 1850
+Wire Wire Line
+	2550 1000 2900 1000
 $EndSCHEMATC

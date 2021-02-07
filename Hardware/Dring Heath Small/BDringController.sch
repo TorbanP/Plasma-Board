@@ -3327,10 +3327,6 @@ F 3 "~" H 3700 5150 50  0001 C CNN
 	1    3700 5150
 	-1   0    0    -1  
 $EndComp
-Wire Notes Line
-	3050 4750 6600 4750
-Wire Notes Line
-	3050 6200 4650 6200
 Text GLabel 3400 2000 0    50   BiDi ~ 0
 IO33
 Text GLabel 3400 2100 0    50   BiDi ~ 0
@@ -3597,6 +3593,12 @@ NoConn ~ 4800 2800
 Text GLabel 4600 4000 1    39   BiDi ~ 0
 TCH_V_IO36
 NoConn ~ 4000 2700
+Wire Notes Line
+	2650 4750 2650 6200
+Wire Notes Line
+	2650 4750 6600 4750
+Wire Notes Line
+	2650 6200 4650 6200
 Wire Bus Line
 	9500 1650 9500 5450
 $EndSCHEMATC

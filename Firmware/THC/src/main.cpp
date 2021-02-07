@@ -88,20 +88,23 @@
 #include <EasyNextionLibrary.h>   // Include EasyNextionLibrary
 #include <AccelStepper.h>
 #include <EEPROM.h>
-
+#include <Wire.h>
+#include <Adafruit_ADS1015.h>
 // the variables to be using be the code below
 
 EasyNex THCNex(Serial1); // Create an object of EasyNex class with the name < TCHNex >
 // Set as parameter the Serial1 for Mega2560 you are going to use
 // Default baudrate 9600
-
+#define I2C_SDA 21
+#define I2C_SCL 22
+//#defineI2C___ 17
 #define Plasma_Trigger 32   //Trigger Plasma and switch Z control
 #define Feed_Hold 33
-#define Feed_Start 39
-#define Torch_Ready 25
+#define Feed_Start 25
+#define Torch_Ready 14
 #define PLASMA_INPUT_PIN 36   //THC GPIO 36 Analog voltage
 #define ENABLE_PIN 19     // Enable GPIO Clearpath Z
-#define Handover 21        //Start Handover of Z axis control from GRBL 
+#define Handover 12        //Start Handover of Z axis control from GRBL 
 #define STEP_PIN 23      // Direction GPIO 23
 #define DIR_PIN 18       // Step GPIO 18
 #define LED_BUILTIN 2

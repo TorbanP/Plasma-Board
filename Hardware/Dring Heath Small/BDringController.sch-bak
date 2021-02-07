@@ -1400,38 +1400,12 @@ L BDringController-rescue:IO_connector-My_Library J3
 U 1 1 608D438E
 P 4450 4350
 F 0 "J3" H 3772 4246 50  0000 R CNN
-F 1 "Module 1" H 4700 4400 50  0000 R CNN
+F 1 "Torch module" H 4700 4400 50  0000 R CNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x12_P2.54mm_Vertical" H 4350 4300 50  0001 C CNN
 F 3 "" H 4350 4300 50  0001 C CNN
 	1    4450 4350
 	-1   0    0    1   
 $EndComp
-Wire Wire Line
-	4000 2500 3900 2500
-Wire Wire Line
-	3900 2500 3900 3450
-Wire Wire Line
-	3900 3450 4900 3450
-Wire Wire Line
-	4900 3450 4900 4000
-Wire Wire Line
-	4800 3700 4800 4000
-Wire Wire Line
-	4000 2700 3950 2700
-Wire Wire Line
-	3950 2700 3950 3400
-Wire Wire Line
-	3950 3400 4700 3400
-Wire Wire Line
-	4700 3400 4700 4000
-Wire Wire Line
-	4000 2400 3850 2400
-Wire Wire Line
-	3850 2400 3850 3500
-Wire Wire Line
-	3850 3500 4600 3500
-Wire Wire Line
-	4600 3500 4600 4000
 Wire Wire Line
 	4000 2300 3800 2300
 Wire Wire Line
@@ -1507,12 +1481,12 @@ Connection ~ 7000 3850
 $Comp
 L Device:C_Small C1
 U 1 1 60B8E4F3
-P 4750 3300
-F 0 "C1" V 4800 3050 50  0000 C CNN
-F 1 "100nf" V 4700 3050 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 4750 3300 50  0001 C CNN
-F 3 "~" H 4750 3300 50  0001 C CNN
-	1    4750 3300
+P 4450 3300
+F 0 "C1" V 4500 3050 50  0000 C CNN
+F 1 "100nf" V 4400 3050 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 4450 3300 50  0001 C CNN
+F 3 "~" H 4450 3300 50  0001 C CNN
+	1    4450 3300
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
@@ -1542,8 +1516,6 @@ Text GLabel 5600 2150 0    39   Input ~ 0
 GrbZDir
 Text GLabel 5600 2350 0    39   Input ~ 0
 GrbZStep
-Wire Wire Line
-	5150 2800 5150 3700
 NoConn ~ 4000 2800
 NoConn ~ 4000 2900
 NoConn ~ 4000 3000
@@ -2712,7 +2684,7 @@ Wire Wire Line
 Wire Wire Line
 	3500 2600 3500 2700
 Wire Wire Line
-	4000 3300 4650 3300
+	4000 3300 4350 3300
 Wire Wire Line
 	3500 3300 4000 3300
 Connection ~ 4000 3300
@@ -2724,7 +2696,7 @@ Wire Wire Line
 Wire Wire Line
 	5000 4000 5250 4000
 Wire Wire Line
-	4800 1300 5350 1300
+	4800 1300 5050 1300
 Wire Wire Line
 	4800 1400 5200 1400
 Wire Wire Line
@@ -2738,33 +2710,16 @@ Wire Wire Line
 Wire Wire Line
 	4800 2400 5050 2400
 Wire Wire Line
-	4800 2800 5150 2800
-Wire Wire Line
-	4850 3300 5250 3300
-Wire Wire Line
-	4800 3700 5150 3700
+	4550 3300 5250 3300
 Wire Wire Line
 	5400 4000 5350 4000
 Connection ~ 5350 4000
-Text GLabel 7950 8850 1    39   BiDi ~ 8
-TCHIO22
-Text GLabel 8050 8850 1    39   BiDi ~ 8
-TCHIO21
-Text GLabel 8150 8850 1    39   BiDi ~ 8
+Text GLabel 7950 8850 1    39   BiDi ~ 0
+Ready
+Text GLabel 8050 8850 1    39   BiDi ~ 0
+Handover
+Text GLabel 8150 8850 1    39   BiDi ~ 0
 TCH_V_IO36
-Text GLabel 4800 1800 2    39   BiDi ~ 8
-TCHIO21
-$Comp
-L power:GND #PWR09
-U 1 1 642F7395
-P 4800 1900
-F 0 "#PWR09" H 4800 1650 50  0001 C CNN
-F 1 "GND" H 4805 1727 50  0000 C CNN
-F 2 "" H 4800 1900 50  0001 C CNN
-F 3 "" H 4800 1900 50  0001 C CNN
-	1    4800 1900
-	0    -1   -1   0   
-$EndComp
 NoConn ~ 4800 2500
 NoConn ~ 4800 2600
 NoConn ~ 4800 2700
@@ -3597,11 +3552,51 @@ Wire Wire Line
 	7650 7500 8050 7500
 NoConn ~ 3500 5350
 NoConn ~ 3500 5450
-Text GLabel 4000 1500 0    39   BiDi ~ 8
+Text GLabel 4000 1500 0    39   BiDi ~ 0
 TCH_V_IO36
-Text GLabel 4800 1500 2    39   BiDi ~ 8
-TCHIO22
-NoConn ~ 4800 2300
+Wire Wire Line
+	3450 2400 4000 2400
+Wire Wire Line
+	3450 2500 4000 2500
+Text GLabel 3450 2400 0    39   BiDi ~ 0
+Ready
+Text GLabel 3450 2500 0    39   BiDi ~ 0
+Handover
+Wire Wire Line
+	4800 1900 5050 1900
+Wire Wire Line
+	5050 1900 5050 1300
+Connection ~ 5050 1300
+Wire Wire Line
+	5050 1300 5350 1300
+Wire Wire Line
+	4850 3600 4700 3600
+Wire Wire Line
+	4700 3600 4700 4000
+Wire Wire Line
+	4800 2300 4850 2300
+Wire Wire Line
+	4850 2300 4850 3600
+Wire Wire Line
+	4800 1800 4900 1800
+Wire Wire Line
+	4900 1800 4900 3800
+Wire Wire Line
+	4900 3800 4800 3800
+Wire Wire Line
+	4800 3800 4800 4000
+Wire Wire Line
+	4800 1500 4950 1500
+Wire Wire Line
+	4950 1500 4950 3900
+Wire Wire Line
+	4950 3900 4900 3900
+Wire Wire Line
+	4900 3900 4900 4000
+NoConn ~ 4800 2800
+Text GLabel 4600 4000 1    39   BiDi ~ 0
+TCH_V_IO36
+NoConn ~ 4000 2700
 Wire Bus Line
 	9500 1650 9500 5450
 $EndSCHEMATC

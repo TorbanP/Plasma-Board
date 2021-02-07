@@ -10,5 +10,9 @@
 			"path": "Nextion Display"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"*.yaml": "home-assistant"
+		}
+	}
 }
