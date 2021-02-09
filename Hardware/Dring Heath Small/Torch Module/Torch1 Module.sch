@@ -63,16 +63,6 @@ Wire Wire Line
 	3650 1000 3250 1000
 Wire Wire Line
 	3650 1000 3650 1500
-Wire Wire Line
-	2400 1850 2550 1850
-Wire Wire Line
-	2400 2150 2400 1850
-Wire Wire Line
-	2300 2150 2400 2150
-Wire Wire Line
-	2450 2050 2300 2050
-Wire Wire Line
-	2450 1900 2450 2050
 Connection ~ 3650 1900
 Wire Wire Line
 	3650 1900 3300 1900
@@ -163,7 +153,7 @@ P 3750 1700
 AR Path="/61469ABE/61A67273" Ref="Q?"  Part="1" 
 AR Path="/61A67273" Ref="Q1"  Part="1" 
 F 0 "Q1" H 3955 1746 50  0000 L CNN
-F 1 "IRLML2402" H 3900 1800 50  0000 L CNN
+F 1 "IRLML2402" H 3955 1655 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 3950 1625 50  0001 L CIN
 F 3 "http://www.aosmd.com/pdfs/datasheet/AO3400A.pdf" H 3750 1700 50  0001 L CNN
 	1    3750 1700
@@ -1418,83 +1408,6 @@ F 3 "~" H 1800 5750 50  0001 C CNN
 	1    1800 5750
 	1    0    0    -1  
 $EndComp
-$Comp
-L Device:R_US R33
-U 1 1 603645E2
-P 2450 6050
-AR Path="/603645E2" Ref="R33"  Part="1" 
-AR Path="/61469ABE/603645E2" Ref="R?"  Part="1" 
-F 0 "R33" H 2250 6150 50  0000 L CNN
-F 1 "1k" H 2250 6050 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2490 6040 50  0001 C CNN
-F 3 "~" H 2450 6050 50  0001 C CNN
-	1    2450 6050
-	-1   0    0    1   
-$EndComp
-$Comp
-L Device:R_US R32
-U 1 1 603662CC
-P 2450 5550
-AR Path="/603662CC" Ref="R32"  Part="1" 
-AR Path="/61469ABE/603662CC" Ref="R?"  Part="1" 
-F 0 "R32" H 2250 5650 50  0000 L CNN
-F 1 "1k" H 2250 5550 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2490 5540 50  0001 C CNN
-F 3 "~" H 2450 5550 50  0001 C CNN
-	1    2450 5550
-	-1   0    0    1   
-$EndComp
-$Comp
-L Device:R_US R31
-U 1 1 60367DA6
-P 2150 6050
-AR Path="/60367DA6" Ref="R31"  Part="1" 
-AR Path="/61469ABE/60367DA6" Ref="R?"  Part="1" 
-F 0 "R31" H 1950 6150 50  0000 L CNN
-F 1 "1k" H 1950 6050 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2190 6040 50  0001 C CNN
-F 3 "~" H 2150 6050 50  0001 C CNN
-	1    2150 6050
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_US R30
-U 1 1 60368F12
-P 2150 5550
-AR Path="/60368F12" Ref="R30"  Part="1" 
-AR Path="/61469ABE/60368F12" Ref="R?"  Part="1" 
-F 0 "R30" H 1950 5650 50  0000 L CNN
-F 1 "1k" H 1950 5550 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2190 5540 50  0001 C CNN
-F 3 "~" H 2150 5550 50  0001 C CNN
-	1    2150 5550
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C_Small C3
-U 1 1 6036A3AA
-P 2950 5800
-AR Path="/6036A3AA" Ref="C3"  Part="1" 
-AR Path="/61469ABE/6036A3AA" Ref="C?"  Part="1" 
-F 0 "C3" H 2858 5754 50  0000 R CNN
-F 1 "100nf" H 2858 5845 50  0000 R CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 2950 5800 50  0001 C CNN
-F 3 "~" H 2950 5800 50  0001 C CNN
-	1    2950 5800
-	-1   0    0    -1  
-$EndComp
-Wire Wire Line
-	2950 5700 2950 5600
-Wire Wire Line
-	4000 5600 4000 5800
-Wire Wire Line
-	4000 5800 4100 5800
-Wire Wire Line
-	2950 5900 2950 6000
-Wire Wire Line
-	4000 6000 4000 5900
-Wire Wire Line
-	4000 5900 4100 5900
 Connection ~ 4500 6400
 Wire Wire Line
 	5750 5250 5650 5250
@@ -1532,37 +1445,6 @@ NoConn ~ 6400 5500
 NoConn ~ 6400 5600
 NoConn ~ 6400 5700
 NoConn ~ 6400 5800
-Wire Wire Line
-	2450 5700 2450 5800
-Wire Wire Line
-	2000 5850 2150 5850
-Wire Wire Line
-	2150 5850 2150 5900
-Wire Wire Line
-	2000 5750 2150 5750
-Wire Wire Line
-	2150 5750 2150 5700
-Wire Wire Line
-	2150 5400 2450 5400
-Wire Wire Line
-	2150 6200 2450 6200
-Wire Wire Line
-	2450 5400 2950 5400
-Wire Wire Line
-	2950 5400 2950 5600
-Connection ~ 2450 5400
-Connection ~ 2950 5600
-Wire Wire Line
-	2450 6200 2950 6200
-Wire Wire Line
-	2950 6200 2950 6000
-Connection ~ 2450 6200
-Connection ~ 2950 6000
-Wire Wire Line
-	2450 5800 2750 5800
-Connection ~ 2450 5800
-Wire Wire Line
-	2450 5800 2450 5900
 Connection ~ 4500 5400
 Wire Wire Line
 	4500 5400 4500 5550
@@ -1593,7 +1475,6 @@ F 3 "~" H 4850 5150 50  0001 C CNN
 	1    4850 5150
 	1    0    0    1   
 $EndComp
-Connection ~ 4500 5250
 $Comp
 L Device:Ferrite_Bead_Small FB1
 U 1 1 60452E4D
@@ -1667,22 +1548,6 @@ Wire Wire Line
 Wire Wire Line
 	5250 6100 5250 6200
 Connection ~ 5250 6200
-$Comp
-L Regulator_Linear:NCV8114ASN150T1G U2
-U 1 1 605B8E41
-P 3450 5350
-F 0 "U2" H 3650 5250 50  0000 C CNN
-F 1 "NCV8114ASN150T1G" H 3050 5100 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:TSOT-23-5" H 3450 4950 50  0001 C CIN
-F 3 "https://ru.mouser.com/datasheet/2/308/NCV8114-D-1107616.pdf" H 3450 4850 50  0001 C CNN
-	1    3450 5350
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	3850 5450 3850 5250
-Wire Wire Line
-	3850 5250 3950 5250
-Connection ~ 3850 5250
 Connection ~ 4850 5250
 Wire Wire Line
 	4850 5250 5150 5250
@@ -1693,75 +1558,6 @@ Wire Wire Line
 Wire Wire Line
 	5300 5050 4850 5050
 Connection ~ 5850 5100
-Wire Wire Line
-	4850 5050 3450 5050
-Connection ~ 4850 5050
-Wire Wire Line
-	2750 5800 2750 5450
-Wire Wire Line
-	2750 5450 3050 5450
-$Comp
-L Device:C_Small C6
-U 1 1 6067FF68
-P 3050 5250
-AR Path="/6067FF68" Ref="C6"  Part="1" 
-AR Path="/61469ABE/6067FF68" Ref="C?"  Part="1" 
-F 0 "C6" H 2900 5100 50  0000 R CNN
-F 1 "1uf" H 2900 5200 50  0000 R CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 3050 5250 50  0001 C CNN
-F 3 "~" H 3050 5250 50  0001 C CNN
-	1    3050 5250
-	1    0    0    1   
-$EndComp
-Wire Wire Line
-	3450 5050 3050 5050
-Wire Wire Line
-	3050 5050 3050 5150
-Connection ~ 3450 5050
-Wire Wire Line
-	3050 5350 3050 5450
-Connection ~ 3050 5450
-Text Notes 2500 5900 0    59   ~ 0
-1.5V
-Wire Wire Line
-	2950 5600 3950 5600
-Wire Wire Line
-	2950 6000 3350 6000
-$Comp
-L Device:D_Schottky_Small D2
-U 1 1 606DADD6
-P 3350 6100
-F 0 "D2" V 3304 6170 50  0000 L CNN
-F 1 "D_Schottky_Small" V 3395 6170 50  0000 L CNN
-F 2 "Diode_SMD:D_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 3350 6100 50  0001 C CNN
-F 3 "~" V 3350 6100 50  0001 C CNN
-	1    3350 6100
-	0    1    1    0   
-$EndComp
-Connection ~ 3350 6000
-Wire Wire Line
-	3350 6000 4000 6000
-$Comp
-L Device:D_Schottky_Small D3
-U 1 1 606DB922
-P 3950 5500
-F 0 "D3" V 3904 5570 50  0000 L CNN
-F 1 "D_Schottky_Small" V 4100 4850 50  0000 L CNN
-F 2 "Diode_SMD:D_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 3950 5500 50  0001 C CNN
-F 3 "~" V 3950 5500 50  0001 C CNN
-	1    3950 5500
-	0    1    1    0   
-$EndComp
-Connection ~ 3950 5600
-Wire Wire Line
-	3950 5600 4000 5600
-Wire Wire Line
-	3950 5400 3950 5250
-Connection ~ 3950 5250
-Wire Wire Line
-	3950 5250 4500 5250
-Wire Wire Line
-	3350 6200 3350 6400
 Wire Wire Line
 	6350 5100 6350 6200
 Wire Wire Line
@@ -1786,35 +1582,165 @@ NoConn ~ 8250 4350
 NoConn ~ 8450 4350
 NoConn ~ 8550 4350
 Wire Wire Line
-	2800 1800 2800 1350
+	2650 1900 2650 1850
+NoConn ~ 4100 6000
+NoConn ~ 4100 6100
+Connection ~ 3500 5800
 Wire Wire Line
-	2800 1350 2650 1350
+	3200 5800 3150 5800
 Wire Wire Line
-	2800 1800 2900 1800
+	3500 5900 3500 5800
+$Comp
+L Device:C_Small C?
+U 1 1 602C85BA
+P 3500 6000
+AR Path="/602C85BA" Ref="C?"  Part="1" 
+AR Path="/61469ABE/602C85BA" Ref="C?"  Part="1" 
+F 0 "C?" H 3408 5954 50  0000 R CNN
+F 1 "100nf" H 3408 6045 50  0000 R CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 3500 6000 50  0001 C CNN
+F 3 "~" H 3500 6000 50  0001 C CNN
+	1    3500 6000
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R_US R?
+U 1 1 602C85C4
+P 3350 5800
+AR Path="/602C85C4" Ref="R?"  Part="1" 
+AR Path="/61469ABE/602C85C4" Ref="R?"  Part="1" 
+F 0 "R?" V 3450 5800 50  0000 C CNN
+F 1 "10k" V 3236 5800 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 3390 5790 50  0001 C CNN
+F 3 "~" H 3350 5800 50  0001 C CNN
+	1    3350 5800
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_US R?
+U 1 1 602C85CE
+P 3150 5650
+AR Path="/602C85CE" Ref="R?"  Part="1" 
+AR Path="/61469ABE/602C85CE" Ref="R?"  Part="1" 
+F 0 "R?" H 3100 5700 50  0000 R CNN
+F 1 "3.3K" H 3150 5800 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 3190 5640 50  0001 C CNN
+F 3 "~" H 3150 5650 50  0001 C CNN
+	1    3150 5650
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT_TRIM_US RV?
+U 1 1 602C85D9
+P 3150 5950
+F 0 "RV?" H 3100 6100 50  0000 R CNN
+F 1 "2K" H 3100 6000 50  0000 R CNN
+F 2 "Potentiometer_THT:Potentiometer_Bourns_3339S_Horizontal" H 3150 5950 50  0001 C CNN
+F 3 "~" H 3150 5950 50  0001 C CNN
+	1    3150 5950
+	1    0    0    1   
+$EndComp
+Connection ~ 3150 5800
 Wire Wire Line
-	2550 1350 2550 1000
-Connection ~ 2550 1000
+	3150 6400 3300 6400
 Wire Wire Line
-	2550 1000 1900 1000
+	3150 6100 3150 6400
+Wire Wire Line
+	3300 5950 3300 6400
+Connection ~ 3300 6400
+Wire Wire Line
+	3300 6400 3500 6400
+Wire Wire Line
+	3500 6100 3500 6400
+Connection ~ 3500 6400
+Wire Wire Line
+	3500 6400 4500 6400
+Wire Wire Line
+	3500 5800 4100 5800
+$Comp
+L Device:R_US R?
+U 1 1 6039DBEA
+P 2500 5500
+AR Path="/6039DBEA" Ref="R?"  Part="1" 
+AR Path="/61469ABE/6039DBEA" Ref="R?"  Part="1" 
+F 0 "R?" H 2300 5600 50  0000 L CNN
+F 1 "2.4K" H 2300 5500 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2540 5490 50  0001 C CNN
+F 3 "~" H 2500 5500 50  0001 C CNN
+	1    2500 5500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R_US R?
+U 1 1 6039F6B4
+P 2450 6050
+AR Path="/6039F6B4" Ref="R?"  Part="1" 
+AR Path="/61469ABE/6039F6B4" Ref="R?"  Part="1" 
+F 0 "R?" H 2250 6150 50  0000 L CNN
+F 1 "2.4K" H 2250 6050 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2490 6040 50  0001 C CNN
+F 3 "~" H 2450 6050 50  0001 C CNN
+	1    2450 6050
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	2000 5750 2150 5750
+Wire Wire Line
+	2150 5750 2150 5500
+Wire Wire Line
+	2150 5500 2350 5500
+Wire Wire Line
+	2650 5500 3150 5500
+Wire Wire Line
+	2000 5850 2150 5850
+Wire Wire Line
+	2150 5850 2150 6050
+Wire Wire Line
+	2150 6050 2300 6050
+Wire Wire Line
+	2600 6050 2600 6250
+Wire Wire Line
+	2600 6250 3950 6250
+Wire Wire Line
+	3950 6250 3950 5900
+Wire Wire Line
+	3950 5900 4100 5900
+$Comp
+L Connector_Generic:Conn_02x02_Counter_Clockwise J?
+U 1 1 6040C986
+P 2550 1650
+F 0 "J?" V 2646 1462 50  0000 R CNN
+F 1 "Conn_02x02_Counter_Clockwise" V 2555 1462 50  0000 R CNN
+F 2 "" H 2550 1650 50  0001 C CNN
+F 3 "~" H 2550 1650 50  0001 C CNN
+	1    2550 1650
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	2450 2150 2450 1900
 Wire Wire Line
 	2450 1900 2650 1900
 Wire Wire Line
-	2650 1900 2650 1850
+	2300 2150 2450 2150
 Wire Wire Line
-	2550 1000 2900 1000
+	2300 2050 2400 2050
 Wire Wire Line
-	3350 6400 4500 6400
-NoConn ~ 4100 6000
-NoConn ~ 4100 6100
-$Comp
-L Connector_Generic:Conn_02x02_Counter_Clockwise J13
-U 1 1 6024F363
-P 2650 1650
-F 0 "J13" V 2700 1730 50  0000 L CNN
-F 1 "~" V 2655 1730 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_2x02_P2.54mm_Vertical" H 2650 1650 50  0001 C CNN
-F 3 "~" H 2650 1650 50  0001 C CNN
-	1    2650 1650
-	0    1    -1   0   
-$EndComp
+	2400 2050 2400 1850
+Wire Wire Line
+	2400 1850 2550 1850
+Wire Wire Line
+	1900 1000 2650 1000
+Wire Wire Line
+	2650 1350 2650 1000
+Connection ~ 2650 1000
+Wire Wire Line
+	2650 1000 2900 1000
+Wire Wire Line
+	2750 1800 2750 1300
+Wire Wire Line
+	2750 1300 2550 1300
+Wire Wire Line
+	2550 1300 2550 1350
+Wire Wire Line
+	2750 1800 2900 1800
 $EndSCHEMATC

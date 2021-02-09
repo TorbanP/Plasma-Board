@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "Nextion Display"
+		},
+		{
+			"path": "THC_ext_A-D"
 		}
 	],
 	"settings": {
