@@ -1410,12 +1410,12 @@ Wire Wire Line
 $Comp
 L Connector:Conn_01x02_Male J12
 U 1 1 60319122
-P 1800 5750
-F 0 "J12" H 1908 5931 50  0000 C CNN
-F 1 "Conn_01x02_Male" V 1650 5700 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 1800 5750 50  0001 C CNN
-F 3 "~" H 1800 5750 50  0001 C CNN
-	1    1800 5750
+P 1700 5750
+F 0 "J12" H 1800 5850 50  0000 C CNN
+F 1 "Conn_01x02_Male" V 1550 5700 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 1700 5750 50  0001 C CNN
+F 3 "~" H 1700 5750 50  0001 C CNN
+	1    1700 5750
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -1447,27 +1447,27 @@ $EndComp
 $Comp
 L Device:R_US R31
 U 1 1 60367DA6
-P 2150 6050
+P 2050 6050
 AR Path="/60367DA6" Ref="R31"  Part="1" 
 AR Path="/61469ABE/60367DA6" Ref="R?"  Part="1" 
-F 0 "R31" H 1950 6150 50  0000 L CNN
-F 1 "1k" H 1950 6050 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2190 6040 50  0001 C CNN
-F 3 "~" H 2150 6050 50  0001 C CNN
-	1    2150 6050
+F 0 "R31" H 1850 6150 50  0000 L CNN
+F 1 "2k" H 1850 6050 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2090 6040 50  0001 C CNN
+F 3 "~" H 2050 6050 50  0001 C CNN
+	1    2050 6050
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:R_US R30
 U 1 1 60368F12
-P 2150 5550
+P 2050 5550
 AR Path="/60368F12" Ref="R30"  Part="1" 
 AR Path="/61469ABE/60368F12" Ref="R?"  Part="1" 
-F 0 "R30" H 1950 5650 50  0000 L CNN
-F 1 "1k" H 1950 5550 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2190 5540 50  0001 C CNN
-F 3 "~" H 2150 5550 50  0001 C CNN
-	1    2150 5550
+F 0 "R30" H 1850 5650 50  0000 L CNN
+F 1 "1k" H 1850 5550 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2090 5540 50  0001 C CNN
+F 3 "~" H 2050 5550 50  0001 C CNN
+	1    2050 5550
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -1477,7 +1477,7 @@ P 2950 5800
 AR Path="/6036A3AA" Ref="C3"  Part="1" 
 AR Path="/61469ABE/6036A3AA" Ref="C?"  Part="1" 
 F 0 "C3" H 2858 5754 50  0000 R CNN
-F 1 "100nf" H 2858 5845 50  0000 R CNN
+F 1 "22nf" H 2858 5845 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 2950 5800 50  0001 C CNN
 F 3 "~" H 2950 5800 50  0001 C CNN
 	1    2950 5800
@@ -1520,9 +1520,9 @@ Wire Notes Line
 	1500 750  1500 2750
 Wire Notes Line
 	1500 750  6900 750 
-Text Notes 1750 6500 0    118  ~ 24
+Text Notes 5350 6500 0    118  ~ 24
 External A/D
-Text Notes 1700 5300 0    59   ~ 0
+Text Notes 1600 6550 0    59   ~ 0
 Jumper to module #3\n
 Text Notes 3150 950  0    59   ~ 0
 Jumper to External A/D\n
@@ -1535,28 +1535,22 @@ NoConn ~ 6400 5800
 Wire Wire Line
 	2450 5700 2450 5800
 Wire Wire Line
-	2000 5850 2150 5850
+	1900 5850 2050 5850
 Wire Wire Line
-	2150 5850 2150 5900
+	2050 5850 2050 5900
 Wire Wire Line
-	2000 5750 2150 5750
+	1900 5750 2050 5750
 Wire Wire Line
-	2150 5750 2150 5700
-Wire Wire Line
-	2150 5400 2450 5400
-Wire Wire Line
-	2150 6200 2450 6200
+	2050 5750 2050 5700
 Wire Wire Line
 	2450 5400 2950 5400
 Wire Wire Line
 	2950 5400 2950 5600
-Connection ~ 2450 5400
 Connection ~ 2950 5600
 Wire Wire Line
 	2450 6200 2950 6200
 Wire Wire Line
 	2950 6200 2950 6000
-Connection ~ 2450 6200
 Connection ~ 2950 6000
 Wire Wire Line
 	2450 5800 2750 5800
@@ -1680,8 +1674,6 @@ F 3 "https://ru.mouser.com/datasheet/2/308/NCV8114-D-1107616.pdf" H 3450 4850 50
 $EndComp
 Wire Wire Line
 	3850 5450 3850 5250
-Wire Wire Line
-	3850 5250 3950 5250
 Connection ~ 3850 5250
 Connection ~ 4850 5250
 Wire Wire Line
@@ -1723,45 +1715,28 @@ Wire Wire Line
 Connection ~ 3050 5450
 Text Notes 2500 5900 0    59   ~ 0
 1.5V
-Wire Wire Line
-	2950 5600 3950 5600
-Wire Wire Line
-	2950 6000 3350 6000
 $Comp
 L Device:D_Schottky_Small D2
 U 1 1 606DADD6
-P 3350 6100
-F 0 "D2" V 3304 6170 50  0000 L CNN
-F 1 "D_Schottky_Small" V 3395 6170 50  0000 L CNN
-F 2 "Diode_SMD:D_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 3350 6100 50  0001 C CNN
-F 3 "~" V 3350 6100 50  0001 C CNN
-	1    3350 6100
-	0    1    1    0   
+P 2150 6350
+F 0 "D2" H 1900 6400 50  0000 L CNN
+F 1 "MSCD104H" H 2195 6420 50  0000 L CNN
+F 2 "Diode_SMD:D_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 2150 6350 50  0001 C CNN
+F 3 "~" V 2150 6350 50  0001 C CNN
+	1    2150 6350
+	1    0    0    -1  
 $EndComp
-Connection ~ 3350 6000
-Wire Wire Line
-	3350 6000 4000 6000
 $Comp
 L Device:D_Schottky_Small D3
 U 1 1 606DB922
-P 3950 5500
-F 0 "D3" V 3904 5570 50  0000 L CNN
-F 1 "D_Schottky_Small" V 4100 4850 50  0000 L CNN
-F 2 "Diode_SMD:D_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 3950 5500 50  0001 C CNN
-F 3 "~" V 3950 5500 50  0001 C CNN
-	1    3950 5500
+P 2050 5150
+F 0 "D3" V 2004 5220 50  0000 L CNN
+F 1 "MSCD104H" V 2150 4750 50  0000 L CNN
+F 2 "Diode_SMD:D_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 2050 5150 50  0001 C CNN
+F 3 "~" V 2050 5150 50  0001 C CNN
+	1    2050 5150
 	0    1    1    0   
 $EndComp
-Connection ~ 3950 5600
-Wire Wire Line
-	3950 5600 4000 5600
-Wire Wire Line
-	3950 5400 3950 5250
-Connection ~ 3950 5250
-Wire Wire Line
-	3950 5250 4500 5250
-Wire Wire Line
-	3350 6200 3350 6400
 Wire Wire Line
 	6350 5100 6350 6200
 Wire Wire Line
@@ -1817,4 +1792,58 @@ F 3 "~" H 2650 1650 50  0001 C CNN
 	1    2650 1650
 	0    1    -1   0   
 $EndComp
+$Comp
+L Device:R_US R38
+U 1 1 602730EC
+P 2200 5400
+AR Path="/602730EC" Ref="R38"  Part="1" 
+AR Path="/61469ABE/602730EC" Ref="R?"  Part="1" 
+F 0 "R38" H 2000 5500 50  0000 L CNN
+F 1 "200" H 2000 5400 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2240 5390 50  0001 C CNN
+F 3 "~" H 2200 5400 50  0001 C CNN
+	1    2200 5400
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2350 5400 2450 5400
+Connection ~ 2450 5400
+Wire Wire Line
+	2050 5400 2050 5250
+Wire Wire Line
+	2950 5600 4000 5600
+Connection ~ 2050 5400
+Wire Wire Line
+	2050 5050 2050 4950
+Wire Wire Line
+	2050 4950 4500 4950
+Wire Wire Line
+	4500 4950 4500 5250
+Wire Wire Line
+	3850 5250 4500 5250
+$Comp
+L Device:R_US R39
+U 1 1 602F56C7
+P 2200 6200
+AR Path="/602F56C7" Ref="R39"  Part="1" 
+AR Path="/61469ABE/602F56C7" Ref="R?"  Part="1" 
+F 0 "R39" H 2000 6300 50  0000 L CNN
+F 1 "200" H 2000 6200 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 2240 6190 50  0001 C CNN
+F 3 "~" H 2200 6200 50  0001 C CNN
+	1    2200 6200
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2350 6200 2450 6200
+Connection ~ 2450 6200
+Wire Wire Line
+	2050 6200 2050 6350
+Wire Wire Line
+	2950 6000 4000 6000
+Connection ~ 2050 6200
+Wire Wire Line
+	2250 6350 3350 6350
+Wire Wire Line
+	3350 6350 3350 6400
 $EndSCHEMATC
