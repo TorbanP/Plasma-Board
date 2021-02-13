@@ -1,4 +1,4 @@
-19048601602133549
+19050214584144361
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -56426,6 +56426,13 @@ Through hole pin header THT 1x08 2.54mm single row
 0
 16
 16
+Modules
+PinSocket_2x05_Short_Horizontal
+Through hole angled socket strip, 2x05, 2.54mm pitch, 8.51mm socket length, double cols (from Kicad 4.0.7), script generated
+Through hole angled socket strip THT 2x05 2.54mm double row
+0
+10
+10
 Modules
 RJ45_BEL_SS74301-00x_Vertical
 https://belfuse.com/resources/drawings/stewartconnector/dr-stw-ss-74301-001-ss-74301-002-ss-74301-005.pdf
