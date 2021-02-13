@@ -543,10 +543,6 @@ Wire Wire Line
 	8700 2100 9100 2100
 Connection ~ 9100 1000
 Connection ~ 9100 2100
-NoConn ~ 8550 1150
-NoConn ~ 8550 1250
-NoConn ~ 8550 1550
-NoConn ~ 8550 1650
 NoConn ~ 9850 1900
 NoConn ~ 9850 1800
 NoConn ~ 9850 1700
@@ -633,17 +629,6 @@ Wire Wire Line
 	2400 2250 2400 2550
 Wire Wire Line
 	2400 2550 2800 2550
-$Comp
-L Connector:Conn_01x10_Male J9
-U 1 1 600FA13A
-P 5900 2950
-F 0 "J9" H 6008 3531 50  0000 C CNN
-F 1 "2.54 pin" H 6008 3440 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" H 5900 2950 50  0001 C CNN
-F 3 "~" H 5900 2950 50  0001 C CNN
-	1    5900 2950
-	0    -1   1    0   
-$EndComp
 Text Notes 5050 3350 0    118  ~ 24
 Jtag
 NoConn ~ 4000 3100
@@ -786,8 +771,6 @@ Wire Wire Line
 Wire Wire Line
 	6600 3350 6600 3450
 Wire Wire Line
-	6550 3300 6550 3050
-Wire Wire Line
 	5800 3150 5800 3400
 Wire Wire Line
 	5800 3400 6100 3400
@@ -807,14 +790,6 @@ Wire Wire Line
 	6450 3500 6450 4050
 Wire Wire Line
 	6400 4250 6400 4150
-Wire Wire Line
-	6750 3200 5450 3200
-Wire Wire Line
-	5450 3200 5450 3500
-Wire Wire Line
-	5450 3500 5500 3500
-Wire Wire Line
-	5500 3500 5500 3850
 Wire Notes Line
 	5000 2850 5000 4650
 Wire Wire Line
@@ -846,10 +821,6 @@ F 3 "~" H 7350 3550 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 Wire Wire Line
-	6750 3200 6750 3150
-Wire Wire Line
-	6750 3150 7150 3150
-Wire Wire Line
 	6650 3350 6650 3550
 Wire Wire Line
 	6650 3550 5600 3550
@@ -870,7 +841,6 @@ Wire Wire Line
 Connection ~ 6100 3400
 Wire Wire Line
 	6100 3400 6550 3400
-NoConn ~ 6400 3150
 NoConn ~ 6100 3150
 Wire Wire Line
 	5700 3350 6600 3350
@@ -1171,13 +1141,9 @@ $EndComp
 Wire Wire Line
 	6400 4150 7150 4150
 Wire Wire Line
-	6550 3050 7150 3050
-Wire Wire Line
 	6400 3850 6400 3300
 Connection ~ 6400 3850
 Connection ~ 6400 3300
-Wire Wire Line
-	6400 3300 6550 3300
 Wire Wire Line
 	6000 3500 6000 3750
 $Comp
@@ -1923,4 +1889,91 @@ Wire Wire Line
 Connection ~ 8650 3300
 Wire Wire Line
 	8650 3300 8900 3300
+$Comp
+L Connector:Conn_01x02_Male J16
+U 1 1 6029708A
+P 6550 2950
+F 0 "J16" V 6704 2762 50  0000 R CNN
+F 1 "Reset" V 6613 2762 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 6550 2950 50  0001 C CNN
+F 3 "~" H 6550 2950 50  0001 C CNN
+	1    6550 2950
+	0    -1   1    0   
+$EndComp
+$Comp
+L Connector:Conn_01x10_Male J9
+U 1 1 600FA13A
+P 5900 2950
+F 0 "J9" H 6008 3531 50  0000 C CNN
+F 1 "2.54 pin" H 6008 3440 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" H 5900 2950 50  0001 C CNN
+F 3 "~" H 5900 2950 50  0001 C CNN
+	1    5900 2950
+	0    -1   1    0   
+$EndComp
+Wire Wire Line
+	6400 3150 6550 3150
+$Comp
+L Connector:Conn_01x02_Male J17
+U 1 1 6038F2D5
+P 10400 800
+F 0 "J17" V 10554 612 50  0000 R CNN
+F 1 "Reset" V 10463 612 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 10400 800 50  0001 C CNN
+F 3 "~" H 10400 800 50  0001 C CNN
+	1    10400 800 
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x02_Male J18
+U 1 1 60391CC7
+P 10500 2150
+F 0 "J18" V 10700 2400 50  0000 R CNN
+F 1 "Reset" V 10550 2450 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 10500 2150 50  0001 C CNN
+F 3 "~" H 10500 2150 50  0001 C CNN
+	1    10500 2150
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	8550 1250 8800 1250
+Wire Wire Line
+	8800 1250 8800 800 
+Wire Wire Line
+	8800 800  10200 800 
+Wire Wire Line
+	8550 1150 8850 1150
+Wire Wire Line
+	8850 1150 8850 900 
+Wire Wire Line
+	8850 900  10200 900 
+Wire Wire Line
+	8550 1650 8750 1650
+Wire Wire Line
+	8750 1650 8750 2150
+Wire Wire Line
+	8750 2150 10300 2150
+Wire Wire Line
+	8550 1550 8600 1550
+Wire Wire Line
+	8600 1550 8600 2250
+Wire Wire Line
+	8600 2250 10300 2250
+Wire Wire Line
+	6700 3300 6700 3150
+Wire Wire Line
+	6700 3150 6900 3150
+Wire Wire Line
+	6900 3150 6900 3050
+Wire Wire Line
+	6900 3050 7150 3050
+Wire Wire Line
+	6400 3300 6700 3300
+Wire Wire Line
+	6650 3150 6700 3150
+Connection ~ 6700 3150
+Wire Wire Line
+	5500 3250 5500 3850
+Connection ~ 5500 3250
+NoConn ~ 7150 3150
 $EndSCHEMATC
