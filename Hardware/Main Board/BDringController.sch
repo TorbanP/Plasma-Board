@@ -14,7 +14,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L BDringController-rescue:DC-DC_BuckAdg-My_Library PS1
+L BDringController-rescue:DC-DC_BuckAdg-My_Library-BDringController-rescue PS1
 U 1 1 5FE57EFE
 P 6550 6800
 F 0 "PS1" H 6550 7167 50  0000 C CNN
@@ -25,7 +25,7 @@ F 3 "https://www.xppower.com/pdfs/SF_IA.pdf" H 7600 6500 50  0001 L CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L BDringController-rescue:DC-DC_BuckAdg-My_Library PS2
+L BDringController-rescue:DC-DC_BuckAdg-My_Library-BDringController-rescue PS2
 U 1 1 5FE585FF
 P 6550 7600
 F 0 "PS2" H 6550 7967 50  0000 C CNN
@@ -42,7 +42,9 @@ P 10350 1750
 F 0 "U5" H 10300 1500 50  0000 C CNN
 F 1 "74AHCT595" H 10300 1400 50  0000 C CNN
 F 2 "Package_SO:SO-16_5.3x10.2mm_P1.27mm" H 10350 1750 50  0001 C CNN
-F 3 "https://assets.nexperia.com/documents/data-sheet/74AHC_AHCT595.pdf" H 10350 1750 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2004031110_Nexperia-74AHCT595D-118_C503428.pdf" H 10350 1750 50  0001 C CNN
+F 4 "C503428" H 10350 1750 50  0001 C CNN "LCSC"
+F 5 "74AHCT595D,118" H 10350 1750 50  0001 C CNN "Part Number"
 	1    10350 1750
 	1    0    0    -1  
 $EndComp
@@ -53,7 +55,9 @@ P 11650 2650
 F 0 "U7" H 11650 2450 50  0000 C CNN
 F 1 "74AHCT595" H 11600 2300 50  0000 C CNN
 F 2 "Package_SO:SO-16_5.3x10.2mm_P1.27mm" H 11650 2650 50  0001 C CNN
-F 3 "https://assets.nexperia.com/documents/data-sheet/74AHC_AHCT595.pdf" H 11650 2650 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2004031110_Nexperia-74AHCT595D-118_C503428.pdf" H 11650 2650 50  0001 C CNN
+F 4 "C503428" H 11650 2650 50  0001 C CNN "LCSC"
+F 5 "74AHCT595D,118" H 11650 2650 50  0001 C CNN "Part Number"
 	1    11650 2650
 	1    0    0    -1  
 $EndComp
@@ -64,7 +68,9 @@ P 10350 4150
 F 0 "U6" H 10300 3900 50  0000 C CNN
 F 1 "74AHCT595" H 10300 3750 50  0000 C CNN
 F 2 "Package_SO:SO-16_5.3x10.2mm_P1.27mm" H 10350 4150 50  0001 C CNN
-F 3 "https://assets.nexperia.com/documents/data-sheet/74AHC_AHCT595.pdf" H 10350 4150 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2004031110_Nexperia-74AHCT595D-118_C503428.pdf" H 10350 4150 50  0001 C CNN
+F 4 "C503428" H 10350 4150 50  0001 C CNN "LCSC"
+F 5 "74AHCT595D,118" H 10350 4150 50  0001 C CNN "Part Number"
 	1    10350 4150
 	1    0    0    -1  
 $EndComp
@@ -75,12 +81,14 @@ P 11650 5050
 F 0 "U8" H 11600 4800 50  0000 C CNN
 F 1 "74AHCT595" H 11600 4700 50  0000 C CNN
 F 2 "Package_SO:SO-16_5.3x10.2mm_P1.27mm" H 11650 5050 50  0001 C CNN
-F 3 "https://assets.nexperia.com/documents/data-sheet/74AHC_AHCT595.pdf" H 11650 5050 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2004031110_Nexperia-74AHCT595D-118_C503428.pdf" H 11650 5050 50  0001 C CNN
+F 4 "C503428" H 11650 5050 50  0001 C CNN "LCSC"
+F 5 "74AHCT595D,118" H 11650 5050 50  0001 C CNN "Part Number"
 	1    11650 5050
 	1    0    0    -1  
 $EndComp
 $Comp
-L BDringController-rescue:IO_connector-My_Library J6
+L BDringController-rescue:IO_connector-My_Library-BDringController-rescue J6
 U 1 1 5FF337CA
 P 4800 9650
 F 0 "J6" H 4122 9546 50  0000 R CNN
@@ -91,7 +99,7 @@ F 3 "" H 4700 9600 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L BDringController-rescue:Motor_driver-My_Library U9
+L BDringController-rescue:Motor_driver-My_Library-BDringController-rescue U9
 U 1 1 5FF350BD
 P 13750 1750
 F 0 "U9" H 14150 2550 50  0000 C CNN
@@ -102,7 +110,7 @@ F 3 "" H 13750 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L My_Library:ESP32_38p U3
+L BDringController-rescue:ESP32_38p-My_Library U3
 U 1 1 5FF3DD1B
 P 8050 3250
 F 0 "U3" V 9515 3300 50  0000 C CNN
@@ -130,7 +138,9 @@ P 11650 7050
 F 0 "J16" H 11600 7767 50  0000 C CNN
 F 1 "Micro_SD_Card" H 11600 7676 50  0000 C CNN
 F 2 "Connector_Card:microSD_HC_Hirose_DM3AT-SF-PEJM5" H 12800 7350 50  0001 C CNN
-F 3 "http://katalog.we-online.de/em/datasheet/693072010801.pdf" H 11650 7050 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1810301220_HRS-Hirose-DM3AT-SF-PEJM5_C114218.pdf" H 11650 7050 50  0001 C CNN
+F 4 "C114218" H 11650 7050 50  0001 C CNN "LCSC"
+F 5 "DM3AT-SF-PEJM5" H 11650 7050 50  0001 C CNN "Part Number"
 	1    11650 7050
 	1    0    0    -1  
 $EndComp
@@ -251,7 +261,9 @@ P 10650 1050
 F 0 "C10" V 10421 1050 50  0000 C CNN
 F 1 "100nf" V 10512 1050 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 10650 1050 50  0001 C CNN
-F 3 "~" H 10650 1050 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 10650 1050 50  0001 C CNN
+F 4 "C107569" H 10650 1050 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 10650 1050 50  0001 C CNN "Part Number"
 	1    10650 1050
 	0    1    1    0   
 $EndComp
@@ -277,7 +289,9 @@ P 11950 1950
 F 0 "C13" V 11721 1950 50  0000 C CNN
 F 1 "100nf" V 11812 1950 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 11950 1950 50  0001 C CNN
-F 3 "~" H 11950 1950 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 11950 1950 50  0001 C CNN
+F 4 "C107569" H 11950 1950 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 11950 1950 50  0001 C CNN "Part Number"
 	1    11950 1950
 	0    1    1    0   
 $EndComp
@@ -299,7 +313,9 @@ P 10700 3250
 F 0 "C11" V 10471 3250 50  0000 C CNN
 F 1 "100nf" V 10562 3250 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 10700 3250 50  0001 C CNN
-F 3 "~" H 10700 3250 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 10700 3250 50  0001 C CNN
+F 4 "C107569" H 10700 3250 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 10700 3250 50  0001 C CNN "Part Number"
 	1    10700 3250
 	0    1    1    0   
 $EndComp
@@ -321,7 +337,9 @@ P 11800 4350
 F 0 "C12" V 11571 4350 50  0000 C CNN
 F 1 "100nf" V 11662 4350 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 11800 4350 50  0001 C CNN
-F 3 "~" H 11800 4350 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 11800 4350 50  0001 C CNN
+F 4 "C107569" H 11800 4350 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 11800 4350 50  0001 C CNN "Part Number"
 	1    11800 4350
 	0    1    1    0   
 $EndComp
@@ -481,7 +499,7 @@ Wire Notes Line
 Text Notes 10950 5900 2    118  ~ 24
 I2C Shift Registers
 $Comp
-L BDringController-rescue:Motor_driver-My_Library U10
+L BDringController-rescue:Motor_driver-My_Library-BDringController-rescue U10
 U 1 1 5FFD0D45
 P 13750 3100
 F 0 "U10" H 14150 3900 50  0000 C CNN
@@ -492,7 +510,7 @@ F 3 "" H 13750 3100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L BDringController-rescue:Motor_driver-My_Library U11
+L BDringController-rescue:Motor_driver-My_Library-BDringController-rescue U11
 U 1 1 5FFD20FB
 P 13750 4450
 F 0 "U11" H 14150 5250 50  0000 C CNN
@@ -549,7 +567,7 @@ B_Dir
 Text GLabel 13350 7300 0    50   Input ~ 0
 B_Step
 $Comp
-L BDringController-rescue:Motor_driver-My_Library U12
+L BDringController-rescue:Motor_driver-My_Library-BDringController-rescue U12
 U 1 1 5FFFEDE6
 P 13750 5850
 F 0 "U12" H 14150 6650 50  0000 C CNN
@@ -560,7 +578,7 @@ F 3 "" H 13750 5850 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L BDringController-rescue:Motor_driver-My_Library U13
+L BDringController-rescue:Motor_driver-My_Library-BDringController-rescue U13
 U 1 1 6000037A
 P 13750 7250
 F 0 "U13" H 14150 8050 50  0000 C CNN
@@ -571,7 +589,7 @@ F 3 "" H 13750 7250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L BDringController-rescue:Motor_driver-My_Library U14
+L BDringController-rescue:Motor_driver-My_Library-BDringController-rescue U14
 U 1 1 6001366A
 P 13750 8650
 F 0 "U14" H 14150 9450 50  0000 C CNN
@@ -646,7 +664,7 @@ Wire Notes Line
 Text Notes 12950 9100 0    118  ~ 24
 Motor Drivers
 $Comp
-L BDringController-rescue:IO_connector-My_Library J10
+L BDringController-rescue:IO_connector-My_Library-BDringController-rescue J10
 U 1 1 60081B7B
 P 6300 9650
 F 0 "J10" H 5622 9546 50  0000 R CNN
@@ -657,7 +675,7 @@ F 3 "" H 6200 9600 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L BDringController-rescue:IO_connector-My_Library J12
+L BDringController-rescue:IO_connector-My_Library-BDringController-rescue J12
 U 1 1 6008B1E6
 P 7800 9650
 F 0 "J12" H 7122 9546 50  0000 R CNN
@@ -668,7 +686,7 @@ F 3 "" H 7700 9600 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L BDringController-rescue:IO_connector-My_Library J14
+L BDringController-rescue:IO_connector-My_Library-BDringController-rescue J14
 U 1 1 6008C404
 P 9250 9650
 F 0 "J14" H 8572 9546 50  0000 R CNN
@@ -679,7 +697,7 @@ F 3 "" H 9150 9600 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L BDringController-rescue:IO_connector-My_Library J15
+L BDringController-rescue:IO_connector-My_Library-BDringController-rescue J15
 U 1 1 6008D55B
 P 10750 9650
 F 0 "J15" H 10072 9546 50  0000 R CNN
@@ -1026,7 +1044,9 @@ P 7400 4000
 F 0 "C5" H 7308 3954 50  0000 R CNN
 F 1 "100nf" H 7308 4045 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 7400 4000 50  0001 C CNN
-F 3 "~" H 7400 4000 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 7400 4000 50  0001 C CNN
+F 4 "C107569" H 7400 4000 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 7400 4000 50  0001 C CNN "Part Number"
 	1    7400 4000
 	-1   0    0    1   
 $EndComp
@@ -1055,6 +1075,8 @@ F 0 "D1" V 7046 1480 50  0000 R CNN
 F 1 "B340A" H 6850 1600 50  0000 R CNN
 F 2 "Diode_SMD:D_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 7000 1550 50  0001 C CNN
 F 3 "~" V 7000 1550 50  0001 C CNN
+F 4 "C189958" H 7000 1550 50  0001 C CNN "LCSC"
+F 5 "MSCD104H" H 7000 1550 50  0001 C CNN "Part Number"
 	1    7000 1550
 	0    -1   -1   0   
 $EndComp
@@ -1065,7 +1087,9 @@ P 8550 6850
 F 0 "C9" H 8458 6804 50  0000 R CNN
 F 1 "10uf" H 8458 6895 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 8550 6850 50  0001 C CNN
-F 3 "~" H 8550 6850 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1912111437_Murata-Electronics-GRM188R61E106KA73D_C344022.pdf" H 8550 6850 50  0001 C CNN
+F 4 "C344022" H 8550 6850 50  0001 C CNN "LCSC"
+F 5 "GRM188R61E106KA73D" H 8550 6850 50  0001 C CNN "Part Number"
 	1    8550 6850
 	-1   0    0    1   
 $EndComp
@@ -1286,7 +1310,7 @@ Connection ~ 14350 1300
 Text Notes 7900 5550 2    118  ~ 24
 GRBL ESP32
 $Comp
-L My_Library:ESP32_38p U1
+L BDringController-rescue:ESP32_38p-My_Library U1
 U 1 1 60718252
 P 4450 2500
 F 0 "U1" V 5915 2550 50  0000 C CNN
@@ -1304,7 +1328,9 @@ P 14800 850
 F 0 "C14" V 14850 650 50  0000 C CNN
 F 1 "330uf" V 14750 600 50  0000 C CNN
 F 2 "Capacitor_SMD:CP_Elec_10x12.6" H 14800 850 50  0001 C CNN
-F 3 "~" H 14800 850 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1810181625_Lelon-OCV331M1DTR-1013_C250026.pdf" H 14800 850 50  0001 C CNN
+F 4 "C250026" H 14800 850 50  0001 C CNN "LCSC"
+F 5 "OCV331M1DTR-1013" H 14800 850 50  0001 C CNN "Part Number"
 	1    14800 850 
 	0    -1   -1   0   
 $EndComp
@@ -1315,7 +1341,9 @@ P 14800 2200
 F 0 "C16" V 14850 2000 50  0000 C CNN
 F 1 "330uf" V 14750 1950 50  0000 C CNN
 F 2 "Capacitor_SMD:CP_Elec_10x12.6" H 14800 2200 50  0001 C CNN
-F 3 "~" H 14800 2200 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1810181625_Lelon-OCV331M1DTR-1013_C250026.pdf" H 14800 2200 50  0001 C CNN
+F 4 "C250026" H 14800 2200 50  0001 C CNN "LCSC"
+F 5 "OCV331M1DTR-1013" H 14800 2200 50  0001 C CNN "Part Number"
 	1    14800 2200
 	0    -1   -1   0   
 $EndComp
@@ -1326,7 +1354,9 @@ P 14800 3550
 F 0 "C18" V 14850 3350 50  0000 C CNN
 F 1 "330uf" V 14750 3300 50  0000 C CNN
 F 2 "Capacitor_SMD:CP_Elec_10x12.6" H 14800 3550 50  0001 C CNN
-F 3 "~" H 14800 3550 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1810181625_Lelon-OCV331M1DTR-1013_C250026.pdf" H 14800 3550 50  0001 C CNN
+F 4 "C250026" H 14800 3550 50  0001 C CNN "LCSC"
+F 5 "OCV331M1DTR-1013" H 14800 3550 50  0001 C CNN "Part Number"
 	1    14800 3550
 	0    -1   -1   0   
 $EndComp
@@ -1337,7 +1367,9 @@ P 14800 4900
 F 0 "C20" V 14850 4700 50  0000 C CNN
 F 1 "330uf" V 14750 4650 50  0000 C CNN
 F 2 "Capacitor_SMD:CP_Elec_10x12.6" H 14800 4900 50  0001 C CNN
-F 3 "~" H 14800 4900 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1810181625_Lelon-OCV331M1DTR-1013_C250026.pdf" H 14800 4900 50  0001 C CNN
+F 4 "C250026" H 14800 4900 50  0001 C CNN "LCSC"
+F 5 "OCV331M1DTR-1013" H 14800 4900 50  0001 C CNN "Part Number"
 	1    14800 4900
 	0    -1   -1   0   
 $EndComp
@@ -1348,7 +1380,9 @@ P 14800 6300
 F 0 "C22" V 14850 6100 50  0000 C CNN
 F 1 "330uf" V 14750 6050 50  0000 C CNN
 F 2 "Capacitor_SMD:CP_Elec_10x12.6" H 14800 6300 50  0001 C CNN
-F 3 "~" H 14800 6300 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1810181625_Lelon-OCV331M1DTR-1013_C250026.pdf" H 14800 6300 50  0001 C CNN
+F 4 "C250026" H 14800 6300 50  0001 C CNN "LCSC"
+F 5 "OCV331M1DTR-1013" H 14800 6300 50  0001 C CNN "Part Number"
 	1    14800 6300
 	0    -1   -1   0   
 $EndComp
@@ -1359,7 +1393,9 @@ P 14800 7700
 F 0 "C24" V 14850 7500 50  0000 C CNN
 F 1 "330uf" V 14750 7450 50  0000 C CNN
 F 2 "Capacitor_SMD:CP_Elec_10x12.6" H 14800 7700 50  0001 C CNN
-F 3 "~" H 14800 7700 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1810181625_Lelon-OCV331M1DTR-1013_C250026.pdf" H 14800 7700 50  0001 C CNN
+F 4 "C250026" H 14800 7700 50  0001 C CNN "LCSC"
+F 5 "OCV331M1DTR-1013" H 14800 7700 50  0001 C CNN "Part Number"
 	1    14800 7700
 	0    -1   -1   0   
 $EndComp
@@ -1374,7 +1410,7 @@ Wire Wire Line
 Wire Wire Line
 	14900 2200 14900 2350
 $Comp
-L BDringController-rescue:IO_connector-My_Library J3
+L BDringController-rescue:IO_connector-My_Library-BDringController-rescue J3
 U 1 1 608D438E
 P 4450 4350
 F 0 "J3" H 3772 4246 50  0000 R CNN
@@ -1463,7 +1499,9 @@ P 4450 3300
 F 0 "C1" V 4500 3050 50  0000 C CNN
 F 1 "100nf" V 4400 3050 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 4450 3300 50  0001 C CNN
-F 3 "~" H 4450 3300 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 4450 3300 50  0001 C CNN
+F 4 "C107569" H 4450 3300 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 4450 3300 50  0001 C CNN "Part Number"
 	1    4450 3300
 	0    -1   -1   0   
 $EndComp
@@ -1476,13 +1514,15 @@ GrbZDir
 Text GLabel 12050 2450 2    39   Output ~ 0
 GrbZStep
 $Comp
-L BDringController-rescue:74LVC157A-My_Library U2
+L BDringController-rescue:74LVC157A-My_Library-BDringController-rescue U2
 U 1 1 60C205F5
 P 5900 2150
 F 0 "U2" H 5925 1527 50  0000 C CNN
 F 1 "74LVC157A" H 5925 1436 50  0000 C CNN
 F 2 "Package_SO:SOP-16_3.9x9.9mm_P1.27mm" H 5900 2150 50  0001 C CNN
-F 3 "" H 5900 2150 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2007301835_XINLUDA-XL74LS157_C707097.pdf" H 5900 2150 50  0001 C CNN
+F 4 "C707097" H 5900 2150 50  0001 C CNN "LCSC"
+F 5 "XL74LS157" H 5900 2150 50  0001 C CNN "Part Number"
 	1    5900 2150
 	1    0    0    -1  
 $EndComp
@@ -1785,7 +1825,9 @@ P 7100 6700
 F 0 "L1" H 7152 6746 50  0000 L CNN
 F 1 "22uh" H 7152 6655 50  0000 L CNN
 F 2 "Inductor_SMD:L_Coilcraft_XAL5030" H 7100 6700 50  0001 C CNN
-F 3 "~" H 7100 6700 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2003132108_GLE-GCNR4030-220MC_C439349.pdf" H 7100 6700 50  0001 C CNN
+F 4 "C439349" H 7100 6700 50  0001 C CNN "LCSC"
+F 5 "GCNR4030-220MC" H 7100 6700 50  0001 C CNN "Part Number"
 	1    7100 6700
 	0    -1   -1   0   
 $EndComp
@@ -1798,7 +1840,9 @@ P 7250 6800
 F 0 "C3" H 7400 6800 50  0000 C CNN
 F 1 "330uf" H 7400 6700 50  0000 C CNN
 F 2 "Capacitor_SMD:CP_Elec_10x12.6" H 7250 6800 50  0001 C CNN
-F 3 "~" H 7250 6800 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1810181625_Lelon-OCV331M1DTR-1013_C250026.pdf" H 7250 6800 50  0001 C CNN
+F 4 "C250026" H 7250 6800 50  0001 C CNN "LCSC"
+F 5 "OCV331M1DTR-1013" H 7250 6800 50  0001 C CNN "Part Number"
 	1    7250 6800
 	1    0    0    -1  
 $EndComp
@@ -1809,7 +1853,9 @@ P 7100 7500
 F 0 "L2" H 7152 7546 50  0000 L CNN
 F 1 "22uh" H 7152 7455 50  0000 L CNN
 F 2 "Inductor_SMD:L_Coilcraft_XAL5030" H 7100 7500 50  0001 C CNN
-F 3 "~" H 7100 7500 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2003132108_GLE-GCNR4030-220MC_C439349.pdf" H 7100 7500 50  0001 C CNN
+F 4 "C439349" H 7100 7500 50  0001 C CNN "LCSC"
+F 5 "GCNR4030-220MC" H 7100 7500 50  0001 C CNN "Part Number"
 	1    7100 7500
 	0    -1   -1   0   
 $EndComp
@@ -1822,7 +1868,9 @@ P 7250 7600
 F 0 "C4" H 7400 7600 50  0000 C CNN
 F 1 "330uf" H 7400 7500 50  0000 C CNN
 F 2 "Capacitor_SMD:CP_Elec_10x12.6" H 7250 7600 50  0001 C CNN
-F 3 "~" H 7250 7600 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1810181625_Lelon-OCV331M1DTR-1013_C250026.pdf" H 7250 7600 50  0001 C CNN
+F 4 "C250026" H 7250 7600 50  0001 C CNN "LCSC"
+F 5 "OCV331M1DTR-1013" H 7250 7600 50  0001 C CNN "Part Number"
 	1    7250 7600
 	1    0    0    -1  
 $EndComp
@@ -1833,7 +1881,9 @@ P 5800 7200
 F 0 "J8" H 5718 6875 50  0000 C CNN
 F 1 "01x02" H 5718 6966 50  0000 C CNN
 F 2 "TerminalBlock_4Ucon:TerminalBlock_4Ucon_1x02_P3.50mm_Horizontal" H 5800 7200 50  0001 C CNN
-F 3 "~" H 5800 7200 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1912111437_JILN-JL124D-35002G01_C415432.pdf" H 5800 7200 50  0001 C CNN
+F 4 "C415432" H 5800 7200 50  0001 C CNN "LCSC"
+F 5 "JL124D-35002G01" H 5800 7200 50  0001 C CNN "Part Number"
 	1    5800 7200
 	-1   0    0    1   
 $EndComp
@@ -1891,7 +1941,9 @@ P 7600 6800
 F 0 "C6" H 7800 6800 50  0000 C CNN
 F 1 "100nf" H 7800 6700 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 7600 6800 50  0001 C CNN
-F 3 "~" H 7600 6800 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 7600 6800 50  0001 C CNN
+F 4 "C107569" H 7600 6800 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 7600 6800 50  0001 C CNN "Part Number"
 	1    7600 6800
 	1    0    0    -1  
 $EndComp
@@ -1902,7 +1954,9 @@ P 7650 7600
 F 0 "C7" H 7800 7650 50  0000 C CNN
 F 1 "100nf" H 7850 7500 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 7650 7600 50  0001 C CNN
-F 3 "~" H 7650 7600 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 7650 7600 50  0001 C CNN
+F 4 "C107569" H 7650 7600 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 7650 7600 50  0001 C CNN "Part Number"
 	1    7650 7600
 	1    0    0    -1  
 $EndComp
@@ -1957,6 +2011,8 @@ F 0 "U4" H 8150 6942 50  0000 C CNN
 F 1 "BL8071CLATR33" H 8150 6851 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:SOT-223" H 8150 6925 50  0001 C CIN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21373C.pdf" H 8150 6400 50  0001 C CNN
+F 4 "C401677" H 8150 6700 50  0001 C CNN "LCSC"
+F 5 "BL8071CLATR33" H 8150 6700 50  0001 C CNN "Part Number"
 	1    8150 6700
 	1    0    0    -1  
 $EndComp
@@ -2099,7 +2155,9 @@ P 5800 6300
 F 0 "J7" H 5718 6517 50  0000 C CNN
 F 1 "Ext Mot Drv" H 5600 6450 50  0000 C CNN
 F 2 "TerminalBlock_4Ucon:TerminalBlock_4Ucon_1x02_P3.50mm_Horizontal" H 5800 6300 50  0001 C CNN
-F 3 "~" H 5800 6300 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1912111437_JILN-JL124D-35002G01_C415432.pdf" H 5800 6300 50  0001 C CNN
+F 4 "C415432" H 5800 6300 50  0001 C CNN "LCSC"
+F 5 "JL124D-35002G01" H 5800 6300 50  0001 C CNN "Part Number"
 	1    5800 6300
 	-1   0    0    -1  
 $EndComp
@@ -2198,7 +2256,9 @@ P 7500 5950
 F 0 "D2" H 7600 6050 50  0000 C CNN
 F 1 "Vdrive" H 7400 6050 50  0000 C CNN
 F 2 "Diode_SMD:D_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 7500 5950 50  0001 C CNN
-F 3 "~" H 7500 5950 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2008201032_Foshan-NationStar-Optoelectronics-NCD0603R1_C84263.pdf" H 7500 5950 50  0001 C CNN
+F 4 "C84263" H 7500 5950 50  0001 C CNN "LCSC"
+F 5 "NCD0603R1" H 7500 5950 50  0001 C CNN "Part Number"
 	1    7500 5950
 	-1   0    0    1   
 $EndComp
@@ -2209,7 +2269,9 @@ P 7500 6200
 F 0 "D3" H 7600 6300 50  0000 C CNN
 F 1 "5v" H 7400 6300 50  0000 C CNN
 F 2 "Diode_SMD:D_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 7500 6200 50  0001 C CNN
-F 3 "~" H 7500 6200 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2008201032_Foshan-NationStar-Optoelectronics-NCD0603R1_C84263.pdf" H 7500 6200 50  0001 C CNN
+F 4 "C84263" H 7500 6200 50  0001 C CNN "LCSC"
+F 5 "NCD0603R1" H 7500 6200 50  0001 C CNN "Part Number"
 	1    7500 6200
 	-1   0    0    1   
 $EndComp
@@ -2221,6 +2283,7 @@ F 0 "R9" V 7300 5850 50  0000 C CNN
 F 1 "1k" V 7300 6000 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 7240 5940 50  0001 C CNN
 F 3 "~" H 7200 5950 50  0001 C CNN
+F 4 "C22548" H 7200 5950 50  0001 C CNN "LCSC"
 	1    7200 5950
 	0    1    1    0   
 $EndComp
@@ -2232,6 +2295,7 @@ F 0 "R10" V 7300 6100 50  0000 C CNN
 F 1 "1k" V 7300 6250 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 7240 6190 50  0001 C CNN
 F 3 "~" H 7200 6200 50  0001 C CNN
+F 4 "C22548" H 7200 6200 50  0001 C CNN "LCSC"
 	1    7200 6200
 	0    1    1    0   
 $EndComp
@@ -2242,7 +2306,9 @@ P 8500 5950
 F 0 "D4" H 8600 6050 50  0000 C CNN
 F 1 "15v" H 8400 6050 50  0000 C CNN
 F 2 "Diode_SMD:D_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8500 5950 50  0001 C CNN
-F 3 "~" H 8500 5950 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2008201032_Foshan-NationStar-Optoelectronics-NCD0603R1_C84263.pdf" H 8500 5950 50  0001 C CNN
+F 4 "C84263" H 8500 5950 50  0001 C CNN "LCSC"
+F 5 "NCD0603R1" H 8500 5950 50  0001 C CNN "Part Number"
 	1    8500 5950
 	-1   0    0    1   
 $EndComp
@@ -2254,6 +2320,7 @@ F 0 "R11" V 8300 5850 50  0000 C CNN
 F 1 "1k" V 8300 6000 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 8240 5940 50  0001 C CNN
 F 3 "~" H 8200 5950 50  0001 C CNN
+F 4 "C22548" H 8200 5950 50  0001 C CNN "LCSC"
 	1    8200 5950
 	0    1    1    0   
 $EndComp
@@ -2264,7 +2331,9 @@ P 8500 6200
 F 0 "D5" H 8600 6300 50  0000 C CNN
 F 1 "3.3v" H 8400 6300 50  0000 C CNN
 F 2 "Diode_SMD:D_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8500 6200 50  0001 C CNN
-F 3 "~" H 8500 6200 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/2008201032_Foshan-NationStar-Optoelectronics-NCD0603R1_C84263.pdf" H 8500 6200 50  0001 C CNN
+F 4 "C84263" H 8500 6200 50  0001 C CNN "LCSC"
+F 5 "NCD0603R1" H 8500 6200 50  0001 C CNN "Part Number"
 	1    8500 6200
 	-1   0    0    1   
 $EndComp
@@ -2276,6 +2345,7 @@ F 0 "R12" V 8300 6100 50  0000 C CNN
 F 1 "1k" V 8300 6250 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 8240 6190 50  0001 C CNN
 F 3 "~" H 8200 6200 50  0001 C CNN
+F 4 "C22548" H 8200 6200 50  0001 C CNN "LCSC"
 	1    8200 6200
 	0    1    1    0   
 $EndComp
@@ -2417,6 +2487,7 @@ F 0 "R5" V 3950 5200 50  0000 C CNN
 F 1 "10k" V 3950 5350 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 3990 5590 50  0001 C CNN
 F 3 "~" H 3950 5600 50  0001 C CNN
+F 4 "C144081" H 3950 5600 50  0001 C CNN "LCSC"
 	1    3950 5600
 	0    1    1    0   
 $EndComp
@@ -2428,6 +2499,7 @@ F 0 "R6" V 4000 5300 50  0000 C CNN
 F 1 "10k" V 4000 5450 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 4040 5690 50  0001 C CNN
 F 3 "~" H 4000 5700 50  0001 C CNN
+F 4 "C144081" H 4000 5700 50  0001 C CNN "LCSC"
 	1    4000 5700
 	0    1    1    0   
 $EndComp
@@ -2439,6 +2511,7 @@ F 0 "R7" V 4050 5400 50  0000 C CNN
 F 1 "10k" V 4050 5550 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 4090 5790 50  0001 C CNN
 F 3 "~" H 4050 5800 50  0001 C CNN
+F 4 "C144081" H 4050 5800 50  0001 C CNN "LCSC"
 	1    4050 5800
 	0    1    1    0   
 $EndComp
@@ -2450,6 +2523,7 @@ F 0 "R8" V 4100 5500 50  0000 C CNN
 F 1 "10k" V 4100 5650 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 4140 5890 50  0001 C CNN
 F 3 "~" H 4100 5900 50  0001 C CNN
+F 4 "C144081" H 4100 5900 50  0001 C CNN "LCSC"
 	1    4100 5900
 	0    1    1    0   
 $EndComp
@@ -3102,7 +3176,9 @@ P 14800 7850
 F 0 "C25" V 14800 7650 50  0000 R CNN
 F 1 "100nf" V 14700 7700 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 14800 7850 50  0001 C CNN
-F 3 "~" H 14800 7850 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 14800 7850 50  0001 C CNN
+F 4 "C107569" H 14800 7850 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 14800 7850 50  0001 C CNN "Part Number"
 	1    14800 7850
 	0    -1   -1   0   
 $EndComp
@@ -3132,7 +3208,9 @@ P 14800 6450
 F 0 "C23" V 14800 6250 50  0000 R CNN
 F 1 "100nf" V 14700 6300 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 14800 6450 50  0001 C CNN
-F 3 "~" H 14800 6450 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 14800 6450 50  0001 C CNN
+F 4 "C107569" H 14800 6450 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 14800 6450 50  0001 C CNN "Part Number"
 	1    14800 6450
 	0    -1   -1   0   
 $EndComp
@@ -3158,7 +3236,9 @@ P 14800 5050
 F 0 "C21" V 14800 4850 50  0000 R CNN
 F 1 "100nf" V 14700 4900 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 14800 5050 50  0001 C CNN
-F 3 "~" H 14800 5050 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 14800 5050 50  0001 C CNN
+F 4 "C107569" H 14800 5050 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 14800 5050 50  0001 C CNN "Part Number"
 	1    14800 5050
 	0    -1   -1   0   
 $EndComp
@@ -3193,7 +3273,9 @@ P 14800 3700
 F 0 "C19" V 14800 3500 50  0000 R CNN
 F 1 "100nf" V 14700 3550 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 14800 3700 50  0001 C CNN
-F 3 "~" H 14800 3700 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 14800 3700 50  0001 C CNN
+F 4 "C107569" H 14800 3700 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 14800 3700 50  0001 C CNN "Part Number"
 	1    14800 3700
 	0    -1   -1   0   
 $EndComp
@@ -3213,7 +3295,9 @@ P 14800 2350
 F 0 "C17" V 14800 2150 50  0000 R CNN
 F 1 "100nf" V 14700 2200 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 14800 2350 50  0001 C CNN
-F 3 "~" H 14800 2350 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 14800 2350 50  0001 C CNN
+F 4 "C107569" H 14800 2350 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 14800 2350 50  0001 C CNN "Part Number"
 	1    14800 2350
 	0    -1   -1   0   
 $EndComp
@@ -3233,7 +3317,9 @@ P 14800 1000
 F 0 "C15" V 14800 800 50  0000 R CNN
 F 1 "100nf" V 14800 650 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 14800 1000 50  0001 C CNN
-F 3 "~" H 14800 1000 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 14800 1000 50  0001 C CNN
+F 4 "C107569" H 14800 1000 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 14800 1000 50  0001 C CNN "Part Number"
 	1    14800 1000
 	0    -1   -1   0   
 $EndComp
@@ -3338,6 +3424,7 @@ F 0 "R1" V 3200 4850 50  0000 C CNN
 F 1 "1k" V 3200 5000 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 3140 4940 50  0001 C CNN
 F 3 "~" H 3100 4950 50  0001 C CNN
+F 4 "C22548" H 3100 4950 50  0001 C CNN "LCSC"
 	1    3100 4950
 	0    1    1    0   
 $EndComp
@@ -3349,6 +3436,7 @@ F 0 "R2" V 3200 5000 50  0000 C CNN
 F 1 "1k" V 3200 5150 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 3140 5090 50  0001 C CNN
 F 3 "~" H 3100 5100 50  0001 C CNN
+F 4 "C22548" H 3100 5100 50  0001 C CNN "LCSC"
 	1    3100 5100
 	0    1    1    0   
 $EndComp
@@ -3360,6 +3448,7 @@ F 0 "R3" V 3200 5150 50  0000 C CNN
 F 1 "1k" V 3200 5300 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 3140 5240 50  0001 C CNN
 F 3 "~" H 3100 5250 50  0001 C CNN
+F 4 "C22548" H 3100 5250 50  0001 C CNN "LCSC"
 	1    3100 5250
 	0    1    1    0   
 $EndComp
@@ -3371,6 +3460,7 @@ F 0 "R4" V 3200 5300 50  0000 C CNN
 F 1 "1k" V 3200 5450 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 3140 5390 50  0001 C CNN
 F 3 "~" H 3100 5400 50  0001 C CNN
+F 4 "C22548" H 3100 5400 50  0001 C CNN "LCSC"
 	1    3100 5400
 	0    1    1    0   
 $EndComp
@@ -3429,7 +3519,9 @@ P 5450 1300
 F 0 "C2" V 5500 1050 50  0000 C CNN
 F 1 "100nf" V 5400 1050 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 5450 1300 50  0001 C CNN
-F 3 "~" H 5450 1300 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811151223_Walsin-Tech-Corp-0603B104M250CT_C107569.pdf" H 5450 1300 50  0001 C CNN
+F 4 "C107569" H 5450 1300 50  0001 C CNN "LCSC"
+F 5 "0603B104M250CT" H 5450 1300 50  0001 C CNN "Part Number"
 	1    5450 1300
 	0    -1   -1   0   
 $EndComp
@@ -3457,17 +3549,6 @@ F 3 "" H 6250 7100 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6100 7100 6250 7100
-$Comp
-L Mechanical:MountingHole_Pad H8
-U 1 1 60466A12
-P 5950 7400
-F 0 "H8" V 5950 7650 50  0000 R CNN
-F 1 "~" H 5850 7448 50  0000 R CNN
-F 2 "Connector_Pin:Pin_D0.9mm_L10.0mm_W2.4mm_FlatFork" H 5950 7400 50  0001 C CNN
-F 3 "~" H 5950 7400 50  0001 C CNN
-	1    5950 7400
-	0    -1   -1   0   
-$EndComp
 $Comp
 L Mechanical:MountingHole_Pad H10
 U 1 1 6055B907
@@ -3769,4 +3850,15 @@ Wire Wire Line
 	6400 6150 6400 6100
 Wire Bus Line
 	9500 1650 9500 5450
+$Comp
+L Mechanical:MountingHole_Pad H8
+U 1 1 60466A12
+P 5950 7400
+F 0 "H8" V 5950 7650 50  0000 R CNN
+F 1 "~" H 5850 7448 50  0000 R CNN
+F 2 "Connector_Pin:Pin_D0.9mm_L10.0mm_W2.4mm_FlatFork" H 5950 7400 50  0001 C CNN
+F 3 "~" H 5950 7400 50  0001 C CNN
+	1    5950 7400
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC

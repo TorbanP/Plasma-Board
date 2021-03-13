@@ -605,19 +605,6 @@ Wire Wire Line
 Wire Wire Line
 	3950 2450 4350 2450
 Connection ~ 4350 2450
-$Comp
-L 8P8C_Shielded:8P8C_Shielded J4
-U 1 1 600B48EF
-P 8150 1550
-F 0 "J4" H 7950 2100 50  0000 R CNN
-F 1 "Limit" H 8000 2200 50  0000 R CNN
-F 2 "Connector_RJ:RJ45_BEL_SS74301-00x_Vertical" V 8150 1575 50  0001 C CNN
-F 3 "https://datasheet.lcsc.com/szlcsc/1811141123_Shanghai-YDS-Tech-51F-1210GY2D2NL_C179768.pdf" V 8150 1575 50  0001 C CNN
-F 4 "C179768" H 8150 1550 50  0001 C CNN "LCSC"
-F 5 "51F-1210GY2D2NL" H 8150 1550 50  0001 C CNN "PN"
-	1    8150 1550
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	8150 950  8700 950 
 Wire Wire Line
@@ -643,19 +630,6 @@ F 4 "G6E-134P-ST-US-DC12" H 3100 2250 50  0001 C CNN "PN"
 F 5 "C469134" H 3100 2250 50  0001 C CNN "LCSC"
 	1    3100 2250
 	-1   0    0    1   
-$EndComp
-$Comp
-L 8P8C_Shielded:8P8C_Shielded J1
-U 1 1 600A1FE7
-P 1900 2050
-F 0 "J1" H 1700 2600 50  0000 R CNN
-F 1 "Torch" H 1750 2700 50  0000 R CNN
-F 2 "Connector_RJ:RJ45_BEL_SS74301-00x_Vertical" V 1900 2075 50  0001 C CNN
-F 3 "https://datasheet.lcsc.com/szlcsc/1811141123_Shanghai-YDS-Tech-51F-1210GY2D2NL_C179768.pdf" V 1900 2075 50  0001 C CNN
-F 4 "C179768" H 1900 2050 50  0001 C CNN "LCSC"
-F 5 "51F-1210GY2D2NL" H 1900 2050 50  0001 C CNN "PN"
-	1    1900 2050
-	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	2300 2350 2500 2350
@@ -799,19 +773,6 @@ Wire Wire Line
 Connection ~ 3050 1000
 Wire Wire Line
 	3050 1000 3250 1000
-$Comp
-L 8P8C_Shielded:8P8C_Shielded J8
-U 1 1 6023A990
-P 5800 4250
-F 0 "J8" H 5600 4800 50  0000 R CNN
-F 1 "Torch" H 5650 4900 50  0000 R CNN
-F 2 "Connector_RJ:RJ45_BEL_SS74301-00x_Vertical" V 5800 4275 50  0001 C CNN
-F 3 "https://datasheet.lcsc.com/szlcsc/1811141123_Shanghai-YDS-Tech-51F-1210GY2D2NL_C179768.pdf" V 5800 4275 50  0001 C CNN
-F 4 "C179768" H 5800 4250 50  0001 C CNN "LCSC"
-F 5 "51F-1210GY2D2NL" H 5800 4250 50  0001 C CNN "PN"
-	1    5800 4250
-	0    1    -1   0   
-$EndComp
 Wire Wire Line
 	5500 3150 5500 3250
 Wire Wire Line
@@ -845,10 +806,6 @@ Wire Wire Line
 Wire Wire Line
 	6400 3850 6400 4150
 Connection ~ 6400 4150
-Wire Wire Line
-	5300 4250 5300 4150
-Wire Wire Line
-	5300 4150 6400 4150
 Wire Notes Line
 	7550 2850 7550 4650
 Wire Notes Line
@@ -2107,4 +2064,137 @@ Connection ~ 5500 3250
 NoConn ~ 7150 3150
 Wire Wire Line
 	4500 5400 4500 5250
+$Comp
+L 8P8C_Shielded:8P8C_Shielded_Custom J1
+U 1 1 600A1FE7
+P 1900 2050
+F 0 "J1" H 1700 2600 50  0000 R CNN
+F 1 "Torch" H 1750 2700 50  0000 R CNN
+F 2 "RJHSE-3380:RJHSE3384" V 1900 2075 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811141123_Shanghai-YDS-Tech-51F-1210GY2D2NL_C179768.pdf" V 1900 2075 50  0001 C CNN
+F 4 "C179768" H 1900 2050 50  0001 C CNN "LCSC"
+F 5 "51F-1210GY2D2NL" H 1900 2050 50  0001 C CNN "PN"
+	1    1900 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L 8P8C_Shielded:8P8C_Shielded_Custom J8
+U 1 1 6023A990
+P 5800 4250
+F 0 "J8" H 5600 4800 50  0000 R CNN
+F 1 "Torch" H 5650 4900 50  0000 R CNN
+F 2 "RJHSE-3380:RJHSE3384" V 5800 4275 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811141123_Shanghai-YDS-Tech-51F-1210GY2D2NL_C179768.pdf" V 5800 4275 50  0001 C CNN
+F 4 "C179768" H 5800 4250 50  0001 C CNN "LCSC"
+F 5 "51F-1210GY2D2NL" H 5800 4250 50  0001 C CNN "PN"
+	1    5800 4250
+	0    1    -1   0   
+$EndComp
+$Comp
+L 8P8C_Shielded:8P8C_Shielded_Custom J4
+U 1 1 600B48EF
+P 8150 1550
+F 0 "J4" H 7950 2100 50  0000 R CNN
+F 1 "Limit" H 8000 2200 50  0000 R CNN
+F 2 "RJHSE-3380:RJHSE3384" V 8150 1575 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/1811141123_Shanghai-YDS-Tech-51F-1210GY2D2NL_C179768.pdf" V 8150 1575 50  0001 C CNN
+F 4 "C179768" H 8150 1550 50  0001 C CNN "LCSC"
+F 5 "51F-1210GY2D2NL" H 8150 1550 50  0001 C CNN "PN"
+	1    8150 1550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7600 1900 7650 1900
+Wire Wire Line
+	7600 1900 7600 1800
+Wire Wire Line
+	7600 1800 7650 1800
+Connection ~ 7600 1900
+Wire Wire Line
+	7600 1800 7600 1200
+Wire Wire Line
+	7600 1200 7650 1200
+Connection ~ 7600 1800
+Wire Wire Line
+	7600 1200 7600 1100
+Wire Wire Line
+	7600 1100 7650 1100
+Connection ~ 7600 1200
+Wire Wire Line
+	5450 4750 5450 4800
+Wire Wire Line
+	5450 4800 5550 4800
+Wire Wire Line
+	6250 4750 6250 4800
+Connection ~ 6250 4800
+Wire Wire Line
+	6150 4750 6150 4800
+Connection ~ 6150 4800
+Wire Wire Line
+	6150 4800 6250 4800
+Wire Wire Line
+	5550 4750 5550 4800
+Connection ~ 5550 4800
+Wire Wire Line
+	5550 4800 6150 4800
+Wire Wire Line
+	1400 1600 1350 1600
+Wire Wire Line
+	1350 1600 1350 1700
+Wire Wire Line
+	1350 1700 1400 1700
+Wire Wire Line
+	1350 1700 1350 2300
+Connection ~ 1350 1700
+Wire Wire Line
+	1400 2300 1350 2300
+Connection ~ 1350 2300
+Wire Wire Line
+	1350 2300 1350 2400
+Wire Wire Line
+	1400 2400 1350 2400
+Connection ~ 1350 2400
+Wire Wire Line
+	1900 2650 1350 2650
+Wire Wire Line
+	1350 2400 1350 2650
+Connection ~ 1900 2650
+Wire Wire Line
+	6400 4250 6400 4800
+Wire Wire Line
+	6250 4800 6400 4800
+Connection ~ 6400 4250
+Wire Wire Line
+	5300 4250 5250 4250
+Wire Wire Line
+	5250 4250 5250 4150
+Wire Wire Line
+	5250 4150 6400 4150
+Wire Wire Line
+	8150 2050 7600 2050
+Wire Wire Line
+	7600 1900 7600 2050
+Connection ~ 8150 2050
+$Comp
+L Mechanical:MountingHole H1
+U 1 1 60B08E8A
+P 7400 -1050
+F 0 "H1" H 7500 -1004 50  0000 L CNN
+F 1 "MountingHole" H 7500 -1095 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 7400 -1050 50  0001 C CNN
+F 3 "~" H 7400 -1050 50  0001 C CNN
+	1    7400 -1050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H2
+U 1 1 60B5F657
+P 7400 -800
+F 0 "H2" H 7500 -754 50  0000 L CNN
+F 1 "MountingHole" H 7500 -845 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 7400 -800 50  0001 C CNN
+F 3 "~" H 7400 -800 50  0001 C CNN
+	1    7400 -800
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

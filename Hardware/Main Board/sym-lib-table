@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name BDringController-rescue)(type Legacy)(uri ${KIPRJMOD}/BDringController-rescue.lib)(options "")(descr ""))
+)

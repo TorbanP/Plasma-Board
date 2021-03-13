@@ -102,12 +102,12 @@ F 3 "" H 13750 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L BDringController-rescue:ESP32_38p-My_Library U3
+L My_Library:ESP32_38p U3
 U 1 1 5FF3DD1B
 P 8050 3250
 F 0 "U3" V 9515 3300 50  0000 C CNN
 F 1 "ESP32_38p" V 9424 3300 50  0000 C CNN
-F 2 "Modules:ESP32_38p" H 8050 3250 50  0001 C CNN
+F 2 "Libraries - Plasma-Board:ESP32_38p" H 8050 3250 50  0001 C CNN
 F 3 "" H 8050 3250 50  0001 C CNN
 	1    8050 3250
 	0    -1   -1   0   
@@ -1286,12 +1286,12 @@ Connection ~ 14350 1300
 Text Notes 7900 5550 2    118  ~ 24
 GRBL ESP32
 $Comp
-L BDringController-rescue:ESP32_38p-My_Library U1
+L My_Library:ESP32_38p U1
 U 1 1 60718252
 P 4450 2500
 F 0 "U1" V 5915 2550 50  0000 C CNN
 F 1 "ESP32_38p" V 5824 2550 50  0000 C CNN
-F 2 "Modules:ESP32_38p" H 4450 2500 50  0001 C CNN
+F 2 "Libraries - Plasma-Board:ESP32_38p" H 4450 2500 50  0001 C CNN
 F 3 "" H 4450 2500 50  0001 C CNN
 	1    4450 2500
 	0    -1   -1   0   
@@ -3417,7 +3417,7 @@ U 1 1 5FF51A08
 P 6200 3400
 F 0 "J9" H 6257 4067 50  0000 C CNN
 F 1 "THC_Display" H 6257 3976 50  0000 C CNN
-F 2 "Modules:RJ45_BEL_SS74301-00x_Vertical" V 6200 3425 50  0001 C CNN
+F 2 "Connector_RJ:RJ45_OST_PJ012-8P8CX_Vertical" V 6200 3425 50  0001 C CNN
 F 3 "~" V 6200 3425 50  0001 C CNN
 	1    6200 3400
 	-1   0    0    1   
@@ -3674,17 +3674,6 @@ Wire Wire Line
 Wire Wire Line
 	6500 6200 6500 6150
 Connection ~ 6500 6150
-$Comp
-L power:+5V #PWR0101
-U 1 1 6072477D
-P 2600 4000
-F 0 "#PWR0101" H 2600 3850 50  0001 C CNN
-F 1 "+5V" H 2615 4173 50  0000 C CNN
-F 2 "" H 2600 4000 50  0001 C CNN
-F 3 "" H 2600 4000 50  0001 C CNN
-	1    2600 4000
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	5400 3200 5400 3800
 Wire Wire Line
@@ -3775,9 +3764,9 @@ F 3 "~" H 6350 6150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6350 6150 6400 6150
-Wire Bus Line
-	9500 1650 9500 5450
 Connection ~ 6400 6150
 Wire Wire Line
 	6400 6150 6400 6100
+Wire Bus Line
+	9500 1650 9500 5450
 $EndSCHEMATC

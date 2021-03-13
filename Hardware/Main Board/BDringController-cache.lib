@@ -37,11 +37,11 @@ X QH' 9 400 -500 100 L 50 50 1 0 O
 ENDDRAW
 ENDDEF
 #
-# BDringController-rescue_74LVC157A-My_Library
+# BDringController-rescue_74LVC157A-My_Library-BDringController-rescue
 #
-DEF BDringController-rescue_74LVC157A-My_Library U 0 30 Y Y 1 F N
+DEF BDringController-rescue_74LVC157A-My_Library-BDringController-rescue U 0 30 Y Y 1 F N
 F0 "U" 300 400 50 H V C CNN
-F1 "BDringController-rescue_74LVC157A-My_Library" 50 -600 50 H V C CNN
+F1 "BDringController-rescue_74LVC157A-My_Library-BDringController-rescue" 50 -600 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -65,11 +65,11 @@ X Qc 9 350 -250 150 L 50 50 1 1 O
 ENDDRAW
 ENDDEF
 #
-# BDringController-rescue_DC-DC_BuckAdg-My_Library
+# BDringController-rescue_DC-DC_BuckAdg-My_Library-BDringController-rescue
 #
-DEF BDringController-rescue_DC-DC_BuckAdg-My_Library PS 0 20 Y Y 1 F N
+DEF BDringController-rescue_DC-DC_BuckAdg-My_Library-BDringController-rescue PS 0 20 Y Y 1 F N
 F0 "PS" -50 250 50 H V L CNN
-F1 "BDringController-rescue_DC-DC_BuckAdg-My_Library" -300 -250 50 H V L CNN
+F1 "BDringController-rescue_DC-DC_BuckAdg-My_Library-BDringController-rescue" -300 -250 50 H V L CNN
 F2 "" -1050 -250 50 H I L CNN
 F3 "" 1050 -300 50 H I L CNN
 $FPLIST
@@ -88,11 +88,61 @@ X -Vout 4 400 -100 100 L 50 50 0 0 W
 ENDDRAW
 ENDDEF
 #
-# BDringController-rescue_IO_connector-My_Library
+# BDringController-rescue_ESP32_38p-My_Library
 #
-DEF BDringController-rescue_IO_connector-My_Library J 0 40 Y Y 1 F N
+DEF BDringController-rescue_ESP32_38p-My_Library U 0 40 Y Y 1 F N
+F0 "U" -250 50 50 H V C CNN
+F1 "BDringController-rescue_ESP32_38p-My_Library" 550 50 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+P 5 0 1 0 -700 -250 1300 -250 1300 350 -700 350 -700 -250 f
+X SCK 1 -600 -350 100 U 50 50 1 1 B
+X IO5 10 300 -350 100 U 50 50 1 1 B
+X IO18 11 400 -350 100 U 50 50 1 1 B
+X IO19 12 500 -350 100 U 50 50 1 1 B
+X GND 13 600 -350 100 U 50 50 1 1 W
+X IO21 14 700 -350 100 U 50 50 1 1 B
+X RXD 15 800 -350 100 U 50 50 1 1 B
+X TXD 16 900 -350 100 U 50 50 1 1 B
+X IO22 17 1000 -350 100 U 50 50 1 1 B
+X IO23 18 1100 -350 100 U 50 50 1 1 B
+X GND 19 1200 -350 100 U 50 50 1 1 W
+X SDO 2 -500 -350 100 U 50 50 1 1 B
+X 3.3V 20 1200 450 100 D 50 50 1 1 B
+X RST 21 1100 450 100 D 50 50 1 1 B
+X IO36 22 1000 450 100 D 50 50 1 1 B
+X IO39 23 900 450 100 D 50 50 1 1 B
+X IO34 24 800 450 100 D 50 50 1 1 B
+X IO35 25 700 450 100 D 50 50 1 1 B
+X IO32 26 600 450 100 D 50 50 1 1 B
+X IO33 27 500 450 100 D 50 50 1 1 B
+X IO25 28 400 450 100 D 50 50 1 1 B
+X IO26 29 300 450 100 D 50 50 1 1 B
+X SDI 3 -400 -350 100 U 50 50 1 1 B
+X IO27 30 200 450 100 D 50 50 1 1 B
+X IO14 31 100 450 100 D 50 50 1 1 B
+X IO12 32 0 450 100 D 50 50 1 1 B
+X GND 33 -100 450 100 D 50 50 1 1 W
+X IO13 34 -200 450 100 D 50 50 1 1 B
+X IO9 35 -300 450 100 D 50 50 1 1 B
+X IO10 36 -400 450 100 D 50 50 1 1 B
+X IO11 37 -500 450 100 D 50 50 1 1 B
+X VIN 38 -600 450 100 D 50 50 1 1 W
+X IO15 4 -300 -350 100 U 50 50 1 1 B
+X IO2 5 -200 -350 100 U 50 50 1 1 B
+X IO0 6 -100 -350 100 U 50 50 1 1 B
+X IO4 7 0 -350 100 U 50 50 1 1 B
+X IO16 8 100 -350 100 U 50 50 1 1 B
+X IO17 9 200 -350 100 U 50 50 1 1 B
+ENDDRAW
+ENDDEF
+#
+# BDringController-rescue_IO_connector-My_Library-BDringController-rescue
+#
+DEF BDringController-rescue_IO_connector-My_Library-BDringController-rescue J 0 40 Y Y 1 F N
 F0 "J" 0 150 50 H V C CNN
-F1 "BDringController-rescue_IO_connector-My_Library" 0 0 50 H V C CNN
+F1 "BDringController-rescue_IO_connector-My_Library-BDringController-rescue" 0 0 50 H V C CNN
 F2 "" -100 -50 50 H I C CNN
 F3 "" -100 -50 50 H I C CNN
 DRAW
@@ -113,11 +163,11 @@ X 6 9 -250 -350 100 U 50 50 1 1 I
 ENDDRAW
 ENDDEF
 #
-# BDringController-rescue_Motor_driver-My_Library
+# BDringController-rescue_Motor_driver-My_Library-BDringController-rescue
 #
-DEF BDringController-rescue_Motor_driver-My_Library U 0 40 Y Y 1 F N
+DEF BDringController-rescue_Motor_driver-My_Library-BDringController-rescue U 0 40 Y Y 1 F N
 F0 "U" 0 -300 50 H V C CNN
-F1 "BDringController-rescue_Motor_driver-My_Library" 0 -400 50 H V C CNN
+F1 "BDringController-rescue_Motor_driver-My_Library-BDringController-rescue" 0 -400 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -525,56 +575,6 @@ $ENDFPLIST
 DRAW
 C 0 50 50 0 1 50 N
 X 1 1 0 -100 100 U 50 50 1 1 I
-ENDDRAW
-ENDDEF
-#
-# My_Library_ESP32_38p
-#
-DEF My_Library_ESP32_38p U 0 40 Y Y 1 F N
-F0 "U" -250 50 50 H V C CNN
-F1 "My_Library_ESP32_38p" 550 50 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-DRAW
-P 5 0 1 0 -700 -250 1300 -250 1300 350 -700 350 -700 -250 f
-X SCK 1 -600 -350 100 U 50 50 1 1 B
-X IO5 10 300 -350 100 U 50 50 1 1 B
-X IO18 11 400 -350 100 U 50 50 1 1 B
-X IO19 12 500 -350 100 U 50 50 1 1 B
-X GND 13 600 -350 100 U 50 50 1 1 W
-X IO21 14 700 -350 100 U 50 50 1 1 B
-X RXD 15 800 -350 100 U 50 50 1 1 B
-X TXD 16 900 -350 100 U 50 50 1 1 B
-X IO22 17 1000 -350 100 U 50 50 1 1 B
-X IO23 18 1100 -350 100 U 50 50 1 1 B
-X GND 19 1200 -350 100 U 50 50 1 1 W
-X SDO 2 -500 -350 100 U 50 50 1 1 B
-X 3.3V 20 1200 450 100 D 50 50 1 1 B
-X RST 21 1100 450 100 D 50 50 1 1 B
-X IO36 22 1000 450 100 D 50 50 1 1 B
-X IO39 23 900 450 100 D 50 50 1 1 B
-X IO34 24 800 450 100 D 50 50 1 1 B
-X IO35 25 700 450 100 D 50 50 1 1 B
-X IO32 26 600 450 100 D 50 50 1 1 B
-X IO33 27 500 450 100 D 50 50 1 1 B
-X IO25 28 400 450 100 D 50 50 1 1 B
-X IO26 29 300 450 100 D 50 50 1 1 B
-X SDI 3 -400 -350 100 U 50 50 1 1 B
-X IO27 30 200 450 100 D 50 50 1 1 B
-X IO14 31 100 450 100 D 50 50 1 1 B
-X IO12 32 0 450 100 D 50 50 1 1 B
-X GND 33 -100 450 100 D 50 50 1 1 W
-X IO13 34 -200 450 100 D 50 50 1 1 B
-X IO9 35 -300 450 100 D 50 50 1 1 B
-X IO10 36 -400 450 100 D 50 50 1 1 B
-X IO11 37 -500 450 100 D 50 50 1 1 B
-X VIN 38 -600 450 100 D 50 50 1 1 W
-X IO15 4 -300 -350 100 U 50 50 1 1 B
-X IO2 5 -200 -350 100 U 50 50 1 1 B
-X IO0 6 -100 -350 100 U 50 50 1 1 B
-X IO4 7 0 -350 100 U 50 50 1 1 B
-X IO16 8 100 -350 100 U 50 50 1 1 B
-X IO17 9 200 -350 100 U 50 50 1 1 B
 ENDDRAW
 ENDDEF
 #
