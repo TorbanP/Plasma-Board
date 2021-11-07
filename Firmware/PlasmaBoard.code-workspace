@@ -1,16 +1,16 @@
 {
 	"folders": [
 		{
-			"path": "Grbl_Esp32"
-		},
-		{
-			"path": "THC"
-		},
-		{
 			"path": "Nextion Display"
 		},
 		{
 			"path": "THC_ext_A-D"
+		},
+		{
+			"path": "FluidNC-3.2.3"
+		},
+		{
+			"path": "THC"
 		}
 	],
 	"settings": {

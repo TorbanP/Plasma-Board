@@ -2,8 +2,8 @@
 // clang-format off
 
 /*
-    6_pack_extrenal_XYYZ_1SWXYZ_2SWHSRP_3MosfetMistFlood_4_10VSpin.h
-
+    6_pack_extrenal_XYZY_Spin_Relay
+    "1_6_pack_Clearpath_XYZY.h"
     Covers all V1 versions V1p0, V1p1, etc
 
     Part of Grbl_ESP32
@@ -22,7 +22,7 @@
     You should have received a copy of the GNU General Public License
     along with Grbl_ESP32.  If not, see <http://www.gnu.org/licenses/>.
 */
-#define MACHINE_NAME            "1Our 6 Pack External XYYZ"
+#define MACHINE_NAME           "1Our 6 Pack External XYYZ"
 
 #define N_AXIS 3
 
@@ -64,9 +64,9 @@
 #define Y2_STEP_PIN              I2SO(14)
 
 // Motor Socket #3
-#define Z_DIRECTION_PIN         I2SO(15)
-#define Z_STEP_PIN              I2SO(1)
-#define Z_DISABLE_PIN           I2SO(2)
+#define Z_DIRECTION_PIN         I2SO(8)
+#define Z_STEP_PIN              I2SO(9)
+#define Z_DISABLE_PIN           I2SO(10)
 //Socket I/O reference
 // === Default settings
 #define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE
@@ -110,13 +110,17 @@ Socket #2
 #1 GPIO_NUM_2
 #2 GPIO_NUM_25
 #3 GPIO_NUM_39 (input only)
-#4 GPIO_NUM_36 (input only)
+#4 GPIO_NUM_36 (inTCH_GPIO_NUM_put only)
 
 Socket #3
 #1 GPIO_NUM_26
 #2 GPIO_NUM_4
 #3 GPIO_NUM_16
 #4 GPIO_NUM_27
+#5 TCH_GPIO_NUM_14
+#6 TCH_GPIO_NUM_12
+#7 TCH_GPIO_NUM_36
+#8 TCH_GPIO_NUM_32
 
 Socket #4
 #1 GPIO_NUM_14

@@ -2,7 +2,7 @@
 // clang-format off
 
 /*
-    6_pack_stepstick_XYZ_v1.h
+    6_pack_Std_XYZ_1_SwXYZ_3_10V_Spin_4_Relay_Mist_v1.h
 
     Covers all V1 versions V1p0, V1p1, etc
 
@@ -22,7 +22,7 @@
     You should have received a copy of the GNU General Public License
     along with Grbl_ESP32.  If not, see <http://www.gnu.org/licenses/>.
 */
-#define MACHINE_NAME            "6 Pack Controller StepStick XYZ"
+#define MACHINE_NAME            "6 Pack Std XYZ 1_SwXYZ 3_10V_Spin 4_Relay_Mist"
 
 #ifdef N_AXIS
         #undef N_AXIS
@@ -61,9 +61,6 @@
 #define X_STEPPER_MS3           I2SO(3)   // X_CS
 #define Y_STEPPER_MS3           I2SO(6)   // Y_CS
 #define Z_STEPPER_MS3           I2SO(11)  // Z_CS
-#define A_STEPPER_MS3           I2SO(14)  // A_CS
-#define B_STEPPER_MS3           I2SO(19)  // B_CS
-#define C_STEPPER_MS3           I2SO(22)  // C_CS
 
 #define STEPPER_RESET           GPIO_NUM_19
 
@@ -78,8 +75,6 @@
 #define Z_DISABLE_PIN           I2SO(8)
 #define Z_DIRECTION_PIN         I2SO(9)
 #define Z_STEP_PIN              I2SO(10)
-
-
 
 
 /*
@@ -122,13 +117,18 @@
 // #2 GPIO_NUM_25  (output only)
 // #3 GPIO_NUM_26  (output only)
 // #4 GPIO_NUM_27  (output only)
- 
+
+// Socket #1 Input
 #define X_LIMIT_PIN             GPIO_NUM_33
 #define Y_LIMIT_PIN             GPIO_NUM_32
 #define Z_LIMIT_PIN             GPIO_NUM_35
 #define PROBE_PIN               GPIO_NUM_34
 
-#define DEFAULT_X_STEPS_PER_MM  800
-#define DEFAULT_Y_STEPS_PER_MM  800
-#define DEFAULT_Z_STEPS_PER_MM  800
+// when used in socket #3
+#define SPINDLE_TYPE            SpindleType::_10V
+#define SPINDLE_OUTPUT_PIN      GPIO_NUM_26
+#define SPINDLE_FORWARD_PIN     GPIO_NUM_4
+#define SPINDLE_REVERSE_PIN     GPIO_NUM_16
 
+// Relay module as Mist on CNC I/O Module socket #4
+#define COOLANT_MIST_PIN  GPIO_NUM_14 // Relay for Mist on module socket #4
