@@ -2175,4 +2175,26 @@ Wire Wire Line
 Wire Wire Line
 	7600 1900 7600 2050
 Connection ~ 8150 2050
+$Comp
+L Mechanical:MountingHole H1
+U 1 1 60B08E8A
+P 7400 -1050
+F 0 "H1" H 7500 -1004 50  0000 L CNN
+F 1 "MountingHole" H 7500 -1095 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 7400 -1050 50  0001 C CNN
+F 3 "~" H 7400 -1050 50  0001 C CNN
+	1    7400 -1050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H2
+U 1 1 60B5F657
+P 7400 -800
+F 0 "H2" H 7500 -754 50  0000 L CNN
+F 1 "MountingHole" H 7500 -845 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 7400 -800 50  0001 C CNN
+F 3 "~" H 7400 -800 50  0001 C CNN
+	1    7400 -800
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
