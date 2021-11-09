@@ -1,4 +1,5 @@
 
+
 /*
     Torch Height Controller
     Copyright (C)2020  by Jeremiah Hale - HaleDesignTech - Principal Engineer
@@ -6,17 +7,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+   
   Software Version: 1.0.0
   Compatible with THC Nextion Screen Firmware Version: 1.0.0
   Aim:
   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Arduino based THC that reads 50:1 or 16:1 plasma voltage and send Up and Down signals to Plasma Torch Actuator to adjust voltage to target value.
+  ESP32 based THC that reads 50:1 or 16:1 plasma voltage and send Up and Down signals to Plasma Torch Actuator to adjust voltage to target value.
   Description:
   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   It's important for a plasma arc to be stable and be a set height from the workpiece to be cut.
@@ -35,17 +31,10 @@
   Don't Die.
   Hardware:
   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Arduino: Mega2560
+  ESP32
   Nextion HMI Screen: NX4832T035_011
-  Makerbase: MKS TMC2160-OC V1.0
-  2 Fans(overkill I know): 40 x 40 x 10mm 4010 Brushless DC Cooling Fan 12v
-  Aluminum Electrolytic Capacitor(optional): Nichicon USA1H010MDD1TE 1µF 50V Aluminum Electrolytic Capacitors Radial
-  Input Connector: Cat5e Ethernet RJ-45 Keystone Jack
-  Output Connector: Cat5e Ethernet RJ-45 Keystone Jack
-  Power: 10v 5Amp DC barrel jack
-  PC diagnostic: USB A - USB B
-  Donate:
-  https://www.patreon.com/HaleDesign
+  Barton Dring modified 6 pack controller
+ 
   More info:
   https://github.com/HaleDesign/TorchHeightController
   http://hdt.xyz
@@ -70,7 +59,7 @@
   Version Used: v1.0.4
   AccelStepper
   by Mike McMauley
-  INSTALL
+  INSTALL check
   The AccelStepper is available in the Arduino IDE Library Manager
   More info
   From: http://www.airspayce.com/mikem/arduino/AccelStepper/
@@ -79,44 +68,42 @@
   Arc Voltage, conservative P I D parameters, aggressive P I D parameters, Gap(amount away from setpoint for Agg/Con PID Settings), Arc Voltage Setpoint, ArcStablizeDelay, and Z axes bountray limits.
 */
 
-//check hardware
-/*#if !defined(__AVR_ATmega2560__)
-    #error Not a Mega2560!
-#endif*/
+
 #include <Arduino.h>
 #include <FastPID.h>              // Include PID Library     
 #include <EasyNextionLibrary.h>   // Include EasyNextionLibrary
 #include <AccelStepper.h>
-#include <EEPROM.h>
+#include <Preferences.h>
 
-// the variables to be using be the code below
+Preferences preferences;
 
-EasyNex THCNex(Serial1); // Create an object of EasyNex class with the name < TCHNex >
-// Set as parameter the Serial1 for Mega2560 you are going to use
+EasyNex THCNex(Serial2); // Create an object of EasyNex class with the name < TCHNex >
+// Set as parameter the Serial2 for ESP32 you are going to use
 // Default baudrate 9600
 
-#define Plasma_Trigger 32   //Trigger Plasma and switch Z control
+#define RXD2 16
+#define TXD2 17  
+#define Plasma_Trigger 32   //Trigger Plasma 
 #define Feed_Hold 33
 #define Feed_Start 25
 #define Torch_Ready 14
-#define PLASMA_INPUT_PIN 36   //THC GPIO 36 Analog voltage
+#define PLASMA_INPUT_PIN 36  //THC GPIO 36 Analog voltage
 #define ENABLE_PIN 19     // Enable GPIO Clearpath Z
 #define Handover 12        //Start Handover of Z axis control from GRBL 
 #define STEP_PIN 23      // Direction GPIO 23
 #define DIR_PIN 18       // Step GPIO 18
-#define LED_BUILTIN 2
-//MKS Drive board enable pin in 13
-//No need to define because it uses the onboard LED on the Arduino Uno R3
+#define Enable 2          // Led
+
 
 // Define a stepper driver and the pins it will use
 AccelStepper stepper = AccelStepper(stepper.DRIVER, STEP_PIN, DIR_PIN);
 
 //Define Variables
-double Input = 0;
-float targetInput;
-float gap;
+double Input = 0; //Plasma input voltage
+float targetInput; //
+float gap; //close enough buffer
 float scale;
-long threshold;
+long threshold;  //Set above background noise
 long currentGap;
 uint32_t oldDelay;
 uint32_t arcStabilizeDelay;
@@ -125,36 +112,14 @@ long CalibrationOffset = 0;
 
 
 //Specify the links and initial tuning parameters
-float aggKp = 0.175, aggKi = 0.1, aggKd = 0.1;
-float Kp = 0.075, Ki = 0.01, Kd = 0.01;
+float_t aggKp = 0.175, aggKi = 0.1, aggKd = 0.1;
+float_t Kp = 0.075, Ki = 0.01, Kd = 0.01;
 float Hz = 8;
 int output_bits = 16;
 bool output_signed = true;
 bool alreadySetColor = false;
 
 FastPID THCPID(Kp, Ki, Kd, Hz, output_bits, output_signed);
-
-// Set EEPROM Addresses for Setpoint saving
-int addressPage1 = 10;
-int addressPage2 = 20;
-int addressPage3 = 30;
-int addressPage4 = 40;
-int addressPage5 = 50;
-int addressPage6 = 60;
-int addressGap = 70;
-int addressThreshold = 80;
-int addressDelay = 90;
-int addressSteps = 100;
-int addressCalibrate = 110;
-int addressMaxpos = 120;
-int addressMinpos = 130;
-int addressAP = 200;
-int addressAI = 300;
-int addressAD = 400;
-int addressCP = 500;
-int addressCI = 600;
-int addressCD = 700;
-int addressScale = 800;
 
 long defaultSetpoint = 10900;
 
@@ -165,13 +130,15 @@ long SetpointPage4 = 0;
 long SetpointPage5 = 0;
 long SetpointPage6 = 0;
 
-
 long CurrentPageNumber = 0;
 long SavedPage = 0;
 
 //movement
 long steps_per_mm = 200;
 float pos = 0;
+float oldpos = 0;
+float buffer = 100;
+     
 float adjpos = 0;
 long minPos = -(40 * steps_per_mm);
 long maxPos = (40 * steps_per_mm);
@@ -180,91 +147,36 @@ uint8_t output = 0;
 
 void report() //report plasma voltage and position
 {
+  //Serial.println("inside report");
   THCNex.writeNum("PV.val", (int)Input);
   THCNex.writeNum("POS.val", (int)(pos / 2));
-}
-// +++++++++++++ Helpers ++++++++++++++++
-void writeStringIntoEEPROM(char add,String data)
-{
-  int _size = data.length();
-  int i;
-  for(i=0;i<_size;i++)
-  {
-    EEPROM.write(add+i,data[i]);
-  }
-  EEPROM.write(add+_size,'\0');   //Add termination null character for String Data
-//  EEPROM.commit();
-}
- 
- String read_StringFromEEPROM(char add)
-{
-  int i;
-  char data[100]; //Max 100 Bytes
-  int len=0;
-  unsigned char k;
-  k=EEPROM.read(add);
-  while(k != '\0' && len<500)   //Read until null character
-  {    
-    k=EEPROM.read(add+len);
-    data[len]=k;
-    len++;
-  }
-  data[len]='\0';
-  return String(data);
-}
-
-void writeIntIntoEEPROM(int address, int number)
-
-
-{ 
-  EEPROM.write(address, number >> 8);
-  EEPROM.write(address + 1, number & 0xFF);
-}
-int readIntFromEEPROM(int address)
-{
-  return (EEPROM.read(address) << 8) + EEPROM.read(address + 1);
-}
-
-void writeFloatIntoEEPROM(int address, float num)
-{
- byte* f = (byte*)(void*)&num;
- for(int x = 0; x < 4; x++)
- {
-   EEPROM.write(address + (x*4),*f++);
- }  
-}
-float readFloatFromEEPROM(int address)
-{
- float eevalue;
- for(int x = 0; x < 4; x++)
- {
-   eevalue = eevalue + (float)EEPROM.read(address + (x*4));       
- }
- return eevalue;
-}
-void writeLongIntoEEPROM(int address, long number)
-{ 
-  EEPROM.write(address, (number >> 24) & 0xFF);
-  EEPROM.write(address + 1, (number >> 16) & 0xFF);
-  EEPROM.write(address + 2, (number >> 8) & 0xFF);
-  EEPROM.write(address + 3, number & 0xFF);
-}
-
-long readLongFromEEPROM(int address)
-{
-  return ((long)EEPROM.read(address) << 2) + ((long)EEPROM.read(address + 1) << 16) + ((long)EEPROM.read(address + 2) << 8) + ((long)EEPROM.read(address + 3));
 }
 
 void process() //Calulates position and move steps
 {
+
+Serial.print("Input in Process   ");
+Serial.println(Input);
+/*Serial.print("SetPoint   ");
+Serial.println(SetPoint);
+Serial.print("Kp   ");
+Serial.println(Kp);
+Serial.print("Threshold   ");
+Serial.println(threshold);
+Serial.print("CalibrationOffset   ");
+Serial.println(CalibrationOffset);
+Serial.print("arcStabilizeDelay   ");
+Serial.println(arcStabilizeDelay);*/
+
   
   oldDelay = micros();
-  while (Input > (threshold + CalibrationOffset)) //Only move if cutting by checking for voltage above a threshold level
+  while ((Input > (threshold + CalibrationOffset)) && (digitalRead(Handover) == true)) //Only move if cutting by checking for voltage above a threshold level
   {
+    //Serial.println("inside While loop");
     if (micros() - oldDelay >= arcStabilizeDelay) //wait for arc to stabilize tipically 100-300ms
     {
-      Input = map(analogRead(PLASMA_INPUT_PIN), 0, 1023, 0, 25000) + CalibrationOffset; //get new plasma arc voltage and convert to millivolts
-
+      Input = map(analogRead(PLASMA_INPUT_PIN), 0, 4092, 0, 25000)+ CalibrationOffset; //get new plasma arc voltage and convert to millivolts
+      
       currentGap = abs(SetPoint - Input); //distance away from setpoint
       if (currentGap < gap) {
         THCPID.setCoefficients(Kp, Ki, Kd, Hz); //we're close to setpoint, use conservative tuning parameters
@@ -272,7 +184,6 @@ void process() //Calulates position and move steps
       else {
         THCPID.setCoefficients(aggKp, aggKi, aggKd, Hz); //we're far from setpoint, use aggressive tuning parameters
       }
-
       if (SetPoint > Input)
       {
         targetInput = Input - SetPoint + SetPoint;
@@ -285,7 +196,6 @@ void process() //Calulates position and move steps
         output = THCPID.step(SetPoint, targetInput);
         pos = pos - output;
       }
-
       //Validate move is within range
       if (pos >= maxPos) {
         pos = maxPos;
@@ -293,11 +203,15 @@ void process() //Calulates position and move steps
       if (pos <= minPos) {
         pos = minPos;
       }
-
+      
+      if (pos >= oldpos - buffer && pos <= oldpos + buffer)
+      {pos = oldpos;
+      }
       //do move
       stepper.moveTo(pos);
       while (stepper.distanceToGo() != 0) {
         stepper.run();
+      oldpos = pos;
       }
 
       report(); //report plasma voltage and position
@@ -305,14 +219,14 @@ void process() //Calulates position and move steps
     }
   }
   //after cut reset height
-  pos = 0;
+  pos = 0; // set to same position that Grbl Z axis was at Handover
   //do move
   stepper.moveTo(pos);
   while (stepper.distanceToGo() != 0) {
     stepper.run();
   }
   
-}
+  }
 
 void trigger0() //Set last page used on startup loaded event
 {
@@ -323,6 +237,10 @@ void trigger1() //read customsetpoint on page loaded event
 {
   CurrentPageNumber = THCNex.readNumber("dp");
   SetPoint = THCNex.readNumber("CustomSetPoint.val");
+  Serial.print("CurrentPageNumber  ");
+   Serial.println(CurrentPageNumber);
+   Serial.print("SetPoint  ");
+   Serial.println(SetPoint);
   if (CurrentPageNumber != 777777 && SetPoint != 777777)
   {
     switch (CurrentPageNumber) {
@@ -374,27 +292,33 @@ void trigger2() //Save customsetpoints on end touch event
     switch (CurrentPageNumber) {
       case 1:
         SetpointPage1 = SetPoint;
-        writeLongIntoEEPROM(addressPage1, SetpointPage1);
+        preferences.putLong("addressPage1", SetpointPage1);
+        preferences.end();
         break;
       case 2:
         SetpointPage2 = SetPoint;
-        writeLongIntoEEPROM(addressPage2, SetpointPage2);
+        preferences.putLong("addressPage2", SetpointPage2);
+        preferences.end();
         break;
       case 3:
         SetpointPage3 = SetPoint;
-        writeLongIntoEEPROM(addressPage3, SetpointPage3);
+        preferences.putLong("addressPage3", SetpointPage3);
+        preferences.end();
         break;
       case 4:
         SetpointPage4 = SetPoint;
-        writeLongIntoEEPROM(addressPage4, SetpointPage4);
+        preferences.putLong("addressPage4", SetpointPage4);
+        preferences.end();
         break;
       case 5:
         SetpointPage5 = SetPoint;
-        writeLongIntoEEPROM(addressPage5, SetpointPage5);
+        preferences.putLong("addressPage5", SetpointPage5);
+        preferences.end();
         break;
       case 6:
         SetpointPage6 = SetPoint;
-        writeLongIntoEEPROM(addressPage6, SetpointPage6);
+        preferences.putLong("addressPage6", SetpointPage6);
+        preferences.end();
         break;
       default:
         break;
@@ -425,146 +349,170 @@ void trigger5() //Increase allowable down movement range
 {
   minPos = minPos + (scale * steps_per_mm);
   THCNex.writeNum("x1.val", (int)(minPos / 2));
-  writeLongIntoEEPROM(addressMinpos, minPos);
+  preferences.putLong("addressMinpos", minPos);
+  preferences.end();
 }
 void trigger6() //Decrease allowable up movement range
 { minPos = minPos - (scale * steps_per_mm);
   THCNex.writeNum("x1.val", (int)(minPos / 2));
-  writeLongIntoEEPROM(addressMinpos, minPos);
+  preferences.putLong("addressMinpos", minPos);
+  preferences.end();
 
 }
 void trigger7() //Increase allowable up movement range
 {
   maxPos = maxPos + (scale * steps_per_mm);
   THCNex.writeNum("x0.val", (int)(maxPos / 2));
-  writeLongIntoEEPROM(addressMaxpos, maxPos);
+  preferences.putLong("addressMaxpos", maxPos);
+  preferences.end();
 
 }
 void trigger8() //Decrease allowable down movement range
 {
   maxPos = maxPos - (scale * steps_per_mm);
   THCNex.writeNum("x0.val", (int)(maxPos / 2));
-  writeLongIntoEEPROM(addressMaxpos, maxPos);
+  preferences.putLong("addressMaxpos", maxPos);
+  preferences.end();
 }
 void trigger9() //Increase voltage gap between aggressive and normal targeting
 {
   gap = gap + (scale * 100);
   THCNex.writeNum("x2.val", (int)(gap));
-  writeLongIntoEEPROM(addressGap, gap);
+  preferences.putLong("addressGap", gap);
+  preferences.end();
 }
 void trigger10() //Decrease voltage gap between aggressive and normal targeting
 {
   gap = gap - (scale * 100);
   THCNex.writeNum("x2.val", (int)(gap));
-  writeLongIntoEEPROM(addressGap, gap);
+  preferences.putLong("addressGap", gap);
+  preferences.end();
 }
 void trigger11() //Increase voltage reading threshold for calculating movements
 {
   threshold = threshold + (scale * 100);
   THCNex.writeNum("x1.val", (int)(threshold));
-  writeLongIntoEEPROM(addressThreshold, threshold);
+  preferences.putLong("addressThreshold", threshold);
+  preferences.end();
 }
 void trigger12() //Decrease voltage reading threshold for calculating movements
 {
   threshold = threshold - (scale * 100);
   THCNex.writeNum("x1.val", (int)(threshold));
-  writeLongIntoEEPROM(addressThreshold, threshold);
+  preferences.putLong("addressThreshold", threshold);
+  preferences.end();
 }
 void trigger13() //Increase delay before calculating movements
 {
   arcStabilizeDelay = arcStabilizeDelay + (scale * 100);
   THCNex.writeNum("x0.val", (int)(arcStabilizeDelay / 10));
-  writeLongIntoEEPROM(addressDelay, arcStabilizeDelay);
+  preferences.putLong("addressDelay", arcStabilizeDelay);
+  preferences.end();
 }
 void trigger14() //Decrease delay before calculating movements
 {
   arcStabilizeDelay = arcStabilizeDelay - (scale * 100);
   THCNex.writeNum("x0.val", (int)(arcStabilizeDelay / 10));
-  writeLongIntoEEPROM(addressDelay, arcStabilizeDelay);
+  preferences.putLong("addressDelay", arcStabilizeDelay);
+  preferences.end();
 }
 void trigger15() //Increase steps per millimeter
 {
   steps_per_mm = steps_per_mm + scale;
   THCNex.writeNum("x3.val", (int)(100 * steps_per_mm));
-  writeLongIntoEEPROM(addressSteps, steps_per_mm);
+  preferences.putLong("addressSteps", steps_per_mm);
+  preferences.end();
 }
 void trigger16() //Decrease steps per millimeter
 {
   steps_per_mm = steps_per_mm - scale;
   THCNex.writeNum("x3.val", (int)(100 * steps_per_mm));
-  writeLongIntoEEPROM(addressSteps, steps_per_mm);
+  preferences.putLong("addressSteps", steps_per_mm);
+  preferences.end();
 }
 void trigger17() //Increase Aggressive P Parameter
 {
   aggKp = aggKp + scale * 0.01;
   THCNex.writeNum("x2.val", (int)(1000 * aggKp));
-  writeFloatIntoEEPROM(addressAP, aggKp);
+  preferences.putFloat("addressAP", aggKp);
+  preferences.end();
 }
 void trigger18() //Decrease Aggressive P Parameter
 {
   aggKp = aggKp - scale * 0.01;
   THCNex.writeNum("x2.val", (int)(1000 * aggKp));
-  writeFloatIntoEEPROM(addressAP, aggKp);
+  preferences.putFloat("addressAP", aggKp);
+  preferences.end();
 }
 void trigger19() //Increase Aggressive I Parameter
 {
   aggKi = aggKi + scale * 0.01;
   THCNex.writeNum("x1.val", (int)(1000 * aggKi));
-  writeFloatIntoEEPROM(addressAI, aggKi);
+  preferences.putFloat("addressAI", aggKi);
+  preferences.end();
 }
 void trigger20() //Decrease Aggressive I Parameter
 {
   aggKi = aggKi - scale * 0.01;
   THCNex.writeNum("x1.val", (int)(1000 * aggKi));
-  writeFloatIntoEEPROM(addressAI, aggKi);
+  preferences.putFloat("addressAI", aggKi);
+  preferences.end();
 }
 void trigger21() //Increase Aggressive D Parameter
 {
   aggKd = aggKd + scale * 0.01;
   THCNex.writeNum("x0.val", (int)(1000 * aggKd));
-  writeFloatIntoEEPROM(addressAD, aggKd);
+  preferences.putFloat("addressAD", aggKd);
+  preferences.end();
 }
 void trigger22() //Decrease Aggressive D Parameter
 {
   aggKd = aggKd - scale * 0.01;
   THCNex.writeNum("x0.val", (int)(1000 * aggKd));
-  writeFloatIntoEEPROM(addressAD, aggKd);
+  preferences.putFloat("addressAD", aggKd);
+  preferences.end();
 }
 void trigger23() //Increase Conservative P Parameter
 {
   Kp = Kp + scale * 0.01;
   THCNex.writeNum("x2.val", (int)(1000 * Kp));
-  writeFloatIntoEEPROM(addressCP, Kp);
+  preferences.putFloat("addressCP", Kp);
+  preferences.end();
 }
 void trigger24() //Decrease Conservative P Parameter
 {
   Kp = Kp - scale * 0.01;
   THCNex.writeNum("x2.val", (int)(1000 * Kp));
-  writeFloatIntoEEPROM(addressCP, Kp);
+  preferences.putFloat("addressCP", Kp);
+  preferences.end();
 }
 void trigger25() //Increase Conservative I Parameter
 {
   Ki = Ki + scale * 0.01;
   THCNex.writeNum("x1.val", (int)(1000 * Ki));
-  writeFloatIntoEEPROM(addressCI, Ki);
+  preferences.putFloat("addressCI", Ki);
+  preferences.end();
 }
 void trigger26() //Decrease Conservative I Parameter
 {
   Ki = Ki - scale * 0.01;
   THCNex.writeNum("x1.val", (int)(1000 * Ki));
-  writeFloatIntoEEPROM(addressCI, Ki);
+  preferences.putFloat("addressCI", Ki);
+  preferences.end();
 }
 void trigger27() //Increase Conservative D Parameter
 {
   Kd = Kd + scale * 0.01;
   THCNex.writeNum("x0.val", (int)(1000 * Kd));
-  writeFloatIntoEEPROM(addressCD, Kd);
+  preferences.putFloat("addressCD", Kd);
+  preferences.end();
 }
 void trigger28() //Decrease Conservative D Parameter
 {
   Kd = Kd - scale * 0.01;
   THCNex.writeNum("x0.val", (int)(1000 * Kd));
-  (addressCD, Kd);
+  preferences.putFloat("addressCD", Kd);
+  preferences.end();
 }
 void trigger29() //load movement page settings
 {
@@ -686,7 +634,7 @@ void trigger35() //Save Calibration Offset on end touch event
   int cali = THCNex.readNumber("CustomSetPoint.val");
   if (cali != 77777) {
     CalibrationOffset = cali;
-    writeLongIntoEEPROM(addressCalibrate, CalibrationOffset);
+    preferences.putLong("addressCalibrate", CalibrationOffset);
   }
 }
 
@@ -710,124 +658,146 @@ void setup()
   // Initialize digital pin LED_BUILTIN as an output.
   //This is used to enable the MKS driver board. Plus it flashes and flashes are cool.
   pinMode(Plasma_Trigger, OUTPUT);
-  pinMode(Torch_Ready, INPUT);
+  pinMode(Torch_Ready, INPUT_PULLDOWN);
   pinMode(Feed_Hold, OUTPUT);
   pinMode(Feed_Start, OUTPUT);
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(Enable, OUTPUT);
   pinMode(ENABLE_PIN, OUTPUT);
-  pinMode(Handover, INPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
+  pinMode(Handover, INPUT_PULLDOWN);
+  
+  digitalWrite(Enable, HIGH);
   delay(100);
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(Enable, LOW);
   digitalWrite(Feed_Hold, HIGH);
   digitalWrite(Feed_Start, HIGH);
   digitalWrite(Plasma_Trigger, LOW);
+  
+  Serial.begin(115200);
+  Serial.println("hello i am starting");
+  preferences.begin("Setup", false);
   // Begin the object with a baud rate of 9600
+   Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
+   Serial2.println("Serial starting");
   THCNex.begin();  // If no parameter was given in the begin(), the default baud rate of 9600 will be used
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
+  //while (!Serial) {
+    //; // wait for serial port to connect. Needed for native USB port only
+ // }
 
   //initialize the variables we're linked to
   // Load EEPROM Addresses for Setpoints or set defaults
-  SetpointPage1 = readLongFromEEPROM(addressPage1);
+  SetpointPage1 =preferences.getLong("addressPage1",defaultSetpoint);
+   Serial.print(" SetpointPage1   ");
+    Serial.println(SetpointPage1);
   if (SetpointPage1 == 0) {
     SetpointPage1 = defaultSetpoint;
   }
 
-  SetpointPage2 = readLongFromEEPROM(addressPage2);
-  if (SetpointPage2 == 0) {
+  SetpointPage2 = preferences.getLong("addressPage2",defaultSetpoint);
+  if (SetpointPage2 == !0) {
     SetpointPage2 = defaultSetpoint;
   }
 
-  SetpointPage3 = readLongFromEEPROM(addressPage3);
+  SetpointPage3 = preferences.getLong("addressPage3",defaultSetpoint);
   if (SetpointPage3 == 0) {
     SetpointPage3 = defaultSetpoint;
   }
 
-  SetpointPage4 = readLongFromEEPROM(addressPage4);
+  SetpointPage4 = preferences.getLong("addressPage4",defaultSetpoint);
   if (SetpointPage4 == 0) {
     SetpointPage4 = defaultSetpoint;
   }
 
-  SetpointPage5 = readLongFromEEPROM(addressPage5);
+  SetpointPage5 = preferences.getLong("addressPage5",defaultSetpoint);
   if (SetpointPage5 == 0) {
     SetpointPage5 = defaultSetpoint;
   }
 
-  SetpointPage6 = readLongFromEEPROM(addressPage6);
+  SetpointPage6 = preferences.getLong("addressPage6",defaultSetpoint);
   if (SetpointPage6 == 0) {
     SetpointPage6 = defaultSetpoint;
   }
 
-  scale = readFloatFromEEPROM(addressScale); // float
+  scale = preferences.getLong("addressScale",scale); // float
+  Serial.print("scale     ");
+  Serial.println(scale);
   if (scale == 0) {
     scale = 1;
   }
 
-  gap = readLongFromEEPROM(addressGap);
+  gap = preferences.getLong("addressGap",gap);
   if (gap == 0) {
     gap = 500;
   }
 
-  threshold = readLongFromEEPROM(addressThreshold);
+  threshold = preferences.getLong("addressThreshold",threshold);
+  Serial.print("threshold     ");
+  Serial.println(threshold);
   if (threshold == 0) {
     threshold = 4000;
+    
   }
 
-  arcStabilizeDelay = readLongFromEEPROM(addressDelay);
+  arcStabilizeDelay = preferences.getLong("addressDelay",arcStabilizeDelay);
   if (arcStabilizeDelay == 0) {
     arcStabilizeDelay = 150;
   }
 
-  steps_per_mm = readLongFromEEPROM(addressSteps);
+  steps_per_mm = preferences.getLong("addressSteps",steps_per_mm);
+   Serial.print("steps_per_mm    ");
+    Serial.println(steps_per_mm );
   if (steps_per_mm == 0) {
     steps_per_mm = 200;
   }
 
-  maxPos = readLongFromEEPROM(addressMaxpos);
+  maxPos = preferences.getLong("addressMaxpos",maxPos);
+  Serial.print("maxPos    ");
+    Serial.println(maxPos);
   if (maxPos == 0) {
     maxPos = 40 * steps_per_mm;
   }
 
-  minPos = readLongFromEEPROM(addressMinpos);
+  minPos = preferences.getLong("addressMinpos",minPos);
   if (minPos == 0) {
     minPos = -(40 * steps_per_mm);
   }
 
-  aggKp = readFloatFromEEPROM(addressAP); //float
+  aggKp = preferences.getLong64("addressAP",aggKp); //float
+  Serial.print("aggKP    ");
+    Serial.println(aggKp );
   if (aggKp == 0) {
     aggKp = 0.175;
+    Serial.println(aggKp );
   }
 
-  aggKi = readFloatFromEEPROM(addressAI); //float
+  aggKi = preferences.getLong64("addressAI",aggKi); //float
   if (aggKi == 0) {
     aggKi = 0.1;
   }
 
-  aggKd = readFloatFromEEPROM(addressAD); //float
+  aggKd = preferences.getLong64("addressAD",aggKd); //float
   if (aggKd == 0) {
     aggKd = 0.1;
   }
 
-  Kp = readFloatFromEEPROM(addressCP); //float
+  Kp = preferences.getLong64("addressCP",Kp); //float
   if (Kp == 0) {
     Kp = 0.075;
   }
 
-  Ki = readFloatFromEEPROM(addressCI); //float
+  Ki = preferences.getLong64("addressCI",Ki); //float
   if (Ki == 0) {
     Ki = 0.01;
   }
 
-  Kd = readFloatFromEEPROM(addressCD); //float
+  Kd = preferences.getLong64("addressCD",Kd); //float
   if (Kd == 0) {
     Kd = 0.01;
   }
 
-  CalibrationOffset = readLongFromEEPROM(addressCalibrate);
+  CalibrationOffset = preferences.getLong("addressCalibrate",CalibrationOffset);
+   
   if (CalibrationOffset == 0) {
-    CalibrationOffset = 0;
+    CalibrationOffset = 1;
   }
 
   // Wait for Nextion Screen to bootup
@@ -849,48 +819,54 @@ void setup()
 // the loop function runs over and over again forever
 void loop()
 {
-  if (digitalRead(Handover) == true) //Machine code turns on Spindle or laser
+  if (digitalRead(Handover) == true) //Grbl hands Z control to THC (Gcode to fire laser)
   {
-  digitalWrite(Feed_Hold, LOW);  //Hold Feed until torch ready
+  digitalWrite(Feed_Hold, LOW);  //Hold X,YFeed until torch ready active low
   delay(20);
   digitalWrite(Feed_Hold, HIGH); //20ms pulse
   digitalWrite(Plasma_Trigger, HIGH); //fire plasma
   digitalWrite(ENABLE_PIN, HIGH); // Added Drive Enable turned off at end of function
-     if (digitalRead(Torch_Ready) == LOW)  // wait for torch ready signal Ready = Low
+     if (digitalRead(Torch_Ready) == HIGH)  // wait for torch ready signal Ready = HIGH
   {
-   digitalWrite(Feed_Start, LOW);
+   digitalWrite(Feed_Start, LOW);//active low
    delay(20);
    digitalWrite(Feed_Start, HIGH);
   }
- while (CurrentPageNumber <= 6 || CurrentPageNumber == 11 || (digitalRead(Handover) == true) || (digitalRead(Torch_Ready) == LOW)) //Focus on listening to Plasma Inputs
+  }
+ while ((CurrentPageNumber <= 6 || CurrentPageNumber == 11 )&&((digitalRead(Handover) == true) && (digitalRead(Torch_Ready) == HIGH))) //Focus on listening to Plasma Inputs
   {
     Input = map(analogRead(PLASMA_INPUT_PIN), 0, 1023, 0, 25000) + CalibrationOffset; //reads plasma arc voltage and convert to millivolt
     process(); //This is the main method of the application it calulates position and move steps if Input Voltage is over threshold.
     report();
     THCNex.NextionListen();
   }
-  }
-    else
-    {
+  
+    
     digitalWrite(Plasma_Trigger, LOW);
     digitalWrite(ENABLE_PIN, LOW);
-    }
-  
+    Input = map(analogRead(PLASMA_INPUT_PIN), 0, 1023, 0, 25000) + CalibrationOffset;//update plasma voltage outside While loop
+    //Serial.print("Input after While   ");
+    //Serial.println(Input);
+    report();
     THCNex.NextionListen(); //else focus on listening to Nextion Inputs
   
     
-}
-/* Original Loop
-// the loop function runs over and over again forever
+}  
+// Original Loop
+/* the loop function runs over and over again forever
 void loop()
 {
  while (CurrentPageNumber <= 6 || CurrentPageNumber == 11) //Focus on listening to Plasma Inputs
   {
-    Input = map(analogRead(PLASMA_INPUT_PIN), 0, 1023, 0, 25000) + CalibrationOffset; //reads plasma arc voltage and convert to millivolt
+    Input = map(analogRead(PLASMA_INPUT_PIN), 0, 4096, 0, 25000) + CalibrationOffset; //reads plasma arc voltage and convert to millivolt
+    
+   // Serial.print("analog pin 34");
+   // Serial.println(Input);
+    //Serial.println(CalibrationOffset);
+    //Serial.println(analogRead(PLASMA_INPUT_PIN));
     process(); //This is the main method of the application it calulates position and move steps if Input Voltage is over threshold.
     report();
     THCNex.NextionListen();
   }
     THCNex.NextionListen(); //else focus on listening to Nextion Inputs
-}
-*/
+}*/
