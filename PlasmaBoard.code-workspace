@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "Firmware\\Nextion Display"
+		},
+		{
+			"path": "..\\FluidNC"
 		}
 	],
 	"settings": {}
