@@ -10,7 +10,10 @@
 			"path": "Firmware\\Nextion Display"
 		},
 		{
-			"path": "..\\FluidNC"
+			"path": "Firmware\\FluidNC"
+		},
+		{
+			"path": "Firmware\\Gcode"
 		}
 	],
 	"settings": {}
