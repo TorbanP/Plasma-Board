@@ -12,7 +12,7 @@ G91
 ; Cut @ 3400 mm/min, 55% power
 M9
 M5
-G0X45.12Y20.82
+G0 X45.12Y20.82
 ; Layer C02
 
 ;begin probe for ITH. THT=10.6mm
