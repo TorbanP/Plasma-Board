@@ -905,7 +905,6 @@
     )
   )
 
-
   (junction (at 177.8 63.5) (diameter 0) (color 0 0 0 0)
     (uuid 39828a41-0a4d-4d05-815d-675e9bfee9c4)
   )
@@ -944,10 +943,10 @@
   )
 
   (no_connect (at 114.3 73.66) (uuid bd1568ed-d6b3-417f-a952-c6e4a96211e5))
-  (no_connect (at 114.3 71.12) (uuid bd1568ed-d6b3-417f-a952-c6e4a96211e5))
-  (no_connect (at 114.3 68.58) (uuid bd1568ed-d6b3-417f-a952-c6e4a96211e5))
-  (no_connect (at 114.3 53.34) (uuid bd1568ed-d6b3-417f-a952-c6e4a96211e5))
-  (no_connect (at 114.3 66.04) (uuid bd1568ed-d6b3-417f-a952-c6e4a96211e5))
+  (no_connect (at 114.3 71.12) (uuid bd1568ed-d6b3-417f-a952-c6e4a96211e6))
+  (no_connect (at 114.3 68.58) (uuid bd1568ed-d6b3-417f-a952-c6e4a96211e7))
+  (no_connect (at 114.3 53.34) (uuid bd1568ed-d6b3-417f-a952-c6e4a96211e8))
+  (no_connect (at 114.3 66.04) (uuid bd1568ed-d6b3-417f-a952-c6e4a96211e9))
 
   (wire (pts (xy 114.3 63.5) (xy 139.7 63.5))
     (stroke (width 0) (type default) (color 0 0 0 0))
@@ -1190,6 +1189,11 @@
     (uuid fd272b46-47d6-4880-a3ff-899f0ff8a585)
   )
 
+  (text "change fet to common,\nchange footprint of diode and diode res"
+    (at 308.61 20.32 0)
+    (effects (font (size 1.27 1.27)) (justify left bottom))
+    (uuid 0f872c40-ef1a-4280-a19e-659457432ed4)
+  )
   (text "Vmot" (at 114.3 43.18 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 7c042963-e474-43fc-a29a-6e3059d50041)
@@ -1558,8 +1562,8 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
     (pin "1" (uuid 7fec8ec0-881a-42d5-8c2a-d50350f546d7))
-    (pin "4" (uuid 127267e4-16f5-44cf-8a60-6733dfb3a809))
     (pin "3" (uuid 7ae3ebfd-30e2-4917-a058-6cb9570eae64))
+    (pin "4" (uuid 127267e4-16f5-44cf-8a60-6733dfb3a809))
   )
 
   (symbol (lib_id "Device:R_Small") (at 119.38 86.36 0) (unit 1)
