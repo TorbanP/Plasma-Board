@@ -120,11 +120,21 @@
       },
       "track_widths": [
         0.0,
-        0.254,
-        0.508,
-        0.762,
-        1.27,
-        2.54
+        0.25,
+        0.3,
+        0.35,
+        0.4,
+        0.45,
+        0.5,
+        0.55,
+        0.6,
+        0.65,
+        0.7,
+        0.75,
+        1.0,
+        1.25,
+        1.5,
+        2.0
       ],
       "via_dimensions": [
         {
@@ -132,24 +142,32 @@
           "drill": 0.0
         },
         {
-          "diameter": 0.76,
-          "drill": 0.38
-        },
-        {
           "diameter": 0.8,
           "drill": 0.4
         },
         {
-          "diameter": 1.02,
-          "drill": 0.51
+          "diameter": 1.0,
+          "drill": 0.5
         },
         {
-          "diameter": 1.52,
-          "drill": 0.76
+          "diameter": 1.2,
+          "drill": 0.6
         },
         {
-          "diameter": 3.05,
-          "drill": 1.27
+          "diameter": 1.4,
+          "drill": 0.7
+        },
+        {
+          "diameter": 1.6,
+          "drill": 0.8
+        },
+        {
+          "diameter": 1.8,
+          "drill": 0.9
+        },
+        {
+          "diameter": 2.0,
+          "drill": 1.0
         }
       ],
       "zones_allow_external_fillets": false,
