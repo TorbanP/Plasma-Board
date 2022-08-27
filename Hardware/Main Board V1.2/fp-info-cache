@@ -1,4 +1,4 @@
-19800776457876502
+19848443420214148
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -55642,6 +55642,230 @@ solder jumper open
 0
 5
 3
+KiCad
+918-418K2022Y40000
+
+
+0
+18
+15
+KiCad
+5027740891
+5027740891
+Connector
+0
+14
+14
+KiCad
+ASPIAG-S6055
+ASPIAIG-S6055
+ASPIAIG-S6055
+0
+2
+2
+KiCad
+B02BJWPFSKRLFSN
+B02B-JWPF-SK-R (LF)(SN)-2
+Connector
+0
+2
+2
+KiCad
+B03BJWPFSKRLFSN
+B03B-JWPF-SK-R (LF)(SN)-2
+Connector
+0
+3
+3
+KiCad
+B06BJWPFSKRLFSN
+B06B-JWPF-SK-R(LF)(SN)-2
+Connector
+0
+6
+6
+KiCad
+B08BJWPFSKRLFSN
+B08B-JWPF-SK-R (LF)(SN)-2
+Connector
+0
+8
+8
+KiCad
+BRN310
+
+
+0
+29
+29
+KiCad
+DM3ATSFPEJM542
+DM3AT-SF-PEJM5(42)-7
+Connector
+0
+14
+14
+KiCad
+Fuse_2016
+Fuse SMD 2016
+fuse
+0
+2
+2
+KiCad
+HIGO-309FG
+
+
+0
+3
+3
+KiCad
+HIGO-509FG
+
+
+0
+5
+5
+KiCad
+HIGO-609FG
+
+
+0
+6
+6
+KiCad
+HIGO-809FG
+
+
+0
+8
+8
+KiCad
+HIGO_5-Pin_Round
+
+
+0
+5
+5
+KiCad
+Logo1
+
+
+0
+0
+0
+KiCad
+PCC-M0754M
+Choke, SMD, 7.3x7.3mm 4.5mm height
+Choke SMD
+0
+2
+2
+KiCad
+PSPMAC1045H-101M-ANP
+
+
+0
+2
+2
+KiCad
+PinHeader_2x06_P2.54mm_Vertical_8PINMOD
+Through hole straight pin header, 2x06, 2.54mm pitch, double rows
+Through hole pin header THT 2x06 2.54mm double row
+0
+8
+8
+KiCad
+Powerelement_225677
+
+
+0
+16
+1
+KiCad
+QFN50P400X400X95-25N-D
+ICM-20689
+Integrated Circuit
+0
+25
+25
+KiCad
+SHDR24W50P200_2X12_2600X950X1020P
+B24B-PADSS-F
+Connector
+0
+24
+24
+KiCad
+SON50P300X200X100-9N-D
+MCP73831T-2ACI/MC-1
+Integrated Circuit
+0
+9
+9
+KiCad
+SWD_DEBUG_10PIN_1.27mm
+surface-mounted straight pin header, 2x05, 1.27mm pitch, double rows
+Surface mounted pin header SMD 2x05 1.27mm double row
+0
+10
+10
+KiCad
+SWRB1204S150MT
+SWRB1204S-150MT-2
+Inductor
+0
+2
+2
+KiCad
+SW_SKRKAEE020
+https://www.mouser.com/ds/2/60/RS-282G05A-SM_RT-1159762.pdf
+SPST button tactile switch
+0
+2
+2
+KiCad
+TestPoint_THTPad_D1.0mm_Drill0.5mm
+THT pad as test Point, diameter 1.0mm, hole diameter 0.5mm
+test point THT pad
+0
+1
+1
+KiCad
+XCVR_L80-M39
+
+
+0
+12
+12
+KiCad
+XCVR_L96-M33
+
+
+0
+31
+31
+KiCad
+b_Logo_3mm
+
+
+0
+0
+0
+KiCad
+b_Logo_6p35mm
+
+
+0
+0
+0
+KiCad
+xxPy_tht_headers
+
+lopy sipy gpy fipy
+0
+28
+28
 LED_SMD
 LED-APA102-2020
 http://www.led-color.com/upload/201604/APA102-2020%20SMD%20LED.pdf
@@ -83705,27 +83929,6 @@ transformer flyback
 0
 10
 10
-User Library
-2x3 screw terminal
-
-
-0
-6
-6
-User Library
-2x3 screw terminal3.5mm
-
-
-0
-6
-6
-User Library
-ClearpathDriver
-
-
-0
-18
-18
 Valve
 Valve_ECC-83-1
 Valve ECC-83-1 round pins
