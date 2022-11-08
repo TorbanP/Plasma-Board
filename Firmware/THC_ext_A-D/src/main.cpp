@@ -723,7 +723,7 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(ENABLE_PIN, OUTPUT);
   pinMode(Handover, INPUT_PULLDOWN);
-
+  digitalWrite(Torch_Ready, LOW);
   digitalWrite(ENABLE_PIN, HIGH);
   delay(100);
   digitalWrite(ENABLE_PIN, LOW);
@@ -884,13 +884,13 @@ void loop()
   digitalWrite(Feed_Hold, HIGH); //20ms pulse
   digitalWrite(Plasma_Trigger, HIGH); //fire plasma
   digitalWrite(ENABLE_PIN, HIGH); // Added Drive Enable turned off at end of function
-     if (digitalRead(Torch_Ready) == LOW)  // wait for torch ready signal Ready = Low
+     if (digitalRead(Torch_Ready) == HIGH)  // wait for torch ready signal Ready = High
   {
    digitalWrite(Feed_Start, LOW);
    delay(20);
    digitalWrite(Feed_Start, HIGH);
   }
- while (CurrentPageNumber <= 6 || CurrentPageNumber == 11 || (digitalRead(Handover) == true) || (digitalRead(Torch_Ready) == LOW)) //Focus on listening to Plasma Inputs
+ while (CurrentPageNumber <= 6 || CurrentPageNumber == 11 || (digitalRead(Handover) == true) || (digitalRead(Torch_Ready) == HIGH)) //Focus on listening to Plasma Inputs
   {
     Input = ads.readADC_Differential_0_1();
     Input = Input * multiplier; //reads plasma arc voltage and convert to millivolt
