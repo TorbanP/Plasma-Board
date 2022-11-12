@@ -87,14 +87,18 @@
 #include <FastPID.h>              // Include PID Library     
 #include <EasyNextionLibrary.h>   // Include EasyNextionLibrary
 #include <AccelStepper.h>
+#include <Preferences.h>
 #include <EEPROM.h>
-#include <Wire.h>
+//#include <Wire.h>
 #include <Adafruit_ADS1015.h>
-// the variables to be using be the code below
-
+Preferences preferences;
+Adafruit_ADS1115 ads(0x48);
+float multiplier = .125; //Derived fro Gain
 EasyNex THCNex(Serial1); // Create an object of EasyNex class with the name < TCHNex >
 // Set as parameter the Serial1 for Mega2560 you are going to use
 // Default baudrate 9600
+#define RXD2 16
+#define TXD2 17  
 #define I2C_SDA 21
 #define I2C_SCL 22
 //#defineI2C___ 17
@@ -713,19 +717,40 @@ void setup()
   // Initialize digital pin LED_BUILTIN as an output.
   //This is used to enable the MKS driver board. Plus it flashes and flashes are cool.
   pinMode(Plasma_Trigger, OUTPUT);
-  pinMode(Torch_Ready, INPUT);
+  pinMode(Torch_Ready, INPUT_PULLDOWN);
   pinMode(Feed_Hold, OUTPUT);
   pinMode(Feed_Start, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(ENABLE_PIN, OUTPUT);
-  pinMode(Handover, INPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
+  pinMode(Handover, INPUT_PULLDOWN);
+  digitalWrite(Torch_Ready, LOW);
+  digitalWrite(ENABLE_PIN, HIGH);
   delay(100);
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(ENABLE_PIN, LOW);
   digitalWrite(Feed_Hold, HIGH);
   digitalWrite(Feed_Start, HIGH);
   digitalWrite(Plasma_Trigger, LOW);
+  //ADS1115 setup
+  // The ADC input range (or gain) can be changed via the following
+  // functions, but be careful never to exceed VDD +0.3V max, or to
+  // exceed the upper and lower limits if you adjust the input range!
+  // Setting these values incorrectly may destroy your ADC!
+  //                                                                ADS1015  ADS1115
+  //                                                                -------  -------
+  // ads.setGain(GAIN_TWOTHIRDS);  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)
+   ads.setGain(GAIN_ONE);        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV
+  // ads.setGain(GAIN_TWO);        // 2x gain   +/- 2.048V  1 bit = 1mV      0.0625mV
+  // ads.setGain(GAIN_FOUR);       // 4x gain   +/- 1.024V  1 bit = 0.5mV    0.03125mV
+  // ads.setGain(GAIN_EIGHT);      // 8x gain   +/- 0.512V  1 bit = 0.25mV   0.015625mV
+  // ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
+  ads.begin();
+  
+  Serial.begin(115200);
+  Serial.println("hello i am starting");
+  preferences.begin("Setup", false);
   // Begin the object with a baud rate of 9600
+   Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
+   Serial2.println("Serial starting");
   THCNex.begin();  // If no parameter was given in the begin(), the default baud rate of 9600 will be used
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
@@ -859,15 +884,16 @@ void loop()
   digitalWrite(Feed_Hold, HIGH); //20ms pulse
   digitalWrite(Plasma_Trigger, HIGH); //fire plasma
   digitalWrite(ENABLE_PIN, HIGH); // Added Drive Enable turned off at end of function
-     if (digitalRead(Torch_Ready) == LOW)  // wait for torch ready signal Ready = Low
+     if (digitalRead(Torch_Ready) == HIGH)  // wait for torch ready signal Ready = High
   {
    digitalWrite(Feed_Start, LOW);
    delay(20);
    digitalWrite(Feed_Start, HIGH);
   }
- while (CurrentPageNumber <= 6 || CurrentPageNumber == 11 || (digitalRead(Handover) == true) || (digitalRead(Torch_Ready) == LOW)) //Focus on listening to Plasma Inputs
+ while (CurrentPageNumber <= 6 || CurrentPageNumber == 11 || (digitalRead(Handover) == true) || (digitalRead(Torch_Ready) == HIGH)) //Focus on listening to Plasma Inputs
   {
-    Input = map(analogRead(PLASMA_INPUT_PIN), 0, 1023, 0, 25000) + CalibrationOffset; //reads plasma arc voltage and convert to millivolt
+    Input = ads.readADC_Differential_0_1();
+    Input = Input * multiplier; //reads plasma arc voltage and convert to millivolt
     process(); //This is the main method of the application it calulates position and move steps if Input Voltage is over threshold.
     report();
     THCNex.NextionListen();
