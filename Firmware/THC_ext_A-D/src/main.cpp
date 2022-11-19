@@ -79,13 +79,13 @@
   Arc Voltage, conservative P I D parameters, aggressive P I D parameters, Gap(amount away from setpoint for Agg/Con PID Settings), Arc Voltage Setpoint, ArcStablizeDelay, and Z axes bountray limits.
 */
 
-//check hardware
+// check hardware
 /*#if !defined(__AVR_ATmega2560__)
     #error Not a Mega2560!
 #endif*/
 #include <Arduino.h>
-#include <FastPID.h>              // Include PID Library     
-#include <EasyNextionLibrary.h>   // Include EasyNextionLibrary
+#include <FastPID.h>            // Include PID Library
+#include <EasyNextionLibrary.h> // Include EasyNextionLibrary
 #include <AccelStepper.h>
 #include <Preferences.h>
 #include <EEPROM.h>
@@ -93,32 +93,34 @@
 #include <Adafruit_ADS1015.h>
 Preferences preferences;
 Adafruit_ADS1115 ads(0x48);
-float multiplier = .125; //Derived fro Gain
+float multiplier = .125; // Derived fro Gain
 EasyNex THCNex(Serial1); // Create an object of EasyNex class with the name < TCHNex >
 // Set as parameter the Serial1 for Mega2560 you are going to use
 // Default baudrate 9600
 #define RXD2 16
-#define TXD2 17  
+#define TXD2 17
 #define I2C_SDA 21
 #define I2C_SCL 22
 //#defineI2C___ 17
-#define Plasma_Trigger 32   //Trigger Plasma and switch Z control
+#define Plasma_Trigger 32 // Trigger Plasma and switch Z control
 #define Feed_Hold 33
 #define Feed_Start 25
 #define Torch_Ready 14
-#define PLASMA_INPUT_PIN 36   //THC GPIO 36 Analog voltage
-#define ENABLE_PIN 19     // Enable GPIO Clearpath Z
-#define Handover 12        //Start Handover of Z axis control from GRBL 
-#define STEP_PIN 23      // Direction GPIO 23
-#define DIR_PIN 18       // Step GPIO 18
-#define LED_BUILTIN 2
-//MKS Drive board enable pin in 13
-//No need to define because it uses the onboard LED on the Arduino Uno R3
+#define PLASMA_INPUT_PIN 36 // THC GPIO 36 Analog voltage
+#define ENABLE_PIN 19       // Enable GPIO Clearpath Z
+#define Handover 12         // Start Handover of Z axis control from GRBL
+#define STEP_PIN 23         // Direction GPIO 23
+#define DIR_PIN 18          // Step GPIO 18
+#define MUX_SET 2
+#define TRANSITPOS 30
+#define ARCTIMEOUT 1500     // safety timeout for bad pierce
+// MKS Drive board enable pin in 13
+// No need to define because it uses the onboard LED on the Arduino Uno R3
 
 // Define a stepper driver and the pins it will use
 AccelStepper stepper = AccelStepper(stepper.DRIVER, STEP_PIN, DIR_PIN);
 
-//Define Variables
+// Define Variables
 double Input = 0;
 float targetInput;
 float gap;
@@ -130,8 +132,7 @@ uint32_t arcStabilizeDelay;
 long SetPoint = 0;
 long CalibrationOffset = 0;
 
-
-//Specify the links and initial tuning parameters
+// Specify the links and initial tuning parameters
 float aggKp = 0.175, aggKi = 0.1, aggKd = 0.1;
 float Kp = 0.075, Ki = 0.01, Kd = 0.01;
 float Hz = 8;
@@ -172,58 +173,56 @@ long SetpointPage4 = 0;
 long SetpointPage5 = 0;
 long SetpointPage6 = 0;
 
-
 long CurrentPageNumber = 0;
 long SavedPage = 0;
 
-//movement
+// movement
 long steps_per_mm = 200;
 float pos = 0;
+float startcutpos = 0;
 float adjpos = 0;
 long minPos = -(40 * steps_per_mm);
 long maxPos = (40 * steps_per_mm);
 long moveAmt = 0;
 uint8_t output = 0;
 
-void report() //report plasma voltage and position
+void report() // report plasma voltage and position
 {
   THCNex.writeNum("PV.val", (int)Input);
   THCNex.writeNum("POS.val", (int)(pos / 2));
 }
 // +++++++++++++ Helpers ++++++++++++++++
-void writeStringIntoEEPROM(char add,String data)
+void writeStringIntoEEPROM(char add, String data)
 {
   int _size = data.length();
   int i;
-  for(i=0;i<_size;i++)
+  for (i = 0; i < _size; i++)
   {
-    EEPROM.write(add+i,data[i]);
+    EEPROM.write(add + i, data[i]);
   }
-  EEPROM.write(add+_size,'\0');   //Add termination null character for String Data
-//  EEPROM.commit();
+  EEPROM.write(add + _size, '\0'); // Add termination null character for String Data
+  //  EEPROM.commit();
 }
- 
- String read_StringFromEEPROM(char add)
+
+String read_StringFromEEPROM(char add)
 {
   int i;
-  char data[100]; //Max 100 Bytes
-  int len=0;
+  char data[100]; // Max 100 Bytes
+  int len = 0;
   unsigned char k;
-  k=EEPROM.read(add);
-  while(k != '\0' && len<500)   //Read until null character
-  {    
-    k=EEPROM.read(add+len);
-    data[len]=k;
+  k = EEPROM.read(add);
+  while (k != '\0' && len < 500) // Read until null character
+  {
+    k = EEPROM.read(add + len);
+    data[len] = k;
     len++;
   }
-  data[len]='\0';
+  data[len] = '\0';
   return String(data);
 }
 
 void writeIntIntoEEPROM(int address, int number)
-
-
-{ 
+{
   EEPROM.write(address, number >> 8);
   EEPROM.write(address + 1, number & 0xFF);
 }
@@ -234,23 +233,23 @@ int readIntFromEEPROM(int address)
 
 void writeFloatIntoEEPROM(int address, float num)
 {
- byte* f = (byte*)(void*)&num;
- for(int x = 0; x < 4; x++)
- {
-   EEPROM.write(address + (x*4),*f++);
- }  
+  byte *f = (byte *)(void *)&num;
+  for (int x = 0; x < 4; x++)
+  {
+    EEPROM.write(address + (x * 4), *f++);
+  }
 }
 float readFloatFromEEPROM(int address)
 {
- float eevalue;
- for(int x = 0; x < 4; x++)
- {
-   eevalue = eevalue + (float)EEPROM.read(address + (x*4));       
- }
- return eevalue;
+  float eevalue;
+  for (int x = 0; x < 4; x++)
+  {
+    eevalue = eevalue + (float)EEPROM.read(address + (x * 4));
+  }
+  return eevalue;
 }
 void writeLongIntoEEPROM(int address, long number)
-{ 
+{
   EEPROM.write(address, (number >> 24) & 0xFF);
   EEPROM.write(address + 1, (number >> 16) & 0xFF);
   EEPROM.write(address + 2, (number >> 8) & 0xFF);
@@ -262,22 +261,25 @@ long readLongFromEEPROM(int address)
   return ((long)EEPROM.read(address) << 2) + ((long)EEPROM.read(address + 1) << 16) + ((long)EEPROM.read(address + 2) << 8) + ((long)EEPROM.read(address + 3));
 }
 
-void process() //Calulates position and move steps
+void process() // Calulates position and move steps
 {
-  
-  oldDelay = micros();
-  while (Input > (threshold + CalibrationOffset)) //Only move if cutting by checking for voltage above a threshold level
-  {
-    if (micros() - oldDelay >= arcStabilizeDelay) //wait for arc to stabilize tipically 100-300ms
-    {
-      Input = map(analogRead(PLASMA_INPUT_PIN), 0, 1023, 0, 25000) + CalibrationOffset; //get new plasma arc voltage and convert to millivolts
 
-      currentGap = abs(SetPoint - Input); //distance away from setpoint
-      if (currentGap < gap) {
-        THCPID.setCoefficients(Kp, Ki, Kd, Hz); //we're close to setpoint, use conservative tuning parameters
+  oldDelay = micros();
+  while (Input > (threshold + CalibrationOffset)) // Only move if cutting by checking for voltage above a threshold level
+  {
+    if (micros() - oldDelay >= arcStabilizeDelay) // wait for arc to stabilize tipically 100-300ms
+    {
+      // Input = map(analogRead(PLASMA_INPUT_PIN), 0, 1023, 0, 25000) + CalibrationOffset; // get new plasma arc voltage and convert to millivolts
+      Input = ads.readADC_Differential_0_1() * multiplier + CalibrationOffset; // get new plasma arc voltage and convert to millivolts
+
+      currentGap = abs(SetPoint - Input); // distance away from setpoint
+      if (currentGap < gap)
+      {
+        THCPID.setCoefficients(Kp, Ki, Kd, Hz); // we're close to setpoint, use conservative tuning parameters
       }
-      else {
-        THCPID.setCoefficients(aggKp, aggKi, aggKd, Hz); //we're far from setpoint, use aggressive tuning parameters
+      else
+      {
+        THCPID.setCoefficients(aggKp, aggKi, aggKd, Hz); // we're far from setpoint, use aggressive tuning parameters
       }
 
       if (SetPoint > Input)
@@ -293,122 +295,127 @@ void process() //Calulates position and move steps
         pos = pos - output;
       }
 
-      //Validate move is within range
-      if (pos >= maxPos) {
+      // Validate move is within range
+      if (pos >= maxPos)
+      {
         pos = maxPos;
       }
-      if (pos <= minPos) {
+      if (pos <= minPos)
+      {
         pos = minPos;
       }
 
-      //do move
+      // do move
       stepper.moveTo(pos);
-      while (stepper.distanceToGo() != 0) {
+      while (stepper.distanceToGo() != 0)
+      {
         stepper.run();
       }
 
-      report(); //report plasma voltage and position
-      //format();
+      report(); // report plasma voltage and position
+      // format();
     }
   }
-  //after cut reset height
+  // after cut reset height
   pos = 0;
-  //do move
+  // do move
   stepper.moveTo(pos);
-  while (stepper.distanceToGo() != 0) {
+  while (stepper.distanceToGo() != 0)
+  {
     stepper.run();
   }
-  
 }
 
-void trigger0() //Set last page used on startup loaded event
+void trigger0() // Set last page used on startup loaded event
 {
-  //not used because bug with Nextion screen not updating screen loaded event.
-  //THCNex.writeNum("dp", SavedPage);
+  // not used because bug with Nextion screen not updating screen loaded event.
+  // THCNex.writeNum("dp", SavedPage);
 }
-void trigger1() //read customsetpoint on page loaded event
-{
-  CurrentPageNumber = THCNex.readNumber("dp");
-  SetPoint = THCNex.readNumber("CustomSetPoint.val");
-  if (CurrentPageNumber != 777777 && SetPoint != 777777)
-  {
-    switch (CurrentPageNumber) {
-      case 1:
-        SetPoint = SetpointPage1; //write a few times to make sure... nextion screen has a nasty habbat of ignoring update commands on boot.
-        THCNex.writeNum("CustomSetPoint.val", SetpointPage1);
-        THCNex.writeNum("CustomSlide.val", SetpointPage1);
-        THCNex.writeNum("CustomSetPoint.val", SetpointPage1);
-        THCNex.writeNum("CustomSlide.val", SetpointPage1);
-        THCNex.writeNum("CustomSetPoint.val", SetpointPage1);
-        THCNex.writeNum("CustomSlide.val", SetpointPage1);
-        break;
-      case 2:
-        SetPoint = SetpointPage2;
-        THCNex.writeNum("CustomSetPoint.val", SetpointPage2);
-        THCNex.writeNum("CustomSlide.val", SetpointPage2);
-        break;
-      case 3:
-        SetPoint = SetpointPage3;
-        THCNex.writeNum("CustomSetPoint.val", SetpointPage3);
-        THCNex.writeNum("CustomSlide.val", SetpointPage3);
-        break;
-      case 4:
-        SetPoint = SetpointPage4;
-        THCNex.writeNum("CustomSetPoint.val", SetpointPage4);
-        THCNex.writeNum("CustomSlide.val", SetpointPage4);
-        break;
-      case 5:
-        SetPoint = SetpointPage5;
-        THCNex.writeNum("CustomSetPoint.val", SetpointPage5);
-        THCNex.writeNum("CustomSlide.val", SetpointPage5);
-        break;
-      case 6:
-        SetPoint = SetpointPage6;
-        THCNex.writeNum("CustomSetPoint.val", SetpointPage6);
-        THCNex.writeNum("CustomSlide.val", SetpointPage6);
-        break;
-      default:
-        break;
-    }
-  }
-}
-void trigger2() //Save customsetpoints on end touch event
+void trigger1() // read customsetpoint on page loaded event
 {
   CurrentPageNumber = THCNex.readNumber("dp");
   SetPoint = THCNex.readNumber("CustomSetPoint.val");
   if (CurrentPageNumber != 777777 && SetPoint != 777777)
   {
-    switch (CurrentPageNumber) {
-      case 1:
-        SetpointPage1 = SetPoint;
-        writeLongIntoEEPROM(addressPage1, SetpointPage1);
-        break;
-      case 2:
-        SetpointPage2 = SetPoint;
-        writeLongIntoEEPROM(addressPage2, SetpointPage2);
-        break;
-      case 3:
-        SetpointPage3 = SetPoint;
-        writeLongIntoEEPROM(addressPage3, SetpointPage3);
-        break;
-      case 4:
-        SetpointPage4 = SetPoint;
-        writeLongIntoEEPROM(addressPage4, SetpointPage4);
-        break;
-      case 5:
-        SetpointPage5 = SetPoint;
-        writeLongIntoEEPROM(addressPage5, SetpointPage5);
-        break;
-      case 6:
-        SetpointPage6 = SetPoint;
-        writeLongIntoEEPROM(addressPage6, SetpointPage6);
-        break;
-      default:
-        break;
+    switch (CurrentPageNumber)
+    {
+    case 1:
+      SetPoint = SetpointPage1; // write a few times to make sure... nextion screen has a nasty habbat of ignoring update commands on boot.
+      THCNex.writeNum("CustomSetPoint.val", SetpointPage1);
+      THCNex.writeNum("CustomSlide.val", SetpointPage1);
+      THCNex.writeNum("CustomSetPoint.val", SetpointPage1);
+      THCNex.writeNum("CustomSlide.val", SetpointPage1);
+      THCNex.writeNum("CustomSetPoint.val", SetpointPage1);
+      THCNex.writeNum("CustomSlide.val", SetpointPage1);
+      break;
+    case 2:
+      SetPoint = SetpointPage2;
+      THCNex.writeNum("CustomSetPoint.val", SetpointPage2);
+      THCNex.writeNum("CustomSlide.val", SetpointPage2);
+      break;
+    case 3:
+      SetPoint = SetpointPage3;
+      THCNex.writeNum("CustomSetPoint.val", SetpointPage3);
+      THCNex.writeNum("CustomSlide.val", SetpointPage3);
+      break;
+    case 4:
+      SetPoint = SetpointPage4;
+      THCNex.writeNum("CustomSetPoint.val", SetpointPage4);
+      THCNex.writeNum("CustomSlide.val", SetpointPage4);
+      break;
+    case 5:
+      SetPoint = SetpointPage5;
+      THCNex.writeNum("CustomSetPoint.val", SetpointPage5);
+      THCNex.writeNum("CustomSlide.val", SetpointPage5);
+      break;
+    case 6:
+      SetPoint = SetpointPage6;
+      THCNex.writeNum("CustomSetPoint.val", SetpointPage6);
+      THCNex.writeNum("CustomSlide.val", SetpointPage6);
+      break;
+    default:
+      break;
     }
   }
 }
-void trigger3() //Move motor up
+void trigger2() // Save customsetpoints on end touch event
+{
+  CurrentPageNumber = THCNex.readNumber("dp");
+  SetPoint = THCNex.readNumber("CustomSetPoint.val");
+  if (CurrentPageNumber != 777777 && SetPoint != 777777)
+  {
+    switch (CurrentPageNumber)
+    {
+    case 1:
+      SetpointPage1 = SetPoint;
+      writeLongIntoEEPROM(addressPage1, SetpointPage1);
+      break;
+    case 2:
+      SetpointPage2 = SetPoint;
+      writeLongIntoEEPROM(addressPage2, SetpointPage2);
+      break;
+    case 3:
+      SetpointPage3 = SetPoint;
+      writeLongIntoEEPROM(addressPage3, SetpointPage3);
+      break;
+    case 4:
+      SetpointPage4 = SetPoint;
+      writeLongIntoEEPROM(addressPage4, SetpointPage4);
+      break;
+    case 5:
+      SetpointPage5 = SetPoint;
+      writeLongIntoEEPROM(addressPage5, SetpointPage5);
+      break;
+    case 6:
+      SetpointPage6 = SetPoint;
+      writeLongIntoEEPROM(addressPage6, SetpointPage6);
+      break;
+    default:
+      break;
+    }
+  }
+}
+void trigger3() // Move motor up
 {
   pos = pos + (scale * steps_per_mm);
   stepper.moveTo(pos);
@@ -418,7 +425,7 @@ void trigger3() //Move motor up
   }
   THCNex.writeNum("x2.val", (int)(pos / 2));
 }
-void trigger4() //Move motor down
+void trigger4() // Move motor down
 {
   pos = pos - (scale * steps_per_mm);
   stepper.moveTo(pos);
@@ -428,152 +435,151 @@ void trigger4() //Move motor down
   }
   THCNex.writeNum("x2.val", (int)(pos / 2));
 }
-void trigger5() //Increase allowable down movement range
+void trigger5() // Increase allowable down movement range
 {
   minPos = minPos + (scale * steps_per_mm);
   THCNex.writeNum("x1.val", (int)(minPos / 2));
   writeLongIntoEEPROM(addressMinpos, minPos);
 }
-void trigger6() //Decrease allowable up movement range
-{ minPos = minPos - (scale * steps_per_mm);
+void trigger6() // Decrease allowable up movement range
+{
+  minPos = minPos - (scale * steps_per_mm);
   THCNex.writeNum("x1.val", (int)(minPos / 2));
   writeLongIntoEEPROM(addressMinpos, minPos);
-
 }
-void trigger7() //Increase allowable up movement range
+void trigger7() // Increase allowable up movement range
 {
   maxPos = maxPos + (scale * steps_per_mm);
   THCNex.writeNum("x0.val", (int)(maxPos / 2));
   writeLongIntoEEPROM(addressMaxpos, maxPos);
-
 }
-void trigger8() //Decrease allowable down movement range
+void trigger8() // Decrease allowable down movement range
 {
   maxPos = maxPos - (scale * steps_per_mm);
   THCNex.writeNum("x0.val", (int)(maxPos / 2));
   writeLongIntoEEPROM(addressMaxpos, maxPos);
 }
-void trigger9() //Increase voltage gap between aggressive and normal targeting
+void trigger9() // Increase voltage gap between aggressive and normal targeting
 {
   gap = gap + (scale * 100);
   THCNex.writeNum("x2.val", (int)(gap));
   writeLongIntoEEPROM(addressGap, gap);
 }
-void trigger10() //Decrease voltage gap between aggressive and normal targeting
+void trigger10() // Decrease voltage gap between aggressive and normal targeting
 {
   gap = gap - (scale * 100);
   THCNex.writeNum("x2.val", (int)(gap));
   writeLongIntoEEPROM(addressGap, gap);
 }
-void trigger11() //Increase voltage reading threshold for calculating movements
+void trigger11() // Increase voltage reading threshold for calculating movements
 {
   threshold = threshold + (scale * 100);
   THCNex.writeNum("x1.val", (int)(threshold));
   writeLongIntoEEPROM(addressThreshold, threshold);
 }
-void trigger12() //Decrease voltage reading threshold for calculating movements
+void trigger12() // Decrease voltage reading threshold for calculating movements
 {
   threshold = threshold - (scale * 100);
   THCNex.writeNum("x1.val", (int)(threshold));
   writeLongIntoEEPROM(addressThreshold, threshold);
 }
-void trigger13() //Increase delay before calculating movements
+void trigger13() // Increase delay before calculating movements
 {
   arcStabilizeDelay = arcStabilizeDelay + (scale * 100);
   THCNex.writeNum("x0.val", (int)(arcStabilizeDelay / 10));
   writeLongIntoEEPROM(addressDelay, arcStabilizeDelay);
 }
-void trigger14() //Decrease delay before calculating movements
+void trigger14() // Decrease delay before calculating movements
 {
   arcStabilizeDelay = arcStabilizeDelay - (scale * 100);
   THCNex.writeNum("x0.val", (int)(arcStabilizeDelay / 10));
   writeLongIntoEEPROM(addressDelay, arcStabilizeDelay);
 }
-void trigger15() //Increase steps per millimeter
+void trigger15() // Increase steps per millimeter
 {
   steps_per_mm = steps_per_mm + scale;
   THCNex.writeNum("x3.val", (int)(100 * steps_per_mm));
   writeLongIntoEEPROM(addressSteps, steps_per_mm);
 }
-void trigger16() //Decrease steps per millimeter
+void trigger16() // Decrease steps per millimeter
 {
   steps_per_mm = steps_per_mm - scale;
   THCNex.writeNum("x3.val", (int)(100 * steps_per_mm));
   writeLongIntoEEPROM(addressSteps, steps_per_mm);
 }
-void trigger17() //Increase Aggressive P Parameter
+void trigger17() // Increase Aggressive P Parameter
 {
   aggKp = aggKp + scale * 0.01;
   THCNex.writeNum("x2.val", (int)(1000 * aggKp));
   writeFloatIntoEEPROM(addressAP, aggKp);
 }
-void trigger18() //Decrease Aggressive P Parameter
+void trigger18() // Decrease Aggressive P Parameter
 {
   aggKp = aggKp - scale * 0.01;
   THCNex.writeNum("x2.val", (int)(1000 * aggKp));
   writeFloatIntoEEPROM(addressAP, aggKp);
 }
-void trigger19() //Increase Aggressive I Parameter
+void trigger19() // Increase Aggressive I Parameter
 {
   aggKi = aggKi + scale * 0.01;
   THCNex.writeNum("x1.val", (int)(1000 * aggKi));
   writeFloatIntoEEPROM(addressAI, aggKi);
 }
-void trigger20() //Decrease Aggressive I Parameter
+void trigger20() // Decrease Aggressive I Parameter
 {
   aggKi = aggKi - scale * 0.01;
   THCNex.writeNum("x1.val", (int)(1000 * aggKi));
   writeFloatIntoEEPROM(addressAI, aggKi);
 }
-void trigger21() //Increase Aggressive D Parameter
+void trigger21() // Increase Aggressive D Parameter
 {
   aggKd = aggKd + scale * 0.01;
   THCNex.writeNum("x0.val", (int)(1000 * aggKd));
   writeFloatIntoEEPROM(addressAD, aggKd);
 }
-void trigger22() //Decrease Aggressive D Parameter
+void trigger22() // Decrease Aggressive D Parameter
 {
   aggKd = aggKd - scale * 0.01;
   THCNex.writeNum("x0.val", (int)(1000 * aggKd));
   writeFloatIntoEEPROM(addressAD, aggKd);
 }
-void trigger23() //Increase Conservative P Parameter
+void trigger23() // Increase Conservative P Parameter
 {
   Kp = Kp + scale * 0.01;
   THCNex.writeNum("x2.val", (int)(1000 * Kp));
   writeFloatIntoEEPROM(addressCP, Kp);
 }
-void trigger24() //Decrease Conservative P Parameter
+void trigger24() // Decrease Conservative P Parameter
 {
   Kp = Kp - scale * 0.01;
   THCNex.writeNum("x2.val", (int)(1000 * Kp));
   writeFloatIntoEEPROM(addressCP, Kp);
 }
-void trigger25() //Increase Conservative I Parameter
+void trigger25() // Increase Conservative I Parameter
 {
   Ki = Ki + scale * 0.01;
   THCNex.writeNum("x1.val", (int)(1000 * Ki));
   writeFloatIntoEEPROM(addressCI, Ki);
 }
-void trigger26() //Decrease Conservative I Parameter
+void trigger26() // Decrease Conservative I Parameter
 {
   Ki = Ki - scale * 0.01;
   THCNex.writeNum("x1.val", (int)(1000 * Ki));
   writeFloatIntoEEPROM(addressCI, Ki);
 }
-void trigger27() //Increase Conservative D Parameter
+void trigger27() // Increase Conservative D Parameter
 {
   Kd = Kd + scale * 0.01;
   THCNex.writeNum("x0.val", (int)(1000 * Kd));
   writeFloatIntoEEPROM(addressCD, Kd);
 }
-void trigger28() //Decrease Conservative D Parameter
+void trigger28() // Decrease Conservative D Parameter
 {
   Kd = Kd - scale * 0.01;
   THCNex.writeNum("x0.val", (int)(1000 * Kd));
   (addressCD, Kd);
 }
-void trigger29() //load movement page settings
+void trigger29() // load movement page settings
 {
   if (scale == 0.1)
   {
@@ -597,7 +603,7 @@ void trigger29() //load movement page settings
   THCNex.writeNum("x0.val", (int)(maxPos / 2));
   THCNex.writeNum("x1.val", (int)(minPos / 2));
 }
-void trigger30() //Load default page settings
+void trigger30() // Load default page settings
 {
   if (scale == 0.1)
   {
@@ -622,7 +628,7 @@ void trigger30() //Load default page settings
   THCNex.writeNum("x0.val", (int)(arcStabilizeDelay / 10));
   THCNex.writeNum("x3.val", (int)(100 * steps_per_mm));
 }
-void trigger31() //Save Scale on end touch event
+void trigger31() // Save Scale on end touch event
 {
   if (THCNex.readNumber("bt0.val") == 1)
   {
@@ -637,7 +643,7 @@ void trigger31() //Save Scale on end touch event
     scale = 10;
   }
 }
-void trigger32() //Load Aggressive PID settings
+void trigger32() // Load Aggressive PID settings
 {
   if (scale == 0.1)
   {
@@ -661,8 +667,9 @@ void trigger32() //Load Aggressive PID settings
   THCNex.writeNum("x1.val", (int)(1000 * aggKi));
   THCNex.writeNum("x0.val", (int)(1000 * aggKd));
 }
-void trigger33() //Load Conservative PID Settings
-{ if (scale == 0.1)
+void trigger33() // Load Conservative PID Settings
+{
+  if (scale == 0.1)
   {
     THCNex.writeNum("bt0.val", 1);
     THCNex.writeNum("bt1.val", 0);
@@ -684,20 +691,21 @@ void trigger33() //Load Conservative PID Settings
   THCNex.writeNum("x1.val", (int)(1000 * Ki));
   THCNex.writeNum("x0.val", (int)(1000 * Kd));
 }
-void trigger34() //Load Calibration Offset
+void trigger34() // Load Calibration Offset
 {
   THCNex.writeNum("CustomSetPoint.val", CalibrationOffset);
 }
-void trigger35() //Save Calibration Offset on end touch event
+void trigger35() // Save Calibration Offset on end touch event
 {
   int cali = THCNex.readNumber("CustomSetPoint.val");
-  if (cali != 77777) {
+  if (cali != 77777)
+  {
     CalibrationOffset = cali;
     writeLongIntoEEPROM(addressCalibrate, CalibrationOffset);
   }
 }
 
-void format() //Set text color
+void format() // Set text color
 {
   if (pos > 1 && pos < 1000)
   {
@@ -709,205 +717,241 @@ void format() //Set text color
   }
 }
 
-
-
 // the setup function runs once when you press reset or power the board
 void setup()
 {
   // Initialize digital pin LED_BUILTIN as an output.
-  //This is used to enable the MKS driver board. Plus it flashes and flashes are cool.
+  // This is used to enable the MKS driver board. Plus it flashes and flashes are cool.
   pinMode(Plasma_Trigger, OUTPUT);
   pinMode(Torch_Ready, INPUT_PULLDOWN);
   pinMode(Feed_Hold, OUTPUT);
   pinMode(Feed_Start, OUTPUT);
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(MUX_SET, OUTPUT);
   pinMode(ENABLE_PIN, OUTPUT);
   pinMode(Handover, INPUT_PULLDOWN);
   digitalWrite(Torch_Ready, LOW);
-  digitalWrite(ENABLE_PIN, HIGH);
-  delay(100);
-  digitalWrite(ENABLE_PIN, LOW);
+  digitalWrite(ENABLE_PIN, HIGH); // Keep Z-axis motor Enabled
   digitalWrite(Feed_Hold, HIGH);
   digitalWrite(Feed_Start, HIGH);
   digitalWrite(Plasma_Trigger, LOW);
-  //ADS1115 setup
-  // The ADC input range (or gain) can be changed via the following
-  // functions, but be careful never to exceed VDD +0.3V max, or to
-  // exceed the upper and lower limits if you adjust the input range!
-  // Setting these values incorrectly may destroy your ADC!
-  //                                                                ADS1015  ADS1115
-  //                                                                -------  -------
-  // ads.setGain(GAIN_TWOTHIRDS);  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)
-   ads.setGain(GAIN_ONE);        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV
+  // ADS1115 setup
+  //  The ADC input range (or gain) can be changed via the following
+  //  functions, but be careful never to exceed VDD +0.3V max, or to
+  //  exceed the upper and lower limits if you adjust the input range!
+  //  Setting these values incorrectly may destroy your ADC!
+  //                                                                 ADS1015  ADS1115
+  //                                                                 -------  -------
+  //  ads.setGain(GAIN_TWOTHIRDS);  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)
+  ads.setGain(GAIN_ONE); // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV
   // ads.setGain(GAIN_TWO);        // 2x gain   +/- 2.048V  1 bit = 1mV      0.0625mV
   // ads.setGain(GAIN_FOUR);       // 4x gain   +/- 1.024V  1 bit = 0.5mV    0.03125mV
   // ads.setGain(GAIN_EIGHT);      // 8x gain   +/- 0.512V  1 bit = 0.25mV   0.015625mV
   // ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
   ads.begin();
-  
+
   Serial.begin(115200);
   Serial.println("hello i am starting");
   preferences.begin("Setup", false);
   // Begin the object with a baud rate of 9600
-   Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
-   Serial2.println("Serial starting");
-  THCNex.begin();  // If no parameter was given in the begin(), the default baud rate of 9600 will be used
-  while (!Serial) {
+  Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
+  // Serial2.println("Serial starting");
+  THCNex.begin(); // If no parameter was given in the begin(), the default baud rate of 9600 will be used
+  while (!Serial)
+  {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
-  //initialize the variables we're linked to
-  // Load EEPROM Addresses for Setpoints or set defaults
+  // initialize the variables we're linked to
+  //  Load EEPROM Addresses for Setpoints or set defaults
   SetpointPage1 = readLongFromEEPROM(addressPage1);
-  if (SetpointPage1 == 0) {
+  if (SetpointPage1 == 0)
+  {
     SetpointPage1 = defaultSetpoint;
   }
 
   SetpointPage2 = readLongFromEEPROM(addressPage2);
-  if (SetpointPage2 == 0) {
+  if (SetpointPage2 == 0)
+  {
     SetpointPage2 = defaultSetpoint;
   }
 
   SetpointPage3 = readLongFromEEPROM(addressPage3);
-  if (SetpointPage3 == 0) {
+  if (SetpointPage3 == 0)
+  {
     SetpointPage3 = defaultSetpoint;
   }
 
   SetpointPage4 = readLongFromEEPROM(addressPage4);
-  if (SetpointPage4 == 0) {
+  if (SetpointPage4 == 0)
+  {
     SetpointPage4 = defaultSetpoint;
   }
 
   SetpointPage5 = readLongFromEEPROM(addressPage5);
-  if (SetpointPage5 == 0) {
+  if (SetpointPage5 == 0)
+  {
     SetpointPage5 = defaultSetpoint;
   }
 
   SetpointPage6 = readLongFromEEPROM(addressPage6);
-  if (SetpointPage6 == 0) {
+  if (SetpointPage6 == 0)
+  {
     SetpointPage6 = defaultSetpoint;
   }
 
   scale = readFloatFromEEPROM(addressScale); // float
-  if (scale == 0) {
+  if (scale == 0)
+  {
     scale = 1;
   }
 
   gap = readLongFromEEPROM(addressGap);
-  if (gap == 0) {
+  if (gap == 0)
+  {
     gap = 500;
   }
 
   threshold = readLongFromEEPROM(addressThreshold);
-  if (threshold == 0) {
+  if (threshold == 0)
+  {
     threshold = 4000;
   }
 
   arcStabilizeDelay = readLongFromEEPROM(addressDelay);
-  if (arcStabilizeDelay == 0) {
+  if (arcStabilizeDelay == 0)
+  {
     arcStabilizeDelay = 150;
   }
 
   steps_per_mm = readLongFromEEPROM(addressSteps);
-  if (steps_per_mm == 0) {
+  if (steps_per_mm == 0)
+  {
     steps_per_mm = 200;
   }
 
   maxPos = readLongFromEEPROM(addressMaxpos);
-  if (maxPos == 0) {
+  if (maxPos == 0)
+  {
     maxPos = 40 * steps_per_mm;
   }
 
   minPos = readLongFromEEPROM(addressMinpos);
-  if (minPos == 0) {
+  if (minPos == 0)
+  {
     minPos = -(40 * steps_per_mm);
   }
 
-  aggKp = readFloatFromEEPROM(addressAP); //float
-  if (aggKp == 0) {
+  aggKp = readFloatFromEEPROM(addressAP); // float
+  if (aggKp == 0)
+  {
     aggKp = 0.175;
   }
 
-  aggKi = readFloatFromEEPROM(addressAI); //float
-  if (aggKi == 0) {
+  aggKi = readFloatFromEEPROM(addressAI); // float
+  if (aggKi == 0)
+  {
     aggKi = 0.1;
   }
 
-  aggKd = readFloatFromEEPROM(addressAD); //float
-  if (aggKd == 0) {
+  aggKd = readFloatFromEEPROM(addressAD); // float
+  if (aggKd == 0)
+  {
     aggKd = 0.1;
   }
 
-  Kp = readFloatFromEEPROM(addressCP); //float
-  if (Kp == 0) {
+  Kp = readFloatFromEEPROM(addressCP); // float
+  if (Kp == 0)
+  {
     Kp = 0.075;
   }
 
-  Ki = readFloatFromEEPROM(addressCI); //float
-  if (Ki == 0) {
+  Ki = readFloatFromEEPROM(addressCI); // float
+  if (Ki == 0)
+  {
     Ki = 0.01;
   }
 
-  Kd = readFloatFromEEPROM(addressCD); //float
-  if (Kd == 0) {
+  Kd = readFloatFromEEPROM(addressCD); // float
+  if (Kd == 0)
+  {
     Kd = 0.01;
   }
 
   CalibrationOffset = readLongFromEEPROM(addressCalibrate);
-  if (CalibrationOffset == 0) {
+  if (CalibrationOffset == 0)
+  {
     CalibrationOffset = 0;
   }
 
   // Wait for Nextion Screen to bootup
   delay(2500);
   THCNex.writeNum("CustomSetPoint.val", SetpointPage1);
-  THCNex.writeNum("CustomSetPoint.val", SetpointPage1); //Make sure it set
-  THCNex.writeNum("CustomSetPoint.val", SetpointPage1); //One more time
+  THCNex.writeNum("CustomSetPoint.val", SetpointPage1); // Make sure it set
+  THCNex.writeNum("CustomSetPoint.val", SetpointPage1); // One more time
   SetPoint = SetpointPage1;
 
-  //Setup Stepper Driver
-  stepper.setMaxSpeed(150000); //thru experimentation I found these values to work... Change for your setup.
+  // Setup Stepper Driver
+  stepper.setMaxSpeed(150000); // thru experimentation I found these values to work... Change for your setup.
   stepper.setAcceleration(20000);
-  //Enable MKS Driver Board
- 
-
+  // Enable MKS Driver Board
 }
-
 
 // the loop function runs over and over again forever
 void loop()
 {
-  if (digitalRead(Handover) == true) //Machine code turns on Spindle or laser
+  int cut_halt_state = 0;
+  if (digitalRead(Handover) == true) // Machine code turns on Spindle or laser // from fluidnc
   {
-  digitalWrite(Feed_Hold, LOW);  //Hold Feed until torch ready
-  delay(20);
-  digitalWrite(Feed_Hold, HIGH); //20ms pulse
-  digitalWrite(Plasma_Trigger, HIGH); //fire plasma
-  digitalWrite(ENABLE_PIN, HIGH); // Added Drive Enable turned off at end of function
-     if (digitalRead(Torch_Ready) == HIGH)  // wait for torch ready signal Ready = High
-  {
-   digitalWrite(Feed_Start, LOW);
-   delay(20);
-   digitalWrite(Feed_Start, HIGH);
+    startcutpos = pos;            // Recording position at start of cut to return to later
+    digitalWrite(Feed_Hold, LOW); delay(20); digitalWrite(Feed_Hold, HIGH);// Hold Feed until torch ready
+    digitalWrite(Plasma_Trigger, HIGH);      // fire plasma + toggle multiplexer for Z axis control
+    int start_pierce_time = millis();
+    while (digitalRead(Torch_Ready) != HIGH) // wait for torch ready signal Ready = High
+    {
+      if (millis() > (start_pierce_time + ARCTIMEOUT)){ // retry mode with delay
+        start_pierce_time = millis();
+        digitalWrite(Plasma_Trigger, LOW);
+        delay(5000);
+        digitalWrite(Plasma_Trigger, HIGH);
+      }
+    }
+    digitalWrite(MUX_SET, HIGH); // Enable Mux control with THC board
+    digitalWrite(Feed_Start, LOW);delay(20);digitalWrite(Feed_Start, HIGH);
   }
- while (CurrentPageNumber <= 6 || CurrentPageNumber == 11 || (digitalRead(Handover) == true) || (digitalRead(Torch_Ready) == HIGH)) //Focus on listening to Plasma Inputs
+  //  || (digitalRead(Handover) == true) || (digitalRead(Torch_Ready) == HIGH)
+  while ((CurrentPageNumber <= 6 || CurrentPageNumber == 11) && digitalRead(Handover) == true) // Focus on listening to Plasma Inputs
   {
-    Input = ads.readADC_Differential_0_1();
-    Input = Input * multiplier; //reads plasma arc voltage and convert to millivolt
-    process(); //This is the main method of the application it calulates position and move steps if Input Voltage is over threshold.
+    Input = ads.readADC_Differential_0_1() * multiplier + CalibrationOffset; // reads plasma arc voltage and convert to millivolt
+    process();                                                               // This is the main method of the application it calulates position and move steps if Input Voltage is over threshold.
     report();
     THCNex.NextionListen();
+    int cut_halt_state = 1;
   }
+
+  if (cut_halt_state == 1)
+  {
+    // Done our operation, cleanup time
+    // Pause machine
+    digitalWrite(Feed_Hold, LOW); // Hold Feed until torch ready
+    delay(20);
+    digitalWrite(Feed_Hold, HIGH); // 20ms pulse
+    // Return Z and move to safe position
+    stepper.moveTo(startcutpos + TRANSITPOS);
+    // Release control to Z- Axis
+    digitalWrite(MUX_SET, HIGH); // Disable Mux control with THC board
   }
-    else
-    {
-    digitalWrite(Plasma_Trigger, LOW);
-    digitalWrite(ENABLE_PIN, LOW);
-    }
-  
-    THCNex.NextionListen(); //else focus on listening to Nextion Inputs
-  
-    
+  // Done our operation, cleanup time
+  // Pause machine
+  digitalWrite(Feed_Hold, LOW); // Hold Feed until torch ready
+  delay(20);
+  digitalWrite(Feed_Hold, HIGH); // 20ms pulse
+  // Return Z and move to safe position
+  stepper.moveTo(startcutpos + TRANSITPOS);
+  // Release control to Z- Axis
+  digitalWrite(MUX_SET, HIGH); // Disable Mux control with THC board
+  digitalWrite(Feed_Start, LOW);delay(20);digitalWrite(Feed_Start, HIGH); // start grbl
+
+  THCNex.NextionListen();      // else focus on listening to Nextion Inputs
 }
 /* Original Loop
 // the loop function runs over and over again forever
