@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name BDringController-rescue)(type Legacy)(uri "${KIPRJMOD}/Main Board V1-rescue.lib")(options "")(descr ""))
+  (lib (name Main-Board-V1-rescue)(type Legacy)(uri "${KIPRJMOD}/Main Board V1-rescue.lib")(options "")(descr ""))
+)
