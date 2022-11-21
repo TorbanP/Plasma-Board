@@ -11,6 +11,10 @@
 		},
 		{
 			"path": "FluidNC"
+		},
+		{
+			"name": "THC_Basic_handover_test",
+			"path": "THC_basic_handover_test/THC_Basic_handover_test"
 		}
 	],
 	"settings": {

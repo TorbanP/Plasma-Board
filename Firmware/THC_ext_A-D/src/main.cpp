@@ -89,7 +89,7 @@
 #include <AccelStepper.h>
 #include <Preferences.h>
 #include <EEPROM.h>
-//#include <Wire.h>
+// #include <Wire.h>
 #include <Adafruit_ADS1015.h>
 Preferences preferences;
 Adafruit_ADS1115 ads(0x48);
@@ -101,19 +101,20 @@ EasyNex THCNex(Serial1); // Create an object of EasyNex class with the name < TC
 #define TXD2 17
 #define I2C_SDA 21
 #define I2C_SCL 22
-//#defineI2C___ 17
+// #defineI2C___ 17
 #define Plasma_Trigger 32 // Trigger Plasma and switch Z control
-#define Feed_Hold 33
+#define Feed_Hold 26
 #define Feed_Start 25
+#define Probe_Pin 34 // Active Low
 #define Torch_Ready 14
 #define PLASMA_INPUT_PIN 36 // THC GPIO 36 Analog voltage
 #define ENABLE_PIN 19       // Enable GPIO Clearpath Z
 #define Handover 12         // Start Handover of Z axis control from GRBL
 #define STEP_PIN 23         // Direction GPIO 23
 #define DIR_PIN 18          // Step GPIO 18
-#define MUX_SET 2
+#define MUX_SET 4
 #define TRANSITPOS 30
-#define ARCTIMEOUT 1500     // safety timeout for bad pierce
+#define ARCTIMEOUT 1500 // safety timeout for bad pierce
 // MKS Drive board enable pin in 13
 // No need to define because it uses the onboard LED on the Arduino Uno R3
 
@@ -131,6 +132,10 @@ uint32_t oldDelay;
 uint32_t arcStabilizeDelay;
 long SetPoint = 0;
 long CalibrationOffset = 0;
+
+int runonce = 0;
+int handover_state = 0;
+int handover_state_counter = 0;
 
 // Specify the links and initial tuning parameters
 float aggKp = 0.175, aggKi = 0.1, aggKd = 0.1;
@@ -728,7 +733,9 @@ void setup()
   pinMode(Feed_Start, OUTPUT);
   pinMode(MUX_SET, OUTPUT);
   pinMode(ENABLE_PIN, OUTPUT);
-  pinMode(Handover, INPUT_PULLDOWN);
+  pinMode(Handover, INPUT);
+  pinMode(Probe_Pin, INPUT);
+
   digitalWrite(Torch_Ready, LOW);
   digitalWrite(ENABLE_PIN, HIGH); // Keep Z-axis motor Enabled
   digitalWrite(Feed_Hold, HIGH);
@@ -894,76 +901,119 @@ void setup()
   stepper.setMaxSpeed(150000); // thru experimentation I found these values to work... Change for your setup.
   stepper.setAcceleration(20000);
   // Enable MKS Driver Board
+  Serial.println("Setup Complete");
 }
 
 // the loop function runs over and over again forever
 void loop()
 {
-  int cut_halt_state = 0;
-  if (digitalRead(Handover) == true) // Machine code turns on Spindle or laser // from fluidnc
+
+
+  //Serial.println(digitalRead(Probe_Pin));
+
+
+
+  // int cut_halt_state = 0;
+  handover_state = digitalRead(Handover);
+  if (!handover_state)
   {
-    startcutpos = pos;            // Recording position at start of cut to return to later
-    digitalWrite(Feed_Hold, LOW); delay(20); digitalWrite(Feed_Hold, HIGH);// Hold Feed until torch ready
-    digitalWrite(Plasma_Trigger, HIGH);      // fire plasma + toggle multiplexer for Z axis control
-    int start_pierce_time = millis();
-    while (digitalRead(Torch_Ready) != HIGH) // wait for torch ready signal Ready = High
+    handover_state_counter++;
+  }
+  else
+  {
+    handover_state_counter = 0;
+  }
+
+  if (handover_state && runonce == 0) // Machine code turns on Spindle or laser // from fluidnc
+  {
+    Serial.println("Plasma Start");
+    digitalWrite(Feed_Hold, LOW);
+    delay(100);
+    digitalWrite(Feed_Hold, HIGH); // Hold Feed until torch ready
+    while (!digitalRead(Handover))
     {
-      if (millis() > (start_pierce_time + ARCTIMEOUT)){ // retry mode with delay
-        start_pierce_time = millis();
-        digitalWrite(Plasma_Trigger, LOW);
-        delay(5000);
-        digitalWrite(Plasma_Trigger, HIGH);
-      }
+      ; // Assert XY is stopped, handover is low
     }
+    Serial.println("Set Mux");
+    // PROBE
     digitalWrite(MUX_SET, HIGH); // Enable Mux control with THC board
-    digitalWrite(Feed_Start, LOW);delay(20);digitalWrite(Feed_Start, HIGH);
+
+    while (digitalRead(Probe_Pin))
+    {
+      stepper.move(1);
+      stepper.run();
+      Serial.println("Moving Down!");
+    }
+    stepper.setCurrentPosition(0);
+
+    stepper.move(-1000);
+    while(stepper.run()){
+      Serial.println("Moving up!");;
+    }
+    
+
+  Serial.println("Plasma Triggered");
+    digitalWrite(Plasma_Trigger, HIGH); // fire plasma + toggle multiplexer for Z axis control
+    // int start_pierce_time = millis();
+    // while (digitalRead(Torch_Ready) != HIGH) // wait for torch ready signal Ready = High
+    // {
+    //   if (millis() > (start_pierce_time + ARCTIMEOUT))
+    //   { // retry mode with delay
+    //     start_pierce_time = millis();
+    //     digitalWrite(Plasma_Trigger, LOW);
+    //     delay(5000);
+    //     digitalWrite(Plasma_Trigger, HIGH);
+    //   }
+    // }
+
+    digitalWrite(Feed_Start, LOW);
+    delay(100);
+    digitalWrite(Feed_Start, HIGH);
+    while (!digitalRead(Handover))
+    {
+      delay(1);
+    }
+    runonce = 1;
   }
-  //  || (digitalRead(Handover) == true) || (digitalRead(Torch_Ready) == HIGH)
-  while ((CurrentPageNumber <= 6 || CurrentPageNumber == 11) && digitalRead(Handover) == true) // Focus on listening to Plasma Inputs
+    if (handover_state_counter > 50)
   {
-    Input = ads.readADC_Differential_0_1() * multiplier + CalibrationOffset; // reads plasma arc voltage and convert to millivolt
-    process();                                                               // This is the main method of the application it calulates position and move steps if Input Voltage is over threshold.
-    report();
-    THCNex.NextionListen();
-    int cut_halt_state = 1;
+    runonce = 0;
+    //Serial.println("runonce reset to 0");
   }
 
-  if (cut_halt_state == 1)
-  {
-    // Done our operation, cleanup time
-    // Pause machine
-    digitalWrite(Feed_Hold, LOW); // Hold Feed until torch ready
-    delay(20);
-    digitalWrite(Feed_Hold, HIGH); // 20ms pulse
-    // Return Z and move to safe position
-    stepper.moveTo(startcutpos + TRANSITPOS);
-    // Release control to Z- Axis
-    digitalWrite(MUX_SET, HIGH); // Disable Mux control with THC board
-  }
-  // Done our operation, cleanup time
-  // Pause machine
-  digitalWrite(Feed_Hold, LOW); // Hold Feed until torch ready
-  delay(20);
-  digitalWrite(Feed_Hold, HIGH); // 20ms pulse
-  // Return Z and move to safe position
-  stepper.moveTo(startcutpos + TRANSITPOS);
-  // Release control to Z- Axis
-  digitalWrite(MUX_SET, HIGH); // Disable Mux control with THC board
-  digitalWrite(Feed_Start, LOW);delay(20);digitalWrite(Feed_Start, HIGH); // start grbl
+  // while ((CurrentPageNumber <= 6 || CurrentPageNumber == 11) && digitalRead(Handover) == true) // Focus on listening to Plasma Inputs
+  // {
+  //   Input = ads.readADC_Differential_0_1() * multiplier + CalibrationOffset; // reads plasma arc voltage and convert to millivolt
+  //   process();                                                               // This is the main method of the application it calulates position and move steps if Input Voltage is over threshold.
+  //   report();
+  //   THCNex.NextionListen();
+  //   int cut_halt_state = 1;
+  // }
 
-  THCNex.NextionListen();      // else focus on listening to Nextion Inputs
+  // if (cut_halt_state == 1)
+  // {
+  //   // Done our operation, cleanup time
+  //   // Pause machine
+  //   digitalWrite(Feed_Hold, LOW); // Hold Feed until torch ready
+  //   delay(20);
+  //   digitalWrite(Feed_Hold, HIGH); // 20ms pulse
+  //   // Return Z and move to safe position
+  //   stepper.moveTo(startcutpos + TRANSITPOS);
+  //   // Release control to Z- Axis
+  //   digitalWrite(MUX_SET, HIGH); // Disable Mux control with THC board
+  // }
+  // // Done our operation, cleanup time
+  // // Pause machine
+  // digitalWrite(Feed_Hold, LOW); // Hold Feed until torch ready
+  // delay(20);
+  // digitalWrite(Feed_Hold, HIGH); // 20ms pulse
+  // // Return Z and move to safe position
+  // stepper.moveTo(startcutpos + TRANSITPOS);
+  // // Release control to Z- Axis
+  // digitalWrite(MUX_SET, HIGH); // Disable Mux control with THC board
+  // digitalWrite(Feed_Start, LOW);
+  // delay(20);
+  // digitalWrite(Feed_Start, HIGH); // start grbl
+
+  // THCNex.NextionListen(); // else focus on listening to Nextion Inputs
 }
-/* Original Loop
-// the loop function runs over and over again forever
-void loop()
-{
- while (CurrentPageNumber <= 6 || CurrentPageNumber == 11) //Focus on listening to Plasma Inputs
-  {
-    Input = map(analogRead(PLASMA_INPUT_PIN), 0, 1023, 0, 25000) + CalibrationOffset; //reads plasma arc voltage and convert to millivolt
-    process(); //This is the main method of the application it calulates position and move steps if Input Voltage is over threshold.
-    report();
-    THCNex.NextionListen();
-  }
-    THCNex.NextionListen(); //else focus on listening to Nextion Inputs
-}
-*/
