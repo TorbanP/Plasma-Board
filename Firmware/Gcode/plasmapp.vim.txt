@@ -1,8 +1,0 @@
-" macro template to replace M3, M4, M5 with plasma torch probe
-" use vim find and replace command...
-
-%s/\(M3\|M4\)/\r;begin probe for ITH. THT=10.6mm\rG21 G91 (metric and relative)\rG38.2 Z-35 F800 (probe fast from safe retract, 24mm+THT)\rG1 Z12.6 (fast retract 2mm+THT)\rG38.2 Z-14.6 F400 (slow probe max -2mm -last retract)\rG1 Z13.1 F800 (fast retract to ITH, 2.5mm+THT, 150%-200% of cut height)\rM3\rG4 P1.5 (pierce delay, THC delay s\/b this+1.0)\rG1 LDCrestore (restore feed rate, move mode, and units as needed)\r;end probe ITH\r/gc
-
-%s/M5/\r;begin safe retract and ready for probing next cut ITH\rM5\rG21 G91\rG1 Z20 F800 (fast retract to safe height)\rG1 LDCrestore (restore feed rate, move mode, and units as needed)\r;end safe retract and ready ITH\r/gc
-
-promptrepl LDCrestore
