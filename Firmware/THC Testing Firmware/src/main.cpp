@@ -14,10 +14,10 @@
 #define TXD2 17
 #define I2C_SDA 21
 #define I2C_SCL 22
-#define Plasma_Trigger 32  // Trigger Plasma and switch Z control
+#define Plasma_Trigger 32    // Trigger Plasma and switch Z control
 #define Feed_Hold 26
 #define Feed_Start 25
-#define Probe_Pin 34  // Active Low
+#define Probe_Pin 34         // Active Low
 #define Torch_Ready 14
 #define PLASMA_INPUT_PIN 36  // THC GPIO 36 Analog voltage
 #define ENABLE_PIN 19        // Enable GPIO Clearpath Z
@@ -26,15 +26,12 @@
 #define DIR_PIN 18           // Step GPIO 18
 #define MUX_SET 4
 #define TRANSITPOS 30
-#define ARCTIMEOUT 1500  // safety timeout for bad pierce
+#define ARCTIMEOUT 1500      // safety timeout for bad pierce
 
 Preferences preferences;
 Adafruit_ADS1115 ads(0x48);
-float multiplier = .125;  // Derived fro Gain
-EasyNex THCNex(
-    Serial1);  // Create an object of EasyNex class with the name < TCHNex >
-// MKS Drive board enable pin in 13
-// No need to define because it uses the onboard LED on the Arduino Uno R3
+float multiplier = .125;
+EasyNex THCNex(Serial1);
 
 // Define a stepper driver and the pins it will use
 AccelStepper stepper = AccelStepper(stepper.DRIVER, STEP_PIN, DIR_PIN);
@@ -95,7 +92,7 @@ long SetpointPage6 = 0;
 long CurrentPageNumber = 0;
 long SavedPage = 0;
 
-// movement
+// Movement
 long steps_per_mm = 200;
 float pos = 0;
 float startcutpos = 0;
@@ -159,7 +156,7 @@ void trigger34();
 void trigger35();
 void format();
 
-//
+// Setup Code (Ran once)
 void setup(void) {
     Serial.begin(115200);
     WiFi.mode(WIFI_STA);
@@ -177,9 +174,7 @@ void setup(void) {
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
 
-    server.on("/", []() {
-        server.send(200, "THC FW_1.0");
-    });  // Note: lambda function
+    server.on("/", []() {server.send(200, "THC FW_1.0");});  // Note: lambda function
 
     ElegantOTA.begin(&server);  // Start ElegantOTA
     server.begin();
@@ -201,14 +196,13 @@ void setup(void) {
     digitalWrite(Plasma_Trigger, LOW);
 
     // Start ADC
-    ads.setGain(GAIN_ONE);  // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV
+    ads.setGain(GAIN_ONE);
     ads.begin();
+    Serial.println("ADC Started");
 
     preferences.begin("Setup", false);
 
-    // Begin the object with a baud rate of 9600
     Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
-    // Serial2.println("Serial starting");
     THCNex.begin();  // Default 9600
 
     // initialize the variables we're linked to
@@ -321,10 +315,8 @@ void setup(void) {
     SetPoint = SetpointPage1;
 
     // Setup Stepper Driver
-    stepper.setMaxSpeed(150000);  // thru experimentation I found these values
-                                  // to work... Change for your setup.
+    stepper.setMaxSpeed(150000);
     stepper.setAcceleration(20000);
-    // Enable MKS Driver Board
     Serial.println("Setup Complete");
 }
 
@@ -349,7 +341,7 @@ void loop(void) {
             ;  // Assert XY is stopped, handover is low
         }
         Serial.println("Set Mux");
-        
+
         // PROBE
         digitalWrite(MUX_SET, HIGH);  // Enable Mux control with THC board
 
