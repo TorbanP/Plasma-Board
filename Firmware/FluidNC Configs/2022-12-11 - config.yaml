@@ -117,22 +117,22 @@ sdcard:
   cs_pin: gpio.5
 
 control:
-  safety_door_pin: NO_PIN
-  reset_pin: NO_PIN
+  safety_door_pin: gpio.14:low
+  reset_pin: gpio.2:low
   feed_hold_pin: gpio.36:low
   cycle_start_pin: gpio.25:low
-  macro0_pin: NO_PIN
-  macro1_pin: NO_PIN
-  macro2_pin: NO_PIN
-  macro3_pin: NO_PIN
+  macro0_pin: gpio.33:low
+  macro1_pin: gpio.32:low
+  macro2_pin: gpio.35:low
+  macro3_pin: gpio.34:low
 
 coolant:
-  flood_pin: NO_PIN
+  flood_pin: gpio.13:low
   mist_pin: NO_PIN
   delay_ms: 0
 
 probe:
-  pin: gpio.34:low
+  pin: gpio.39:low
   check_mode_start: true
 
 macros:
@@ -152,7 +152,7 @@ user_outputs:
   analog1_hz: 5000
   analog2_hz: 5000
   analog3_hz: 5000
-  digital0_pin: NO_PIN
+  digital0_pin: gpio.24
   digital1_pin: NO_PIN
   digital2_pin: NO_PIN
   digital3_pin: NO_PIN
