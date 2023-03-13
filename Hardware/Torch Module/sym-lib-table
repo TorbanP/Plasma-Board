@@ -1,3 +1,5 @@
 (sym_lib_table
+  (version 7)
   (lib (name "Torch-Module-rescue")(type "Legacy")(uri "${KIPRJMOD}/Torch Module-rescue.lib")(options "")(descr ""))
+  (lib (name "Torch Module-rescue")(type "KiCad")(uri "${KIPRJMOD}/Torch Module-rescue.kicad_sym")(options "")(descr ""))
 )
