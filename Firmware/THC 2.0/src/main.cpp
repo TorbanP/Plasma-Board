@@ -4,12 +4,14 @@
   2023
 
 */
+
 #include <AccelStepper.h>
 #include <Adafruit_ADS1X15.h>
 #include <Arduino.h>
 #include <FastPID.h>
+#include <Arduino.h>
 
-#define ENABLE            2    // Led
+#define STEPPER_MUX        4   // Mux selector for Z control. High allows thc control
 #define HAND_OVER         13   // Start Handover of Z axis control from GRBL 
 #define TORCH_READY       14   // Signal in for Pierce Made
 #define RXD2              16   // Nextion RX
@@ -23,39 +25,52 @@
 #define PLASMA_TRIGGER    32   // Trigger Plasma 
 #define FEED_HOLD         33   // Pulse to GRBL to feedhold
 #define PLASMA_INPUT_PIN  36   // THC GPIO 36 Analog voltage (Not used)
+#define PLASMA_DIVIDER    50   // 50:1 voltage divider (Default)
+#define BUTTON_DELAY      50   // Delay (ms) to hold a button down
+#define MAX_PIERCE_TIME 1000   // Max pierce time before error (ms)
 
 // Public Variables
-float adc_multiplier = .125;   // ADS1115 bit to mV
-float Kp = 0.075;              // PID Porportional
-float Ki = 0.01;               // PID Integral
-float Kd = 0.01;               // PID Differential
-float Hz = 8;                  // PID Execution frequency of the controller
-int output_bits = 16;          // PID
-bool output_signed = true;     // PID 
+float adc_multiplier = .125;                // ADS1115 bit to mV
+float Kp = 0.075;                           // PID Porportional
+float Ki = 0.01;                            // PID Integral
+float Kd = 0.01;                            // PID Differential
+float Hz = 8;                               // PID Execution frequency of the controller (must call run ~8Hz)
+int output_bits = 16;                       // PID
+bool output_signed = true;                  // PID 
+volatile bool hand_over_ISR_int = false;    // ISR bool to indicate Plasma input state change
+volatile bool hand_over_active = false;     // state of the hand over pin during the ISR
+bool thc_enable = false;                    // Enable the THC tracking routine
+uint32_t plasma_fire_time = 0;              // Time of plasma fire signal
 
 // Define a stepper driver and the pins it will use
 AccelStepper stepper = AccelStepper(stepper.DRIVER, STEP_PIN, DIR_PIN);
 
-// Define ADS1115
-Adafruit_ADS1115 ads;
+// Define ADS1115 ADC
+Adafruit_ADS1115 ads; 
+
+// Define MAX22530 ADC
 
 // Define a Pid Object
 FastPID THCPID(Kp, Ki, Kd, Hz, output_bits, output_signed);
 
-// Function headers
+// Function Prototypes
+void feed_hold_press();
+void feed_start_press();
+void IRAM_ATTR torch_ready_ISR();
+void IRAM_ATTR hand_over_ISR();
 
 //Setup - Runs Once
 void setup() {
   Serial.begin(115200);
   Serial.println("THC V2.0");
 
-  // ADC Setup
-  ads.setGain(GAIN_ONE); // 1x gain +/- 4.096V  1 bit = 0.125mV
-  if (!ads.begin()) {
-    Serial.println("Failed to initialize ADS.");
-    while (1)
-      ;
-  }
+  // ADS115 ADC Setup
+  // ads.setGain(GAIN_ONE); // 1x gain +/- 4.096V  1 bit = 0.125mV
+  // if (!ads.begin()) {
+  //   Serial.println("Failed to initialize ADS.");
+  //   while (1)
+  //     ;
+  // }
 
   // Stepper Driver Setup
   AccelStepper stepper = AccelStepper(stepper.DRIVER, STEP_PIN, DIR_PIN);
@@ -63,7 +78,7 @@ void setup() {
   stepper.setAcceleration(20000);
 
   // GPIO Setup
-  pinMode(ENABLE, OUTPUT);
+  pinMode(STEPPER_MUX, OUTPUT);
   pinMode(HAND_OVER, INPUT_PULLDOWN);
   pinMode(TORCH_READY, INPUT_PULLDOWN);
   pinMode(ENABLE_PIN, OUTPUT);
@@ -72,20 +87,86 @@ void setup() {
   pinMode(FEED_HOLD, OUTPUT);
 
   // Set startup output states
-  digitalWrite(ENABLE, HIGH);
-  digitalWrite(FEED_HOLD, HIGH);
-  digitalWrite(FEED_START, HIGH);
-  digitalWrite(PLASMA_TRIGGER, LOW);
+  digitalWrite(STEPPER_MUX, LOW);       // Drive low on startup to allow GRBL to do touch off routine
+  digitalWrite(FEED_HOLD, HIGH);        // Normally high, active low
+  digitalWrite(FEED_START, HIGH);       // Normally high, active low
+  digitalWrite(PLASMA_TRIGGER, LOW);    // Normally low, active high
 
+  // Setup Interrupts
+  attachInterrupt(HAND_OVER, hand_over_ISR, CHANGE);
+  attachInterrupt(TORCH_READY, torch_ready_ISR, FALLING);
+  Serial.println("Setup Complete");
 }
 
 // Run Loop - Runs Forever
 void loop() {
-  // put your main code here, to run repeatedly:
 
-  // do thc stuff
+  // Hand over input has changed
+  if(hand_over_ISR_int){
+    if(hand_over_active){
+      // GRBL has just commanded plasma to fire
+      digitalWrite(STEPPER_MUX, HIGH);    // Take control of Stepper
+      feed_hold_press();                  // feed hold to grbl
+      digitalWrite(PLASMA_TRIGGER,HIGH);  // Activate Plasma Cutter
+      plasma_fire_time = millis();        // track the fire time
+      Serial.println("Piercing");         // spin waiting for pierce ok 
+      while(!digitalRead(TORCH_READY)){
+        if ((millis() - plasma_fire_time) > MAX_PIERCE_TIME){
+          Serial.println("Piercing Failed");
+          // Do error handling stuff?
+        }else{
+          Serial.print(".");
+        }
+      }
+      Serial.println(" ");
+      Serial.print("Piercing took "); 
+      Serial.print(millis() - plasma_fire_time); 
+      Serial.println("ms");
+      feed_start_press();                 // Send GRBL start pulse to continue
+    }
+    hand_over_ISR_int = false;            // Reset the hand over isr
+  }
 
+  // Safety Check in event ISR is missed
+  if (!digitalRead(HAND_OVER)){
+    digitalWrite(PLASMA_TRIGGER,LOW); // Disable Plasma
+    digitalWrite(STEPPER_MUX, LOW);   // Release control of Stepper
+    if(hand_over_active){
+      Serial.println("Warning - Handover ISR may have been missed");
+    }
+  }
+}
 
+void feed_hold_press(){
+  digitalWrite(FEED_HOLD, LOW);
+  Serial.println("Feed Hold Pulse Sent");
+  delay(BUTTON_DELAY);
+  digitalWrite(FEED_HOLD, HIGH);
+}
 
+void feed_start_press(){
+  digitalWrite(FEED_START, LOW);
+  Serial.println("Feed Start Pulse Sent");
+  delay(BUTTON_DELAY);
+  digitalWrite(FEED_START, HIGH);
+}
 
+// Handles an ARC Fail - May need better understanding of the arc ok, but this exists more for safety
+void IRAM_ATTR torch_ready_ISR() {  // Plasma Cutter has sent us an ARC Fail
+  digitalWrite(PLASMA_TRIGGER,LOW); // We should never be firing when ARC is not ok, unless during pierce
+  digitalWrite(STEPPER_MUX, LOW);   // Release control of Stepper
+  Serial.println("ARC Failed, disable plasma, release Z control");
+}
+
+void IRAM_ATTR hand_over_ISR() {    // GRBL has toggled the laser
+  hand_over_ISR_int = true;
+  hand_over_active = digitalRead(HAND_OVER);
+  if(!hand_over_active){
+      // GRBL has just commanded plasma to stop firing
+      Serial.println("Disabling Plasma");
+      digitalWrite(PLASMA_TRIGGER,LOW); // Disable Plasma
+      Serial.println("Release control of Z");
+      digitalWrite(STEPPER_MUX, LOW);   // Release control of Stepper
+      Serial.println("Cut Completed");
+  }
 }
