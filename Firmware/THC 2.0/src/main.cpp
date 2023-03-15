@@ -179,15 +179,12 @@ void feed_start_press(){
 
 // ISR Handles an ARC Fail - May need better understanding of the arc ok, but this exists more for safety
 void IRAM_ATTR torch_ready_ISR() {  // Plasma Cutter has sent us an ARC Fail
-  digitalWrite(LED, LOW);
   digitalWrite(PLASMA_TRIGGER,LOW); // We should never be firing when ARC is not ok, unless during pierce
   digitalWrite(STEPPER_MUX, LOW);   // Release control of Stepper
-  digitalWrite(LED, HIGH);
 }
 
 // ISR Handles a handover pin toggle
 void IRAM_ATTR hand_over_ISR() {    // GRBL has toggled the laser
-  digitalWrite(LED, LOW);
   hand_over_ISR_int = true;
   pierce_failed = false;
   hand_over_active = !digitalRead(HAND_OVER);
@@ -196,5 +193,4 @@ void IRAM_ATTR hand_over_ISR() {    // GRBL has toggled the laser
       digitalWrite(PLASMA_TRIGGER,LOW); // Disable Plasma
       digitalWrite(STEPPER_MUX, LOW);   // Release control of Stepper
   }
-  digitalWrite(LED, HIGH);
 }
