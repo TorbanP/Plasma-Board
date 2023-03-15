@@ -10,10 +10,10 @@
 #include <Arduino.h>
 #include <FastPID.h>
 #include <Arduino.h>
-
+#define BOOT               0   // BOOT button
 #define LED                2   // Onboard LED Pin
 #define STEPPER_MUX        4   // Mux selector for Z control. High allows thc control
-#define HAND_OVER         0   // 13 Start Handover of Z axis control from GRBL 
+#define HAND_OVER         13   // 13 Start Handover of Z axis control from GRBL 
 #define TORCH_READY       14   // Signal in for Pierce Made
 #define RXD2              16   // Nextion RX
 #define TXD2              17   // Nextion TX
@@ -43,6 +43,7 @@ volatile bool hand_over_active = false;     // state of the hand over pin during
 bool thc_enable = false;                    // Enable the THC tracking routine
 bool pierce_failed = false;                 // Used to prevent feed start
 uint32_t plasma_fire_time = 0;              // Time of plasma fire signal
+uint32_t idle_time = 0;                     // Idle delay printout
 
 // Define a stepper driver and the pins it will use
 AccelStepper stepper = AccelStepper(stepper.DRIVER, STEP_PIN, DIR_PIN);
@@ -80,6 +81,7 @@ void setup() {
   stepper.setAcceleration(20000);
 
   // GPIO Setup
+  pinMode(BOOT, INPUT);
   pinMode(LED, OUTPUT);
   pinMode(STEPPER_MUX, OUTPUT);
   pinMode(HAND_OVER, INPUT_PULLDOWN);
@@ -99,6 +101,7 @@ void setup() {
   // Setup Interrupts
   attachInterrupt(HAND_OVER, hand_over_ISR, CHANGE);
   attachInterrupt(TORCH_READY, torch_ready_ISR, FALLING);
+  idle_time = millis();
   Serial.println("Setup Complete");
 }
 
@@ -143,9 +146,22 @@ void loop() {
   if (!digitalRead(HAND_OVER)){
     digitalWrite(PLASMA_TRIGGER,LOW); // Disable Plasma
     digitalWrite(STEPPER_MUX, LOW);   // Release control of Stepper
+  } 
+
+  // Retry Pierce using Boot pin on Dev module
+  if (!digitalRead(BOOT)){ // Active low
+    pierce_failed = false; // Reattempt pierce
+  }
+
+  // Idle time terminal printout to show life/state
+  if(millis() - idle_time > 1000){
+    idle_time = millis();
+    Serial.println("THC Idle");
+    digitalWrite(LED, !digitalRead(LED)); // slow blink = alive/idle
   }
 }
 
+// Issues a feed hold to GRBL w/ BUTTON_DELAY
 void feed_hold_press(){
   digitalWrite(FEED_HOLD, LOW);
   Serial.println("Feed Hold Pulse Sent");
@@ -153,6 +169,7 @@ void feed_hold_press(){
   digitalWrite(FEED_HOLD, HIGH);
 }
 
+// Issues a feed start to GRBL w/ BUTTON_DELAY
 void feed_start_press(){
   digitalWrite(FEED_START, LOW);
   Serial.println("Feed Start Pulse Sent");
@@ -160,7 +177,7 @@ void feed_start_press(){
   digitalWrite(FEED_START, HIGH);
 }
 
-// Handles an ARC Fail - May need better understanding of the arc ok, but this exists more for safety
+// ISR Handles an ARC Fail - May need better understanding of the arc ok, but this exists more for safety
 void IRAM_ATTR torch_ready_ISR() {  // Plasma Cutter has sent us an ARC Fail
   digitalWrite(LED, LOW);
   digitalWrite(PLASMA_TRIGGER,LOW); // We should never be firing when ARC is not ok, unless during pierce
@@ -168,6 +185,7 @@ void IRAM_ATTR torch_ready_ISR() {  // Plasma Cutter has sent us an ARC Fail
   digitalWrite(LED, HIGH);
 }
 
+// ISR Handles a handover pin toggle
 void IRAM_ATTR hand_over_ISR() {    // GRBL has toggled the laser
   digitalWrite(LED, LOW);
   hand_over_ISR_int = true;
