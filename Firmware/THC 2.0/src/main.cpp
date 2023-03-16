@@ -151,6 +151,7 @@ void loop() {
   // Retry Pierce using Boot pin on Dev module
   if (!digitalRead(BOOT)){ // Active low
     pierce_failed = false; // Reattempt pierce
+    hand_over_ISR_int = true;
   }
 
   // Idle time terminal printout to show life/state
