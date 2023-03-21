@@ -26,24 +26,27 @@
 #define PLASMA_TRIGGER    32   // Trigger Plasma 
 #define FEED_HOLD         33   // Pulse to GRBL to feedhold
 #define PLASMA_INPUT_PIN  36   // THC GPIO 36 Analog voltage (Not used)
+#define PLASMA_PIERCE     39   // Pierce GPIO triggered by an M7 Gcode command to GRBL from GRBL
 #define PLASMA_DIVIDER    50   // 50:1 voltage divider (Default)
 #define BUTTON_DELAY      50   // Delay (ms) to hold a button down
 #define MAX_PIERCE_TIME 1000   // Max pierce time before error (ms)
+#define THC_START_DELAY  100   // Delay before THC routine begins. Perhaps ~time to accelerate?
 
 // Public Variables
-float adc_multiplier = .125;                // ADS1115 bit to mV
-float Kp = 0.075;                           // PID Porportional
-float Ki = 0.01;                            // PID Integral
-float Kd = 0.01;                            // PID Differential
-float Hz = 8;                               // PID Execution frequency of the controller (must call run ~8Hz)
-int output_bits = 16;                       // PID
-bool output_signed = true;                  // PID 
-volatile bool hand_over_ISR_int = false;    // ISR bool to indicate Plasma input state change
-volatile bool hand_over_active = false;     // state of the hand over pin during the ISR
-bool thc_enable = false;                    // Enable the THC tracking routine
-bool pierce_failed = false;                 // Used to prevent feed start
-uint32_t plasma_fire_time = 0;              // Time of plasma fire signal
-uint32_t idle_time = 0;                     // Idle delay printout
+float adc_multiplier = .125;                   // ADS1115 bit to mV
+float Kp = 0.075;                              // PID Porportional
+float Ki = 0.01;                               // PID Integral
+float Kd = 0.01;                               // PID Differential
+float Hz = 8;                                  // PID Execution frequency of the controller (must call run ~8Hz)
+int output_bits = 16;                          // PID
+bool output_signed = true;                     // PID 
+volatile bool hand_over_ISR_int = false;       // ISR bool to indicate Plasma input state change
+volatile bool hand_over_active = false;        // ISR state of the hand over pin during the ISR
+volatile bool plasma_pierce_ISR_int = false;   // ISR stating that plasma piercing should begin
+bool thc_enable = false;                       // Enable the THC tracking routine
+bool pierce_failed = false;                    // Used to prevent feed start
+uint32_t plasma_fire_time = 0;                 // Time of plasma fire signal
+uint32_t idle_time = 0;                        // Idle delay printout
 
 // Define a stepper driver and the pins it will use
 AccelStepper stepper = AccelStepper(stepper.DRIVER, STEP_PIN, DIR_PIN);
@@ -61,6 +64,7 @@ void feed_hold_press();
 void feed_start_press();
 void IRAM_ATTR torch_ready_ISR();
 void IRAM_ATTR hand_over_ISR();
+void IRAM_ATTR plasma_pierce_ISR();
 
 //Setup - Runs Once
 void setup() {
@@ -90,6 +94,7 @@ void setup() {
   pinMode(FEED_START, OUTPUT);
   pinMode(PLASMA_TRIGGER, OUTPUT);
   pinMode(FEED_HOLD, OUTPUT);
+  pinMode(PLASMA_PIERCE, INPUT);
 
   // Set startup output states
   digitalWrite(LED, HIGH);              // Drive low to turn on for some stupid reason
@@ -101,57 +106,62 @@ void setup() {
   // Setup Interrupts
   attachInterrupt(HAND_OVER, hand_over_ISR, CHANGE);
   attachInterrupt(TORCH_READY, torch_ready_ISR, FALLING);
+  attachInterrupt(PLASMA_PIERCE, plasma_pierce_ISR, RISING);
+
   idle_time = millis();
   Serial.println("Setup Complete");
 }
 
 // Run Loop - Runs Forever
 void loop() {
-
-  // Hand over input has changed
-  if(hand_over_ISR_int){
-    if(hand_over_active && !pierce_failed){
-      // GRBL has just commanded plasma to fire
-      digitalWrite(STEPPER_MUX, HIGH);    // Take control of Stepper
-      feed_hold_press();                  // feed hold to grbl
-      digitalWrite(PLASMA_TRIGGER,HIGH);  // Activate Plasma Cutter
-      plasma_fire_time = millis();        // track the fire time
-      Serial.println("Piercing");         // spin waiting for pierce ok 
-      while(!digitalRead(TORCH_READY)){
+  // GRBL requesting pierce
+  if(plasma_pierce_ISR_int){
+    plasma_pierce_ISR_int = false;         // Reset ISR
+    digitalWrite(PLASMA_TRIGGER,HIGH);     // Activate Plasma Cutter
+    plasma_fire_time = millis();           // track the fire time
+    Serial.println("Piercing");         
+    while(!digitalRead(TORCH_READY)){      // spin waiting for pierce ok
         if ((millis() - plasma_fire_time) > MAX_PIERCE_TIME){
           pierce_failed = true;
+          digitalWrite(PLASMA_TRIGGER,LOW);     // Disable Plasma Cutter (Failed Pierce)
           break;
         }else{
           Serial.print(".");
           delay(1);
         }
-      }
-      Serial.println(" ");
-      if(pierce_failed){
-        Serial.println("Pierce Failed");
-        digitalWrite(PLASMA_TRIGGER,LOW); // Disable Plasma
-        digitalWrite(STEPPER_MUX, LOW);   // Release control of Stepper
-
-        }else{
-        Serial.print("Piercing took "); 
-        Serial.print(millis() - plasma_fire_time); 
-        Serial.println("ms");
-        feed_start_press();            // Send GRBL start pulse to continue
-      }
     }
-    hand_over_ISR_int = false;         // Reset the hand over isr
+    Serial.println(" ");
+
+    if(pierce_failed){
+      Serial.println("Pierce Failed");
+    }else{
+      Serial.print("Piercing took "); 
+      Serial.print(millis() - plasma_fire_time); 
+      Serial.println("ms");
+      feed_start_press();                 // Send GRBL start pulse to continue
+    }
+  }
+
+  // Failed Pierce Handler
+  if(pierce_failed){
+    Serial.println("Pierce Failed Loop"); // TODO - Reattempt pierce button
+    delay(1);
+  }
+
+  // GRBL cut state has been activated
+  if(hand_over_ISR_int){
+    // Do THC Stuff
   }
 
   // Safety Check in event ISR is missed
-  if (!digitalRead(HAND_OVER)){
-    digitalWrite(PLASMA_TRIGGER,LOW); // Disable Plasma
-    digitalWrite(STEPPER_MUX, LOW);   // Release control of Stepper
+  if (digitalRead(HAND_OVER)){            // Active low
+    digitalWrite(PLASMA_TRIGGER,LOW);     // Disable Plasma
+    digitalWrite(STEPPER_MUX, LOW);       // Release control of Stepper
   } 
 
   // Retry Pierce using Boot pin on Dev module
-  if (!digitalRead(BOOT)){ // Active low
-    pierce_failed = false; // Reattempt pierce
-    hand_over_ISR_int = true;
+  if (!digitalRead(BOOT)){                // Active low
+    pierce_failed = false;                // Reattempt pierce
   }
 
   // Idle time terminal printout to show life/state
@@ -179,19 +189,24 @@ void feed_start_press(){
 }
 
 // ISR Handles an ARC Fail - May need better understanding of the arc ok, but this exists more for safety
-void IRAM_ATTR torch_ready_ISR() {  // Plasma Cutter has sent us an ARC Fail
-  digitalWrite(PLASMA_TRIGGER,LOW); // We should never be firing when ARC is not ok, unless during pierce
-  digitalWrite(STEPPER_MUX, LOW);   // Release control of Stepper
+void IRAM_ATTR torch_ready_ISR() {        // Plasma Cutter has sent us an ARC Fail
+  digitalWrite(PLASMA_TRIGGER,LOW);       // We should never be firing when ARC is not ok, unless during pierce
+  digitalWrite(STEPPER_MUX, LOW);         // Release control of Stepper
 }
 
 // ISR Handles a handover pin toggle
-void IRAM_ATTR hand_over_ISR() {    // GRBL has toggled the laser
-  hand_over_ISR_int = true;
-  pierce_failed = false;
-  hand_over_active = !digitalRead(HAND_OVER);
-  if(!hand_over_active){
+void IRAM_ATTR hand_over_ISR() {          // GRBL has toggled the laser
+  if(digitalRead(HAND_OVER)){             // Handover is active low
       // GRBL has just commanded plasma to stop firing
-      digitalWrite(PLASMA_TRIGGER,LOW); // Disable Plasma
-      digitalWrite(STEPPER_MUX, LOW);   // Release control of Stepper
+      digitalWrite(PLASMA_TRIGGER,LOW);   // Disable Plasma
+      digitalWrite(STEPPER_MUX, LOW);     // Release control of Stepper
+      hand_over_ISR_int = false;
+  } else{
+    hand_over_ISR_int = true;
   }
+}
+
+// ISR that handles plasma piercing command
+void IRAM_ATTR plasma_pierce_ISR(){
+  plasma_pierce_ISR_int = true;
 }
