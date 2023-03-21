@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "THC 2.0"
+		},
+		{
+			"path": "FluidNC Configs"
+		},
+		{
+			"path": "../../FluidNC/FluidNC"
+		}
+	],
+	"settings": {}
+}
