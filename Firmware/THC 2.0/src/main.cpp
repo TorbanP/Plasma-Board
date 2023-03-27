@@ -10,6 +10,8 @@
 #include <Arduino.h>
 #include <FastPID.h>
 #include <Arduino.h>
+
+// Non Magical Numbers
 #define BOOT               0   // BOOT button
 #define LED                2   // Onboard LED Pin
 #define STEPPER_MUX        4   // Mux selector for Z control. High allows thc control
@@ -25,11 +27,11 @@
 #define FEED_START        25   // Pulse to GRBL to start
 #define PLASMA_TRIGGER    32   // Trigger Plasma 
 #define FEED_HOLD         33   // Pulse to GRBL to feedhold
-#define PLASMA_INPUT_PIN  36   // THC GPIO 36 Analog voltage (Not used)
-#define PLASMA_PIERCE     39   // Pierce GPIO triggered by an M7 Gcode command to GRBL from GRBL
+//#define PLASMA_INPUT_PIN  36   // THC GPIO 36 Analog voltage (Not used)
+#define PLASMA_PIERCE     36   // Pierce GPIO triggered by an M7 Gcode command to GRBL from GRBL
 #define PLASMA_DIVIDER    50   // 50:1 voltage divider (Default)
-#define BUTTON_DELAY      50   // Delay (ms) to hold a button down
-#define MAX_PIERCE_TIME 1000   // Max pierce time before error (ms)
+#define BUTTON_DELAY     150   // Delay (ms) to hold a button down
+#define MAX_PIERCE_TIME 5000   // Max pierce time before error (ms)
 #define THC_START_DELAY  100   // Delay before THC routine begins. Perhaps ~time to accelerate?
 
 // Public Variables
@@ -47,6 +49,9 @@ bool thc_enable = false;                       // Enable the THC tracking routin
 bool pierce_failed = false;                    // Used to prevent feed start
 uint32_t plasma_fire_time = 0;                 // Time of plasma fire signal
 uint32_t idle_time = 0;                        // Idle delay printout
+
+// Debug Variables
+bool fake_torch = true;                        // fakes an arc ok
 
 // Define a stepper driver and the pins it will use
 AccelStepper stepper = AccelStepper(stepper.DRIVER, STEP_PIN, DIR_PIN);
@@ -102,6 +107,7 @@ void setup() {
   digitalWrite(FEED_HOLD, HIGH);        // Normally high, active low
   digitalWrite(FEED_START, HIGH);       // Normally high, active low
   digitalWrite(PLASMA_TRIGGER, LOW);    // Normally low, active high
+  digitalWrite(ENABLE_PIN, HIGH);       // Set high likely permanently
 
   // Setup Interrupts
   attachInterrupt(HAND_OVER, hand_over_ISR, CHANGE);
@@ -120,7 +126,7 @@ void loop() {
     digitalWrite(PLASMA_TRIGGER,HIGH);     // Activate Plasma Cutter
     plasma_fire_time = millis();           // track the fire time
     Serial.println("Piercing");         
-    while(!digitalRead(TORCH_READY)){      // spin waiting for pierce ok
+    while(!digitalRead(TORCH_READY) && !fake_torch){      // spin waiting for pierce ok
         if ((millis() - plasma_fire_time) > MAX_PIERCE_TIME){
           pierce_failed = true;
           digitalWrite(PLASMA_TRIGGER,LOW);     // Disable Plasma Cutter (Failed Pierce)
@@ -130,6 +136,11 @@ void loop() {
           delay(1);
         }
     }
+
+    if(fake_torch){
+      delay(500);
+    }
+
     Serial.println(" ");
 
     if(pierce_failed){
@@ -138,6 +149,7 @@ void loop() {
       Serial.print("Piercing took "); 
       Serial.print(millis() - plasma_fire_time); 
       Serial.println("ms");
+
       feed_start_press();                 // Send GRBL start pulse to continue
     }
   }
@@ -145,7 +157,7 @@ void loop() {
   // Failed Pierce Handler
   if(pierce_failed){
     Serial.println("Pierce Failed Loop"); // TODO - Reattempt pierce button
-    delay(1);
+    delay(1000);
   }
 
   // GRBL cut state has been activated
@@ -154,15 +166,10 @@ void loop() {
   }
 
   // Safety Check in event ISR is missed
-  if (digitalRead(HAND_OVER)){            // Active low
-    digitalWrite(PLASMA_TRIGGER,LOW);     // Disable Plasma
-    digitalWrite(STEPPER_MUX, LOW);       // Release control of Stepper
-  } 
-
-  // Retry Pierce using Boot pin on Dev module
-  if (!digitalRead(BOOT)){                // Active low
-    pierce_failed = false;                // Reattempt pierce
-  }
+  // if (digitalRead(HAND_OVER)){            // Active low
+  //   digitalWrite(PLASMA_TRIGGER,LOW);     // Disable Plasma
+  //   digitalWrite(STEPPER_MUX, LOW);       // Release control of Stepper
+  // }
 
   // Idle time terminal printout to show life/state
   if(millis() - idle_time > 1000){

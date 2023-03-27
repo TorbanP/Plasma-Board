@@ -7882,7 +7882,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 572dc6f2-01a0-4dbc-a98d-c367532b72ce)
   )
-  (text "Notes:\n- ESP32 with antenna only available with 4mb flash at jlcpcb. which should work with fluidnc\n- \nTODO\n- reset brought out\n- jtag\n- usb to power other things? jumper?\n- i2c pullups\n- nextion display? on a module? uart?\n- general purpose inputs may need pull up and down\n- joining pins\n--- gpio hold (input to fluidnc) (want it to shit of plasma torch)\n--- gpio start (input to fluidnc)\n--- gpio laser fire ( output from fluidnc)\n--- aim for 5 pins shared\n-uart on gpio 16,17 same as v2.1\n\n-GPIO12 boot cant be high"
+  (text "Notes:\n- ESP32 with antenna only available with 4mb flash at jlcpcb. which should work with fluidnc\n- \nTODO\n- reset brought out\n- jtag\n- usb to power other things? jumper?\n- i2c pullups\n- nextion display? on a module? uart?\n- general purpose inputs may need pull up and down\n- joining pins\n--- gpio hold (input to fluidnc) (want it to shit of plasma torch)\n--- gpio start (input to fluidnc)\n--- gpio laser fire ( output from fluidnc)\n--- aim for 5 pins shared\n-uart on gpio 16,17 same as v2.1\n\n-GPIO12 boot cant be high\n\n-- macro buttons and things"
     (at 146.05 -31.75 0)
     (effects (font (size 4 4)) (justify left bottom))
     (uuid 71392ff9-0746-43c2-8f12-077521e46111)
