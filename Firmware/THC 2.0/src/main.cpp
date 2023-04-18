@@ -30,8 +30,8 @@
 //#define PLASMA_INPUT_PIN  36   // THC GPIO 36 Analog voltage (Not used)
 #define PLASMA_PIERCE     36   // Pierce GPIO triggered by an M7 Gcode command to GRBL from GRBL
 #define PLASMA_DIVIDER    50   // 50:1 voltage divider (Default)
-#define BUTTON_DELAY     150   // Delay (ms) to hold a button down
-#define MAX_PIERCE_TIME 5000   // Max pierce time before error (ms)
+#define BUTTON_DELAY     300   // Delay (ms) to hold a button down
+#define MAX_PIERCE_TIME  500   // Max pierce time before error (ms)
 #define THC_START_DELAY  100   // Delay before THC routine begins. Perhaps ~time to accelerate?
 
 // Public Variables
@@ -45,13 +45,14 @@ bool output_signed = true;                     // PID
 volatile bool hand_over_ISR_int = false;       // ISR bool to indicate Plasma input state change
 volatile bool hand_over_active = false;        // ISR state of the hand over pin during the ISR
 volatile bool plasma_pierce_ISR_int = false;   // ISR stating that plasma piercing should begin
+volatile bool arc_failed = false;
 bool thc_enable = false;                       // Enable the THC tracking routine
 bool pierce_failed = false;                    // Used to prevent feed start
 uint32_t plasma_fire_time = 0;                 // Time of plasma fire signal
 uint32_t idle_time = 0;                        // Idle delay printout
 
 // Debug Variables
-bool fake_torch = true;                        // fakes an arc ok
+bool fake_torch = false;                        // fakes an arc ok
 
 // Define a stepper driver and the pins it will use
 AccelStepper stepper = AccelStepper(stepper.DRIVER, STEP_PIN, DIR_PIN);
@@ -130,15 +131,17 @@ void loop() {
         if ((millis() - plasma_fire_time) > MAX_PIERCE_TIME){
           pierce_failed = true;
           digitalWrite(PLASMA_TRIGGER,LOW);     // Disable Plasma Cutter (Failed Pierce)
+          Serial.println("Disabled Plasma Signal"); 
           break;
         }else{
           Serial.print(".");
+          pierce_failed = false;
           delay(1);
         }
     }
 
     if(fake_torch){
-      delay(500);
+      delay(2000);
     }
 
     Serial.println(" ");
@@ -156,8 +159,14 @@ void loop() {
 
   // Failed Pierce Handler
   if(pierce_failed){
-    Serial.println("Pierce Failed Loop"); // TODO - Reattempt pierce button
-    delay(1000);
+    //Serial.println("Pierce Failed Loop"); // TODO - Reattempt pierce button
+    //delay(1000);
+  }
+
+  // Debug to display arc failed (isr tripped)
+  if(arc_failed){
+    Serial.println("Arc failed");
+    arc_failed = false;
   }
 
   // GRBL cut state has been activated
@@ -197,8 +206,10 @@ void feed_start_press(){
 
 // ISR Handles an ARC Fail - May need better understanding of the arc ok, but this exists more for safety
 void IRAM_ATTR torch_ready_ISR() {        // Plasma Cutter has sent us an ARC Fail
-  digitalWrite(PLASMA_TRIGGER,LOW);       // We should never be firing when ARC is not ok, unless during pierce
+  //digitalWrite(PLASMA_TRIGGER,LOW);       // We should never be firing when ARC is not ok, unless during pierce
   digitalWrite(STEPPER_MUX, LOW);         // Release control of Stepper
+  arc_failed = true;
+
 }
 
 // ISR Handles a handover pin toggle

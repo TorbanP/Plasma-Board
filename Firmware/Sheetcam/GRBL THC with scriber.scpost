@@ -13,7 +13,7 @@ refFeed = 500
 --Slowly jog the torch down onto the paper until the touch-off switch just operates.
 --Zero the Z axis then pull gently on the paper and slowly jog up until the paper slides out.
 --The Z axis position is your switch offset.
-switchOffset = 4.5
+switchOffset = 4.52
 
 --Scriber X,Y,Z offsets in MILLIMETRES. Do not use inches here even if you want inch code
 --Use the special code 'nil' on the Z axis to disable it.
@@ -222,8 +222,7 @@ function Reference()
    post.Eol()
    post.Text("G92 Z0.0\n")
    post.Text ("G00 ")
-   post.Text("Z")
-   post.Number (switchOffset * scale, format)
+   post.Text("Z4.8")
    post.Eol()
    post.Text("G92 Z0.0\n")
 end
