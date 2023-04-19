@@ -12,27 +12,28 @@
 #include <Arduino.h>
 
 // Non Magical Numbers
-#define BOOT               0   // BOOT button
-#define LED                2   // Onboard LED Pin
-#define STEPPER_MUX        4   // Mux selector for Z control. High allows thc control
-#define HAND_OVER         13   // 13 Start Handover of Z axis control from GRBL 
-#define TORCH_READY       14   // Signal in for Pierce Made
-#define RXD2              16   // Nextion RX
-#define TXD2              17   // Nextion TX
-#define DIR_PIN           18   // Step GPIO 18
-#define ENABLE_PIN        19   // Enable GPIO Clearpath Z
-#define SDA               21   // I2C SDA
-#define SCL               22   // I2C SCL
-#define STEP_PIN          23   // Direction GPIO 23
-#define FEED_START        25   // Pulse to GRBL to start
-#define PLASMA_TRIGGER    32   // Trigger Plasma 
-#define FEED_HOLD         33   // Pulse to GRBL to feedhold
-//#define PLASMA_INPUT_PIN  36   // THC GPIO 36 Analog voltage (Not used)
-#define PLASMA_PIERCE     36   // Pierce GPIO triggered by an M7 Gcode command to GRBL from GRBL
-#define PLASMA_DIVIDER    50   // 50:1 voltage divider (Default)
-#define BUTTON_DELAY     300   // Delay (ms) to hold a button down
-#define MAX_PIERCE_TIME  500   // Max pierce time before error (ms)
-#define THC_START_DELAY  100   // Delay before THC routine begins. Perhaps ~time to accelerate?
+#define BOOT                     0   // BOOT button
+#define LED                      2   // Onboard LED Pin
+#define STEPPER_MUX              4   // Mux selector for Z control. High allows thc control
+#define HAND_OVER               13   // 13 Start Handover of Z axis control from GRBL 
+#define TORCH_READY             14   // Signal in for Pierce Made
+#define RXD2                    16   // Nextion RX
+#define TXD2                    17   // Nextion TX
+#define DIR_PIN                 18   // Step GPIO 18
+#define ENABLE_PIN              19   // Enable GPIO Clearpath Z
+#define SDA                     21   // I2C SDA
+#define SCL                     22   // I2C SCL
+#define STEP_PIN                23   // Direction GPIO 23
+#define FEED_START              25   // Pulse to GRBL to start
+#define PLASMA_TRIGGER          32   // Trigger Plasma 
+#define FEED_HOLD               33   // Pulse to GRBL to feedhold
+//#define PLASMA_INPUT_PIN        36   // THC GPIO 36 Analog voltage (Not used)
+#define PLASMA_PIERCE           36   // Pierce GPIO triggered by an M7 Gcode command to GRBL from GRBL
+#define PLASMA_DIVIDER          50   // 50:1 voltage divider (Default)
+#define BUTTON_DELAY           300   // Delay (ms) to hold a button down
+#define MAX_PIERCE_TIME        500   // Max pierce time before error (ms)
+#define THC_START_DELAY        100   // Delay before THC routine begins. Perhaps ~time to accelerate?
+#define FEED_START_DELAY       200   // Max delay before disabling plasma trigger
 
 // Public Variables
 float adc_multiplier = .125;                   // ADS1115 bit to mV
@@ -49,7 +50,9 @@ volatile bool arc_failed = false;
 bool thc_enable = false;                       // Enable the THC tracking routine
 bool pierce_failed = false;                    // Used to prevent feed start
 uint32_t plasma_fire_time = 0;                 // Time of plasma fire signal
+uint32_t plasma_pierce_time = 0;               // Time of plasma pierce passoff
 uint32_t idle_time = 0;                        // Idle delay printout
+float plasma_voltage = 0;                      // Plasma voltage
 
 // Debug Variables
 bool fake_torch = false;                        // fakes an arc ok
@@ -78,12 +81,12 @@ void setup() {
   Serial.println("THC V2.0");
 
   // ADS115 ADC Setup
-  // ads.setGain(GAIN_ONE); // 1x gain +/- 4.096V  1 bit = 0.125mV
-  // if (!ads.begin()) {
-  //   Serial.println("Failed to initialize ADS.");
-  //   while (1)
-  //     ;
-  // }
+  ads.setGain(GAIN_ONE); // 1x gain +/- 4.096V  1 bit = 0.125mV
+  if (!ads.begin()) {
+    Serial.println("Failed to initialize ADS.");
+    while (1)
+      ;
+  }
 
   // Stepper Driver Setup
   AccelStepper stepper = AccelStepper(stepper.DRIVER, STEP_PIN, DIR_PIN);
@@ -139,38 +142,40 @@ void loop() {
           delay(1);
         }
     }
-
     if(fake_torch){
       delay(2000);
     }
-
     Serial.println(" ");
-
     if(pierce_failed){
       Serial.println("Pierce Failed");
     }else{
       Serial.print("Piercing took "); 
       Serial.print(millis() - plasma_fire_time); 
       Serial.println("ms");
-
       feed_start_press();                 // Send GRBL start pulse to continue
+      plasma_pierce_time = millis();      // track the pierce 
     }
   }
 
   // Failed Pierce Handler
   if(pierce_failed){
-    //Serial.println("Pierce Failed Loop"); // TODO - Reattempt pierce button
-    //delay(1000);
+    Serial.println("Pierce Failed; Retry in 5 seconds"); // TODO - Reattempt pierce button
+    delay(5000);
+    pierce_failed = false;
+    plasma_pierce_ISR_int = true;
   }
 
-  // Debug to display arc failed (isr tripped)
-  if(arc_failed){
-    Serial.println("Arc failed");
-    arc_failed = false;
+  // Fluidnc Start check - kills plasma if machine doesnt resume from feed hold
+  if ((millis() - plasma_pierce_time) > FEED_START_DELAY){
+    digitalWrite(PLASMA_TRIGGER,LOW);     // Disable Plasma
+    digitalWrite(STEPPER_MUX, LOW);       // Release control of Stepper
+    Serial.println("GRBL failed to feed start after pierce in reasonable time");
   }
 
-  // GRBL cut state has been activated
+  // GRBL cut state has been activated, This is the Cutting loop where the THC is active
   if(hand_over_ISR_int){
+      plasma_voltage = ads.readADC_Differential_0_1();
+      Serial.print("Differential: "); Serial.print(plasma_voltage); Serial.print("("); Serial.print(plasma_voltage * adc_multiplier); Serial.println("mV)");
     // Do THC Stuff
   }
 
