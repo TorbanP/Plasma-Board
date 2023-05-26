@@ -388,8 +388,12 @@
     }
   },
   "libraries": {
-    "pinned_footprint_libs": [],
-    "pinned_symbol_libs": []
+    "pinned_footprint_libs": [
+      "KiCad"
+    ],
+    "pinned_symbol_libs": [
+      "111_Torban_Symbols"
+    ]
   },
   "meta": {
     "filename": "Main Board.kicad_pro",
