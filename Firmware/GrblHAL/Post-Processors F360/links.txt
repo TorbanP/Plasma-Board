@@ -1,0 +1,6 @@
+https://github.com/jgreat/fusion360-post-grbl-plasma/blob/master/grbl_plasma.cps
+https://github.com/OpenBuilds/OpenBuilds-Fusion360-Postprocessor?utm_source=chatgpt.com
+
+
+
+
