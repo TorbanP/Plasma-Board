@@ -1,0 +1,1 @@
+Firmware goes here, as well as STM config. entire project folder should be okay
